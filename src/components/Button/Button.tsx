@@ -13,7 +13,7 @@ const buttonStyles = tv({
 
 export function Button({ onPress, title, variant }: ButtonProps) {
   return (
-    <button className={buttonStyles({ color: variant })}>
+    <button className={buttonStyles({ color: variant })} onClick={onPress}>
       <p>{title}</p>
     </button>
   );
