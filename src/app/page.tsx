@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { Button } from "components/Button/Button";
+import { Badge } from "components/Badge/Badge";
 
 export default function Home() {
   return (
@@ -25,6 +28,9 @@ export default function Home() {
         </ol>
 
         <Button onPress={() => {}} title="Acesse" variant="primary" />
+
+        <Badge text="tamanho permitido (9000kb)" variant="primary" />
+
         <div className="flex gap-4 max-sm:flex-col">
           <a
             className="bg-foreground text-background hover:bg-button-primary-hover dark:hover:bg-dark-button-primary-hover flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-transparent px-5 text-base leading-5 font-medium transition-colors max-sm:h-10 max-sm:px-4 max-sm:text-sm"
