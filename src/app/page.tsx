@@ -5,6 +5,7 @@ import { Button } from "components/Button/Button";
 import { Badge } from "components/Badge/Badge";
 import { ImageUpload } from "components/ImageUpload/ImageUpload";
 import { ModuleCard } from "components/ModuleCard/ModuleCard";
+import { ImagePreview } from "components/ImagePreview/ImagePreview";
 
 export default function Home() {
   return (
@@ -36,6 +37,8 @@ export default function Home() {
         <ImageUpload onChange={(file) => console.log("Imagem selecionada:", file)} />
 
         <ModuleCard imageSrc="/images.jpeg" title="Módulo de Teste" />
+
+        <ImagePreview imageSrc="/images.jpeg" fileName="minha-imagem.jpg" />
 
         <div className="flex gap-4 max-sm:flex-col">
           <a
