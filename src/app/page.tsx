@@ -3,10 +3,11 @@
 import Image from "next/image";
 import { Button } from "components/Button/Button";
 import { Badge } from "components/Badge/Badge";
+import { ImageUpload } from "components/ImageUpload/ImageUpload";
 
 export default function Home() {
   return (
-    <div className="grid-rows-page-layout grid min-h-svh items-center justify-items-center gap-16 p-20 font-sans max-sm:p-8 max-sm:pb-20">
+    <div className="grid-rows-page-layout grid min-h-svh items-center justify-items-center gap-16 p-20 font-sans max-sm:p-8 max-sm:pb-20 bg-white">
       <main className="row-start-2 flex flex-col gap-8 max-sm:items-center">
         <Image
           className="dark:invert"
@@ -30,6 +31,8 @@ export default function Home() {
         <Button onPress={() => {}} title="Acesse" variant="primary" />
 
         <Badge text="tamanho permitido (9000kb)" variant="primary" />
+
+        <ImageUpload onChange={(file) => console.log("Imagem selecionada:", file)} />
 
         <div className="flex gap-4 max-sm:flex-col">
           <a
