@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Button } from "components/Button/Button";
 import { Badge } from "components/Badge/Badge";
 import { ImageUpload } from "components/ImageUpload/ImageUpload";
+import { ModuleCard } from "components/ModuleCard/ModuleCard";
 
 export default function Home() {
   return (
@@ -28,11 +29,13 @@ export default function Home() {
           <li>Save and see your changes instantly.</li>
         </ol>
 
-        <Button onPress={() => {}} title="Acesse" variant="primary" />
+        <Button onPress={() => { }} title="Acesse" variant="primary" />
 
         <Badge text="tamanho permitido (9000kb)" variant="primary" />
 
         <ImageUpload onChange={(file) => console.log("Imagem selecionada:", file)} />
+
+        <ModuleCard imageSrc="/images.jpeg" title="Módulo de Teste" />
 
         <div className="flex gap-4 max-sm:flex-col">
           <a
