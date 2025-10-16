@@ -1,3 +1,5 @@
+"use client";
+
 import { ButtonProps } from "./Button.types";
 import { tv } from "tailwind-variants";
 
