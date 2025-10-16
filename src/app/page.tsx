@@ -6,6 +6,7 @@ import { Badge } from "components/Badge/Badge";
 import { ImageUpload } from "components/ImageUpload/ImageUpload";
 import { ModuleCard } from "components/ModuleCard/ModuleCard";
 import { ImagePreview } from "components/ImagePreview/ImagePreview";
+import Icon from "components/Icon/Icon";
 import { Input } from "components/Input/Input";
 
 export default function Home() {
@@ -61,6 +62,7 @@ export default function Home() {
             />
             Deploy now
           </a>
+          <Icon iconLibName="fa" icon="FaAd" color="#000000" size={30} />
           <a
             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
             target="_blank"
