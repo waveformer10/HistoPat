@@ -8,10 +8,12 @@ import { ModuleCard } from "components/ModuleCard/ModuleCard";
 import { ImagePreview } from "components/ImagePreview/ImagePreview";
 import Icon from "components/Icon/Icon";
 import { Input } from "components/Input/Input";
+import { useState } from "react";
 
 export default function Home() {
+  const [state, setState] = useState("");
   return (
-    <div className="grid-rows-page-layout grid min-h-svh items-center justify-items-center gap-16 bg-white p-20 font-sans max-sm:p-8 max-sm:pb-20">
+    <div className="grid-rows-page-layout grid min-h-svh w-full items-center justify-items-center gap-16 bg-white p-20 font-sans max-sm:p-8 max-sm:pb-20">
       <main className="row-start-2 flex flex-col gap-8 max-sm:items-center">
         <Image
           className="dark:invert"
@@ -32,7 +34,13 @@ export default function Home() {
           <li>Save and see your changes instantly.</li>
         </ol>
 
-        <Input />
+        <Input
+          multiline
+          initialRows={2}
+          label="Título"
+          value={state}
+          onChangeValue={(e) => setState(e)}
+        />
 
         <Button onPress={() => {}} title="Acesse" variant="primary" />
 
