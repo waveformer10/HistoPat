@@ -1,7 +1,13 @@
+'use client';
+
 import Image from "next/image";
 import { Button } from "components/Button/Button";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+
+  const router = useRouter();
+  
   return (
     <div className="grid-rows-page-layout grid min-h-svh items-center justify-items-center gap-16 p-20 font-sans max-sm:p-8 max-sm:pb-20">
       <main className="row-start-2 flex flex-col gap-8 max-sm:items-center">
@@ -101,6 +107,9 @@ export default function Home() {
           />
           Go to nextjs.org →
         </a>
+        <button onClick={() => router.push('/PageExample')}>
+          <p>Entre</p>
+        </button>
       </footer>
     </div>
   );
