@@ -9,7 +9,7 @@ import { ImagePreview } from "components/ImagePreview/ImagePreview";
 
 export default function Home() {
   return (
-    <div className="grid-rows-page-layout grid min-h-svh items-center justify-items-center gap-16 p-20 font-sans max-sm:p-8 max-sm:pb-20 bg-white">
+    <div className="grid-rows-page-layout grid min-h-svh items-center justify-items-center gap-16 bg-white p-20 font-sans max-sm:p-8 max-sm:pb-20">
       <main className="row-start-2 flex flex-col gap-8 max-sm:items-center">
         <Image
           className="dark:invert"
@@ -30,11 +30,13 @@ export default function Home() {
           <li>Save and see your changes instantly.</li>
         </ol>
 
-        <Button onPress={() => { }} title="Acesse" variant="primary" />
+        <Button onPress={() => {}} title="Acesse" />
 
         <Badge text="tamanho permitido (9000kb)" variant="primary" />
 
-        <ImageUpload onChange={(file) => console.log("Imagem selecionada:", file)} />
+        <ImageUpload
+          onChange={(file) => console.log("Imagem selecionada:", file)}
+        />
 
         <ModuleCard imageSrc="/images.jpeg" title="Módulo de Teste" />
 
