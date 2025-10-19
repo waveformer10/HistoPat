@@ -1,0 +1,11 @@
+export { default as default_icon } from "./default_icon";
+export { default as check_icon } from "./check_icon";
+export { default as home_icon } from "./home_icon";
+export { default as folder_icon } from "./folder_icon";
+export { default as users_icon } from "./users_icon";
+export { default as menu_icon } from "./menu_icon";
+export { default as arrow_icon } from "./arrow_icon";
+export { default as list_icon } from "./list_icon";
+export { default as collection_icon } from "./collection_icon";
+export { default as file_icon } from "./file_icon";
+export { default as plus_icon } from "./plus_icon";

@@ -2,7 +2,7 @@
 
 import { tv } from "tailwind-variants";
 import { InputProps } from "./Input.types";
-import Icon from "components/Icon/Icon";
+import Icon from "components/IconSvg/IconSvg";
 import { useEffect, useId, useState } from "react";
 
 const inputStyles = tv({
