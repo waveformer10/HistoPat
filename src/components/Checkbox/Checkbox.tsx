@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { tv } from "tailwind-variants";
 import { CheckboxProps } from "./Checkbox.types";
-import { Icon } from "components/IconSvg/IconSvg";
+import { IconSvg } from "components/IconSvg/IconSvg";
 
 const checkboxStyles = tv({
   base: `flex cursor-pointer gap-2 select-none`,
@@ -34,7 +34,7 @@ export function Checkbox({
   return (
     <label className={checkboxStyles()} onClick={toggle}>
       <div className={boxStyles({ checked: isChecked })}>
-        {isChecked && <Icon size="sm" icon="check_icon" />}
+        {isChecked && <IconSvg size="sm" icon="check_icon" />}
       </div>
       <span className="font-medium text-(--neutral-800)">{label}</span>
     </label>
