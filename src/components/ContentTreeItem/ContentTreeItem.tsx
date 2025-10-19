@@ -9,7 +9,7 @@ import {
 } from "react";
 import { tv } from "tailwind-variants";
 import { ContentTreeItemProps } from "./ContentTreeItem.types";
-import { Icon } from "components/IconSvg/IconSvg";
+import { IconSvg } from "components/IconSvg/IconSvg";
 
 const treeItemStyles = tv({
   base: "flex w-full flex-col gap-1 !px-2 text-sm select-none",
@@ -98,13 +98,13 @@ export function ContentTreeItem({
                 open ? "rotate-90" : ""
               }`}
             >
-              <Icon size="sm" icon="arrow_icon" color="black" />
+              <IconSvg size="sm" icon="arrow_icon" color="black" />
             </div>
           )}
         </div>
 
         <div className={itemRowContentStyles({ selected: isSelected })}>
-          <Icon icon={icon} color="black" />
+          <IconSvg icon={icon} color="black" />
           <span className="font-medium text-(--neutral-800)">{title}</span>
           {allowAddButton && (
             <button
@@ -114,7 +114,7 @@ export function ContentTreeItem({
                 alert(`Adicionar dentro de ${title}`);
               }}
             >
-              <Icon size="xs" icon="plus_icon" color="white" />
+              <IconSvg size="xs" icon="plus_icon" color="white" />
             </button>
           )}
         </div>

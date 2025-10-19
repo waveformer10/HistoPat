@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { tv } from "tailwind-variants";
 
 import { SideBarItemProps } from "./SideBarItem.types";
-import { Icon } from "components/IconSvg/IconSvg";
+import { IconSvg } from "components/IconSvg/IconSvg";
 
 const sideBarItemStyles = tv({
   base: `flex h-10 w-full flex-row items-center justify-start overflow-hidden bg-(--primary-default) !px-5 hover:cursor-pointer hover:bg-(--neutral-white)/20`,
@@ -67,7 +67,7 @@ export function SideBarItem({
     >
       {icon && (
         <div className="flex h-6 w-6 items-center justify-center">
-          <Icon size="md" icon={icon} color="white" />
+          <IconSvg size="md" icon={icon} color="white" />
         </div>
       )}
       {!hideText && title && (

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { tv } from "tailwind-variants";
 
 import { SideBarProps } from "./SideBar.types";
-import { Icon } from "components/IconSvg/IconSvg";
+import { IconSvg } from "components/IconSvg/IconSvg";
 
 const sideBarStyles = tv({
   base: "flex h-screen min-w-12 flex-col transition-all duration-200 ease-in-out",
@@ -71,7 +71,7 @@ export function SideBar({
           onClick={collapseAction}
           className="fixed top-4 left-4 z-[60] rounded-lg bg-(--primary-default) !p-2 text-white shadow-lg hover:cursor-pointer"
         >
-          <Icon icon="menu_icon" size="lg" />
+          <IconSvg icon="menu_icon" size="lg" />
         </button>
       )}
       {!hidden && (
@@ -89,7 +89,7 @@ export function SideBar({
                 onClick={collapseAction}
                 className="absolute m-2 rounded !p-4 text-sm hover:cursor-pointer"
               >
-                <Icon size="xl" icon="menu_icon" />
+                <IconSvg size="xl" icon="menu_icon" />
               </button>
             )}
             {image && (
