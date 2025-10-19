@@ -1,8 +1,8 @@
-import { IconName } from "../IconSvg/IconSvg.types";
+import { IconSvgName } from "../IconSvg/IconSvg.types";
 
 export type SideBarItemProps = {
   selected?: boolean;
-  icon?: IconName;
+  icon?: IconSvgName;
   title?: string;
   onClick?: () => void;
 };
