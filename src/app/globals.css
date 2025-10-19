@@ -4,7 +4,29 @@
   --color-dark-orange: #FE5000;
   --color-dark-blue: #073B59;
   --color-dark-blue-80: #39627A;
-  --color-light-gray: #989898;
+  --color-gray-300: #989898;
+  --color-gray-500: #7C7C7C;
+  --color-gray-900: #2C3131;
+}
+
+@layer components {
+  
+}
+
+textarea::-webkit-scrollbar {
+  width: 10px;
+  background-color: var(--color-gray-300);
+  border-radius: 4px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background-color: var(--color-dark-blue);
+  border-radius: 4px;
+  cursor: auto;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-dark-blue-80);
 }
 
 :root {
