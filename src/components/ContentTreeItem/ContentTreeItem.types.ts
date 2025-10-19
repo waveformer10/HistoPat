@@ -1,9 +1,9 @@
-import { IconName } from "../IconSvg/IconSvg.types";
+import { IconSvgName } from "../IconSvg/IconSvg.types";
 import { ReactNode } from "react";
 
 export type ContentTreeItemProps = {
   title: string;
-  icon?: IconName;
+  icon?: IconSvgName;
   defaultOpen?: boolean;
   depth?: number;
   onSelect?: (title: string) => void;
