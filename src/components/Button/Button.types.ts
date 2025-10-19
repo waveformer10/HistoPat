@@ -1,7 +1,7 @@
-type ButtonVariant = "primary" | "secondary";
+type ButtonVariant = "secondary";
 
 export type ButtonProps = {
   onPress: () => void;
   title: string;
-  variant: ButtonVariant;
+  variant?: ButtonVariant;
 };
