@@ -13,7 +13,7 @@ import { useState } from "react";
 export default function Home() {
   const [state, setState] = useState("");
   return (
-    <div className="grid-rows-page-layout grid min-h-svh w-full items-center justify-items-center gap-16 bg-white p-20 font-sans max-sm:p-8 max-sm:pb-20">
+    <div className="grid-rows-page-layout grid min-h-svh items-center justify-items-center gap-16 bg-white p-20 font-sans max-sm:p-8 max-sm:pb-20">
       <main className="row-start-2 flex flex-col gap-8 max-sm:items-center">
         <Image
           className="dark:invert"
