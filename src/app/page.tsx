@@ -1,15 +1,23 @@
-'use client';
+"use client";
 
 import Image from "next/image";
 import { Button } from "components/Button/Button";
 import { useRouter } from "next/navigation";
+import { Input } from "components/Input/Input";
+import { useState } from "react";
+import { Badge } from "components/Badge/Badge";
+import { ImageUpload } from "components/ImageUpload/ImageUpload";
+import { ModuleCard } from "components/ModuleCard/ModuleCard";
+import { ImagePreview } from "components/ImagePreview/ImagePreview";
+import { IconLib } from "components/IconLib/IconLib";
 
 export default function Home() {
+  const [state, setState] = useState("");
 
   const router = useRouter();
-  
+
   return (
-    <div className="grid-rows-page-layout grid min-h-svh items-center justify-items-center gap-16 p-20 font-sans max-sm:p-8 max-sm:pb-20">
+    <div className="grid-rows-page-layout grid min-h-svh items-center justify-items-center gap-16 bg-white p-20 font-sans max-sm:p-8 max-sm:pb-20">
       <main className="row-start-2 flex flex-col gap-8 max-sm:items-center">
         <Image
           className="dark:invert"
@@ -30,7 +38,26 @@ export default function Home() {
           <li>Save and see your changes instantly.</li>
         </ol>
 
-        <Button onPress={() => {}} title="Acesse" variant="primary" />
+        <Input
+          multiline
+          initialRows={2}
+          label="Título"
+          value={state}
+          onChangeValue={(e) => setState(e)}
+        />
+
+        <Button onPress={() => {}} title="Acesse" />
+
+        <Badge text="tamanho permitido (9000kb)" variant="primary" />
+
+        <ImageUpload
+          onChange={(file) => console.log("Imagem selecionada:", file)}
+        />
+
+        <ModuleCard imageSrc="/images.jpeg" title="Módulo de Teste" />
+
+        <ImagePreview imageSrc="/images.jpeg" fileName="minha-imagem.jpg" />
+
         <div className="flex gap-4 max-sm:flex-col">
           <a
             className="bg-foreground text-background hover:bg-button-primary-hover dark:hover:bg-dark-button-primary-hover flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-transparent px-5 text-base leading-5 font-medium transition-colors max-sm:h-10 max-sm:px-4 max-sm:text-sm"
@@ -47,6 +74,7 @@ export default function Home() {
             />
             Deploy now
           </a>
+          <IconLib iconLibName="fa" icon="FaAd" color="#000000" size={30} />
           <a
             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
             target="_blank"
@@ -107,7 +135,7 @@ export default function Home() {
           />
           Go to nextjs.org →
         </a>
-        <button onClick={() => router.push('/PageExample')}>
+        <button onClick={() => router.push("/PageExample")}>
           <p>Entre</p>
         </button>
       </footer>

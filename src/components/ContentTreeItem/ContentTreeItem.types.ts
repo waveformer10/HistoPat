@@ -1,4 +1,4 @@
-import { IconName } from "../Icon/Icon.types";
+import { IconName } from "../IconSvg/IconSvg.types";
 import { ReactNode } from "react";
 
 export type ContentTreeItemProps = {
@@ -12,5 +12,3 @@ export type ContentTreeItemProps = {
   children?: ContentTreeItemProps[];
   jsxChildren?: ReactNode;
 };
-
-

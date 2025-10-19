@@ -1,27 +1,26 @@
-'use client';
+"use client";
 
-import { useState, ReactNode, Children, isValidElement, useEffect } from "react";
+import {
+  useState,
+  ReactNode,
+  Children,
+  isValidElement,
+  useEffect,
+} from "react";
 import { tv } from "tailwind-variants";
 import { ContentTreeItemProps } from "./ContentTreeItem.types";
-import { Icon } from "components/Icon/Icon";
+import { Icon } from "components/IconSvg/IconSvg";
 
 const treeItemStyles = tv({
-  base: "flex flex-col w-full text-sm select-none !px-2 gap-1",
+  base: "flex w-full flex-col gap-1 !px-2 text-sm select-none",
 });
 
 const itemRowStyles = tv({
-  base: `
-    flex items-center gap-2 cursor-pointer rounded-md
-    hover:bg-(--neutral-100)
-    transition-colors duration-200
-    flex-wrap
-  `,
+  base: `flex cursor-pointer flex-wrap items-center gap-2 rounded-md transition-colors duration-200 hover:bg-(--neutral-100)`,
 });
 
 const itemRowContentStyles = tv({
-  base: `
-    flex items-center gap-2 rounded-md !py-[1px] !px-1
-  `,
+  base: `flex items-center gap-2 rounded-md !px-1 !py-[1px]`,
   variants: {
     selected: {
       true: "bg-(--neutral-200)",
@@ -41,27 +40,26 @@ export function ContentTreeItem({
   allowAddButton = false,
   jsxChildren,
 }: ContentTreeItemProps) {
-  
-    const [open, setOpen] = useState(defaultOpen);
-    const [paddingLeft, setPaddingLeft] = useState(`${depth * 1.75}rem`);
+  const [open, setOpen] = useState(defaultOpen);
+  const [paddingLeft, setPaddingLeft] = useState(`${depth * 1.75}rem`);
 
-    useEffect(() => {
-        const resize = () => {
-            const aspectRatio = window.innerWidth / window.innerHeight;
-            const smallScreen = aspectRatio < 1;
-            
-            const basePadding = smallScreen ? 0 : 1.75;
-            setPaddingLeft(`${depth * basePadding}rem`);
-        };
+  useEffect(() => {
+    const resize = () => {
+      const aspectRatio = window.innerWidth / window.innerHeight;
+      const smallScreen = aspectRatio < 1;
 
-        resize();
-        window.addEventListener("resize", resize);
-        return () => window.removeEventListener("resize", resize);
-        }, []);
+      const basePadding = smallScreen ? 0 : 1.75;
+      setPaddingLeft(`${depth * basePadding}rem`);
+    };
 
-    const clickAction = () => {
-        if (hasChildren) setOpen((prev) => !prev);
-        if (onSelect) onSelect(title);
+    resize();
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, []);
+
+  const clickAction = () => {
+    if (hasChildren) setOpen((prev) => !prev);
+    if (onSelect) onSelect(title);
   };
 
   const renderedChildren: ReactNode[] = [];
@@ -76,7 +74,7 @@ export function ContentTreeItem({
           depth={depth + 1}
           onSelect={onSelect}
           selectedTitle={selectedTitle}
-        />
+        />,
       );
     });
   }
@@ -91,7 +89,9 @@ export function ContentTreeItem({
         style={{ paddingLeft }}
         onClick={clickAction}
       >
-        <div className={`w-5 h-5 flex items-center justify-center ${hasChildren ? '' : 'hidden'}`}>
+        <div
+          className={`flex h-5 w-5 items-center justify-center ${hasChildren ? "" : "hidden"}`}
+        >
           {hasChildren && (
             <div
               className={`transition-transform duration-200 ${
@@ -108,22 +108,20 @@ export function ContentTreeItem({
           <span className="font-medium text-(--neutral-800)">{title}</span>
           {allowAddButton && (
             <button
-                    className="ml-auto h-5 aspect-square rounded bg-(--primary-default) flex items-center justify-center text-(--neutral-white)"
-                    onClick={(e) => {
-                    e.stopPropagation();
-                    alert(`Adicionar dentro de ${title}`);
-                    }}
-                >
-                    <Icon size="xs" icon="plus_icon" color="white" />
+              className="ml-auto flex aspect-square h-5 items-center justify-center rounded bg-(--primary-default) text-(--neutral-white)"
+              onClick={(e) => {
+                e.stopPropagation();
+                alert(`Adicionar dentro de ${title}`);
+              }}
+            >
+              <Icon size="xs" icon="plus_icon" color="white" />
             </button>
-            )}
+          )}
         </div>
       </div>
 
       {open && hasChildren && (
-        <div 
-            className="flex flex-wrap mt-1"
-        >{renderedChildren}</div>
+        <div className="mt-1 flex flex-wrap">{renderedChildren}</div>
       )}
     </div>
   );

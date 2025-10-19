@@ -1,24 +1,19 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import { tv } from "tailwind-variants";
 import { CheckboxProps } from "./Checkbox.types";
-import { Icon } from "components/Icon/Icon";
+import { Icon } from "components/IconSvg/IconSvg";
 
 const checkboxStyles = tv({
-  base: `
-    flex gap-2 cursor-pointer select-none
-  `,
+  base: `flex cursor-pointer gap-2 select-none`,
 });
 
 const boxStyles = tv({
-  base: `
-    w-6 h-6 flex items-center justify-center rounded-md border
-    transition-all duration-150
-  `,
+  base: `flex h-6 w-6 items-center justify-center rounded-md border transition-all duration-150`,
   variants: {
     checked: {
-      true: "bg-(--primary-default) border-(--primary-default) text-white",
+      true: "border-(--primary-default) bg-(--primary-default) text-white",
       false: "border-(--neutral-200) bg-transparent",
     },
   },
@@ -39,14 +34,9 @@ export function Checkbox({
   return (
     <label className={checkboxStyles()} onClick={toggle}>
       <div className={boxStyles({ checked: isChecked })}>
-        {isChecked && (
-          <Icon
-            size="sm"
-            icon="check_icon"
-          />
-        )}
+        {isChecked && <Icon size="sm" icon="check_icon" />}
       </div>
-      <span className="text-(--neutral-800) font-medium">{label}</span>
+      <span className="font-medium text-(--neutral-800)">{label}</span>
     </label>
   );
 }

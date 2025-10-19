@@ -1,22 +1,28 @@
-'use client';
+"use client";
 
 import { ButtonProps } from "./Button.types";
 import { tv } from "tailwind-variants";
 
 const buttonStyles = tv({
-  base: "flex h-14 w-48 items-center justify-center rounded-sm hover:cursor-pointer",
+  slots: {
+    wrapper:
+      "bg-dark-blue hover:bg-dark-blue-80 flex w-full items-center justify-center rounded-sm text-white hover:cursor-pointer",
+    text: "!py-2.5",
+  },
   variants: {
     color: {
-      primary: "bg-dark-blue hover:bg-dark-blue-80 text-white",
-      secondary: "hover:text-dark-blue bg-white text-black",
+      secondary: {
+        wrapper: "bg-white text-black hover:bg-gray-300",
+      },
     },
   },
 });
 
 export function Button({ onPress, title, variant }: ButtonProps) {
+  const { text, wrapper } = buttonStyles({ color: variant });
   return (
-    <button className={buttonStyles({ color: variant })} onClick={onPress}>
-      <p>{title}</p>
+    <button className={wrapper()} onClick={onPress}>
+      <p className={text()}>{title}</p>
     </button>
   );
 }
