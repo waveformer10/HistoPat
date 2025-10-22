@@ -1,4 +1,4 @@
-import { IconProps, LibNames } from "./Icons.types";
+import { IconLibProps, LibNames } from "./IconLib.types";
 import * as fa from "react-icons/fa";
 import * as md from "react-icons/md";
 import * as ai from "react-icons/ai";
@@ -29,15 +29,13 @@ export const libs = {
   io,
 };
 
-function Icon<T extends LibNames>({
+export function IconLib<T extends LibNames>({
   color,
   fill,
   iconLibName,
   icon,
   size,
-}: IconProps<T>) {
+}: IconLibProps<T>) {
   const IconComponent = libs[iconLibName][icon] as React.ElementType;
   return <IconComponent color={color} fill={fill ? fill : color} size={size} />;
 }
-
-export default Icon;

@@ -2,16 +2,20 @@
 
 import Image from "next/image";
 import { Button } from "components/Button/Button";
+import { useRouter } from "next/navigation";
+import { Input } from "components/Input/Input";
+import { useState } from "react";
 import { Badge } from "components/Badge/Badge";
 import { ImageUpload } from "components/ImageUpload/ImageUpload";
 import { ModuleCard } from "components/ModuleCard/ModuleCard";
 import { ImagePreview } from "components/ImagePreview/ImagePreview";
-import Icon from "components/Icon/Icon";
-import { Input } from "components/Input/Input";
-import { useState } from "react";
+import { IconLib } from "components/IconLib/IconLib";
 
 export default function Home() {
   const [state, setState] = useState("");
+
+  const router = useRouter();
+
   return (
     <div className="grid-rows-page-layout grid min-h-svh items-center justify-items-center gap-16 bg-white p-20 font-sans max-sm:p-8 max-sm:pb-20">
       <main className="row-start-2 flex flex-col gap-8 max-sm:items-center">
@@ -42,7 +46,7 @@ export default function Home() {
           onChangeValue={(e) => setState(e)}
         />
 
-        <Button onPress={() => {}} title="Acesse" variant="primary" />
+        <Button onPress={() => {}} title="Acesse" />
 
         <Badge text="tamanho permitido (9000kb)" variant="primary" />
 
@@ -70,7 +74,7 @@ export default function Home() {
             />
             Deploy now
           </a>
-          <Icon iconLibName="fa" icon="FaAd" color="#000000" size={30} />
+          <IconLib iconLibName="fa" icon="FaAd" color="#000000" size={30} />
           <a
             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
             target="_blank"
@@ -131,6 +135,9 @@ export default function Home() {
           />
           Go to nextjs.org →
         </a>
+        <button onClick={() => router.push("/PageExample")}>
+          <p>Entre</p>
+        </button>
       </footer>
     </div>
   );

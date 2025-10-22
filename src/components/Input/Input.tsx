@@ -2,8 +2,8 @@
 
 import { tv } from "tailwind-variants";
 import { InputProps } from "./Input.types";
-import Icon from "components/Icon/Icon";
-import { useEffect, useId, useState } from "react";
+import { useState } from "react";
+import { IconLib } from "components/IconLib/IconLib";
 
 const inputStyles = tv({
   slots: {
@@ -74,7 +74,7 @@ export function Input({
       <div className={wrapperInputSlot()}>
         {isSearch && !disabled && !multiline && (
           <div className={iconLeft()}>
-            <Icon
+            <IconLib
               iconLibName="io5"
               icon="IoSearch"
               color="var(--color-gray-500)"
@@ -110,7 +110,7 @@ export function Input({
         )}
         {isPassword && !disabled && !multiline && (
           <button className={iconRight()} onClick={handleShowValue}>
-            <Icon
+            <IconLib
               iconLibName="lu"
               icon={showValue ? "LuEyeClosed" : "LuEye"}
               color="var(--color-gray-500)"
