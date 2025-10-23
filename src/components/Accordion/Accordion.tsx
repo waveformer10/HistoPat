@@ -6,21 +6,21 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 
 const accordionStyles = tv({
   slots: {
-    wrapper: "flex w-full flex-col rounded-[4px] bg-white",
+    wrapper: "flex w-full flex-col rounded-[4px] bg-white shadow-md",
     header:
-      "flex w-full flex-row items-center gap-2.5 px-3.5 py-3.5 cursor-pointer",
+      "flex w-full cursor-pointer flex-row items-center gap-2.5 px-3.5 py-3.5",
     optionsWrapper: "scrollbar-hidden relative h-36 overflow-auto px-2.5",
     virtualWrapper: "relative w-full",
-    option: "option-border absolute top-0 left-0 h-8 w-full py-1 pl-1.5",
-    titleStyle: "text-[14px] text-black",
-    openIconStyle: "ml-auto"
+    option: "option-border absolute top-0 left-0 w-full py-2 pl-1.5",
+    titleStyle: `accordion-clamp-title text-[14px] leading-3.5 text-black`,
+    openIconStyle: "ml-auto",
   },
 });
 
 export function Accordion({ title, items }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [titleOverflow, setTitleOverflow] = useState(false);
-  
+
   const {
     wrapper,
     header,
@@ -28,7 +28,7 @@ export function Accordion({ title, items }: AccordionProps) {
     virtualWrapper,
     option,
     titleStyle,
-    openIconStyle
+    openIconStyle,
   } = accordionStyles();
 
   const parentRef = useRef<HTMLDivElement>(null);
@@ -39,7 +39,13 @@ export function Accordion({ title, items }: AccordionProps) {
     count: items.length,
     estimateSize: () => 32,
     getScrollElement: () => parentRef.current,
+    paddingEnd: 30,
+    measureElement: (el) => el.getBoundingClientRect().height,
   });
+
+  function handleOpenClose() {
+    setIsOpen((prev) => !prev);
+  }
 
   useEffect(() => {
     if (pRef.current) {
@@ -50,47 +56,57 @@ export function Accordion({ title, items }: AccordionProps) {
       const height = element.clientHeight;
 
       const lines = Math.round(height / lineHeight);
-      
-      if(lines > 3) setTitleOverflow(true);
+
+      if (lines > 3) setTitleOverflow(true);
     }
   }, []);
 
   return (
     <div className={wrapper()}>
-      <div className={header()}>
-        <p ref={pRef} className={titleStyle()} style={{display: "-webkit-box", WebkitBoxOrient: "vertical", WebkitLineClamp: 2, overflow: "hidden"}}>
+      <div className={header()} onClick={handleOpenClose}>
+        <p ref={pRef} className={titleStyle()}>
           {title.toUpperCase()}
         </p>
-        <div className={openIconStyle()}>
+        <div
+          className={openIconStyle()}
+          style={{
+            transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+            transition: "transform 0.3s",
+          }}
+        >
           <IconLib
             iconLibName="io"
-            icon={isOpen ? "IoIosArrowUp" : "IoIosArrowDown"}
+            icon={"IoIosArrowDown"}
             color="var(--color-gray-500)"
             size={25}
           />
         </div>
       </div>
-      <div className={optionsWrapper()} ref={parentRef}>
-        <div
-          className={virtualWrapper()}
-          style={{ height: columnVirtualizer.getTotalSize() }}
-        >
-          {columnVirtualizer.getVirtualItems().map((virtualItem) => {
-            const item = items[virtualItem.index];
-
-            return (
-              <div
-                className={option()}
-                key={virtualItem.key}
-                ref={columnVirtualizer.measureElement}
-                style={{ transform: `translateY(${virtualItem.start}px)` }}
-              >
-                <p className={titleStyle()}>{item.title}</p>
-              </div>
-            );
-          })}
+      {isOpen && (
+        <div className={optionsWrapper()} ref={parentRef}>
+          <div
+            className={virtualWrapper()}
+            style={{ height: columnVirtualizer.getTotalSize() }}
+          >
+            {columnVirtualizer.getVirtualItems().map((virtualItem) => {
+              const item = items[virtualItem.index];
+              return (
+                <div
+                  className={option()}
+                  key={virtualItem.key}
+                  data-index={virtualItem.index}
+                  ref={columnVirtualizer.measureElement}
+                  style={{
+                    transform: `translateY(${virtualItem.start}px)`,
+                  }}
+                >
+                  <p className={titleStyle()}>{item.title}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
