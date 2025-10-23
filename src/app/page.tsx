@@ -19,7 +19,7 @@ export default function Home() {
 
   return (
     <div className="grid-rows-page-layout grid min-h-svh items-center justify-items-center gap-16 bg-amber-900 p-20 font-sans max-sm:p-8 max-sm:pb-20">
-      <main className="row-start-2 flex flex-col gap-8 bg-amber-200 max-sm:items-center">
+      <main className="row-start-2 flex flex-col gap-8 bg-amber-200 max-sm:items-center w-5xl">
         <Image
           className="dark:invert"
           src="/next.svg"
@@ -49,9 +49,9 @@ export default function Home() {
 
         <Button onPress={() => {}} title="Acesse" />
 
-        <div style={{ width: 350 }}>
+        <div style={{ width: 1000 }}>
           <Accordion
-            title="Lorem Ipsum is simply dummy text of "
+            title="Lorem Ipsum is simply dummy text of orem Ipsum is simply dummy text of Lorem Ipsum is simply dummy text of orem Ipsum is simply dummy text of Lorem Ipsum is simply dummy text of orem Ipsum is simply dummy text of Lorem Ipsum is simply dummy text of orem Ipsum is simply dummy text of"
             items={[
               { title: "Esteatose" },
               { title: "Esteatose 1" },
