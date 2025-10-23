@@ -6,18 +6,36 @@ import { tv } from "tailwind-variants";
 import { Plus, File } from "lucide-react";
 
 const uploadStyles = tv({
-  base: `
-    flex flex-col items-center justify-start
-    bg-[#FFFFFF]
-    border-2 border-[#4444444d]
-    rounded-lg
-    cursor-pointer
-    transition
-    hover:bg-gray-50
-    text-[#404040]
-    font-semibold
-    text-[14px]
-  `,
+  slots: {
+    wrapper: `
+      flex flex-col items-center justify-start
+      cursor-pointer
+      transition
+      rounded-lg
+      border-2
+      text-[#404040]
+      font-semibold
+      text-[14px]
+      overflow-hidden
+    `,
+    icon: "!mt-3 text-[#404040]",
+    text: "mt-2 text-[14px] font-semibold text-center break-all",
+  },
+  variants: {
+    size: {
+      default: { wrapper: "w-[195px] h-[94px] p-[14px] gap-[2px]" },
+      small: { wrapper: "w-[150px] h-[70px] p-[10px] gap-[1px]" },
+      large: { wrapper: "w-[250px] h-[120px] p-[16px] gap-[3px]" },
+    },
+    state: {
+      empty: { wrapper: "bg-white border-[#4444444d] hover:bg-gray-50" },
+      filled: { wrapper: "bg-gray-50 border-gray-300" },
+    },
+  },
+  defaultVariants: {
+    size: "default",
+    state: "empty",
+  },
 });
 
 export function ImageUpload({ onChange }: UploadProps) {
@@ -31,17 +49,12 @@ export function ImageUpload({ onChange }: UploadProps) {
     }
   };
 
+  const { wrapper, icon, text } = uploadStyles({
+    state: fileName ? "filled" : "empty",
+  });
+
   return (
-    <label
-      className={uploadStyles()}
-      style={{
-        width: "195px",
-        height: "94px",
-        padding: "14px",
-        gap: "2px",
-        color: "#404040",
-      }}
-    >
+    <label className={wrapper()}>
       <input
         type="file"
         accept="image/*"
@@ -51,15 +64,13 @@ export function ImageUpload({ onChange }: UploadProps) {
 
       {!fileName ? (
         <>
-          <Plus size={20} />
-          <span className="mt-2 text-[14px] font-semibold">Adicionar imagem</span>
+          <Plus className={icon()} size={20} />
+          <span className={text()}>Adicionar imagem</span>
         </>
       ) : (
         <>
-          <File size={20} />
-          <span className="mt-2 text-[14px] font-semibold break-all text-center">
-            {fileName}
-          </span>
+          <File className={icon()} size={20} />
+          <span className={text()}>{fileName}</span>
         </>
       )}
     </label>
