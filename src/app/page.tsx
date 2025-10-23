@@ -10,6 +10,7 @@ import { ImageUpload } from "components/ImageUpload/ImageUpload";
 import { ModuleCard } from "components/ModuleCard/ModuleCard";
 import { ImagePreview } from "components/ImagePreview/ImagePreview";
 import { IconLib } from "components/IconLib/IconLib";
+import { Accordion } from "components/Accordion/Accordion";
 
 export default function Home() {
   const [state, setState] = useState("");
@@ -17,8 +18,8 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <div className="grid-rows-page-layout grid min-h-svh items-center justify-items-center gap-16 bg-white p-20 font-sans max-sm:p-8 max-sm:pb-20">
-      <main className="row-start-2 flex flex-col gap-8 max-sm:items-center">
+    <div className="grid-rows-page-layout grid min-h-svh items-center justify-items-center gap-16 bg-amber-900 p-20 font-sans max-sm:p-8 max-sm:pb-20">
+      <main className="row-start-2 flex w-5xl flex-col gap-8 bg-amber-200 max-sm:items-center">
         <Image
           className="dark:invert"
           src="/next.svg"
@@ -47,6 +48,31 @@ export default function Home() {
         />
 
         <Button onPress={() => { }} title="Acesse" />
+
+        <div style={{ width: 1000 }}>
+          <Accordion
+            title="Lorem Ipsum is simply dummy text of orem Ipsum is simply dummy text of Lorem Ipsum is simply dummy Lorem Ipsum is simply dummy text of orem Ipsum is simply dummy text of Lorem Ipsum is simply dummy Lorem Ipsum is simply dummy text of orem Ipsum is simply dummy text of Lorem Ipsum is simply dummy"
+            items={[
+              {
+                title:
+                  "Lorem Ipsum is simply dummy text of orem Ipsum is simply dummy text of Lorem Ipsum is simply dummy",
+              },
+              { title: "Esteatose 1" },
+              { title: "Esteatose 2" },
+              { title: "Esteatose 3" },
+              { title: "Esteatose 4" },
+              { title: "Esteatose 5" },
+              { title: "Esteatose 6" },
+              { title: "Esteatose 7" },
+              { title: "Esteatose 8" },
+              { title: "Esteatose 9" },
+              { title: "Esteatose 10" },
+              { title: "Esteatose 12 " },
+              { title: "Esteatose 13" },
+              { title: "Esteatose 14" },
+            ]}
+          />
+        </div>
 
         <Badge text="tamanho permitido (9000kb)" variant="primary" />
 
