@@ -49,13 +49,13 @@ export default function Home() {
       </section>
 
       {/* Conteúdo pós-banner */}
-      <div className="!mx-32 !mt-12"> 
+      <div className="!mx-32 !mt-12">
 
         <section className="flex flex-col justify-center items-start w-full !mb-8">
           {/* Título e subtítulo alinhados à esquerda */}
           <div className="text-left">
             <h1 className="text-[32px] font-normal text-gray-800 mb-3">
-              Bem-vindo ao HistoPat — o atlas de histologia da Unipam
+              Bem-vindo ao HistoPat - o atlas de histologia da Unipam
             </h1>
             <p className="text-[24px] font-light text-gray-600">
               Explore as lâminas disponíveis na universidade!
@@ -76,7 +76,7 @@ export default function Home() {
         </section>
 
         {/* Seção dos cards */}
-        <section className="flex flex-col items-center items-start sm:items-center max-w-6xl w-full mx-auto">
+        <section className="flex flex-col items-center items-start sm:items-center w-full mx-auto !mb-24">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 justify-items-center w-full">
             <ModuleCard
               imageSrc="/images.jpeg"
@@ -99,10 +99,30 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="flex flex-col justify-center items-start w-full !mb-8">
+          {/* Título e subtítulo alinhados à esquerda */}
+          <div className="text-left">
+            <h1 className="text-[32px] font-normal text-gray-800 mb-3">
+              Microscópio
+            </h1>
+            <p className="text-[24px] font-light text-gray-600">
+              Entenda a funcionalidade de cada peça do microscópio</p>
+          </div>
+        </section>
+
+        <section className="flex flex-col justify-center items-start w-full !mb-8">
+          <Image className="w-256 h-128 rounded 16px"
+            src="/images/microscopioMockup.png"
+            alt="Logos FEPAM e UNIPAM"
+            width={380}
+            height={80}
+          />
+        </section>
+
       </div>
 
       {/* Footer */}
-      <footer className="bg-[#002E5D] text-white text-center text-sm py-6 mt-auto">
+      <footer className="bg-[#26406C] text-white text-center text-sm py-6 mt-auto">
         © 2025 Centro Universitário de Patos de Minas - UNIPAM. Todos os direitos reservados.
       </footer>
     </div>
