@@ -46,7 +46,7 @@ export default function Home() {
           onChangeValue={(e) => setState(e)}
         />
 
-        <Button onPress={() => {}} title="Acesse" />
+        <Button onPress={() => { }} title="Acesse" />
 
         <Badge text="tamanho permitido (9000kb)" variant="primary" />
 
@@ -54,7 +54,12 @@ export default function Home() {
           onChange={(file) => console.log("Imagem selecionada:", file)}
         />
 
-        <ModuleCard imageSrc="/images.jpeg" title="Módulo de Teste" />
+        <ModuleCard
+          imageSrc="/images.jpeg"
+          title="Módulo de Teste"
+          size="large"
+          theme="light"
+        />
 
         <ImagePreview imageSrc="/images.jpeg" fileName="minha-imagem.jpg" />
 
