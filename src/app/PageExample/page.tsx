@@ -20,6 +20,7 @@ export default function SideBarExample() {
         <div className="flex h-screen w-screen bg-light-gray">
             <SideBar
                 image="https://novoportal.unipam.edu.br/assets/logo_unipam-2d39776e.png"
+                imageCollapsed="https://novoportal.unipam.edu.br/assets/logoWhiteMobile-aef87742.svg"
                 collapsible={true}
             >
                     <SideBarItem
@@ -69,7 +70,7 @@ export default function SideBarExample() {
                             children: [
                                 { title: "Lâmina 001", 
                                     icon: "file_icon", 
-                                    allowAddButton: false 
+                                    allowAddButton: false
                                 }
                             ],
                             },
