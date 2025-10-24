@@ -1,5 +1,6 @@
 import { ListCard } from "../../components/ListCard/ListCard";
 import { HighlightCard } from "../../components/HighlightCard/HighlightCard";
+import { Path } from "../../components/Path/Path";
 
 export default function page(props: any) {
   return(
@@ -11,6 +12,10 @@ export default function page(props: any) {
     <div>
       <HighlightCard/>
     </div>
+
+      <div>
+        <Path path={["Modulo", "Topico", "Subtopico", "Lamina"]}/>
+      </div>
 
     </div>
   )
