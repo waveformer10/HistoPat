@@ -31,12 +31,12 @@ const sideBarStyles = tv({
 export function SideBar({
   children,
   image,
+  imageCollapsed,
   collapsible = false,
   colorNavigation = "primary",
   title = "",
   colorText = "black",
-  showToggleButton = true,
-}: SideBarProps & { showToggleButton?: boolean }) {
+}: SideBarProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [overlay, setOverlay] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -67,7 +67,7 @@ export function SideBar({
 
   return (
     <>
-      {overlay && showToggleButton && (
+      {overlay && (
         <button
           onClick={collapseAction}
           className="fixed top-4 left-4 z-[60] rounded-lg bg-(--primary-default) !p-2 text-white shadow-lg hover:cursor-pointer"
@@ -85,7 +85,7 @@ export function SideBar({
           })}
         >
           <div className="sticky top-0 z-10 bg-inherit">
-            {collapsible && !overlay && showToggleButton && (
+            {collapsible && !overlay && (
               <button
                 onClick={collapseAction}
                 className="absolute m-2 rounded !p-4 text-sm hover:cursor-pointer"
@@ -96,7 +96,7 @@ export function SideBar({
             {image && (
               <div className="flex h-40 w-full items-center justify-center">
                 <img
-                  src={image}
+                  src={collapsed ? imageCollapsed : image}
                   alt="Logo"
                   className="h-25/100 w-80/100 object-contain"
                 />
@@ -115,7 +115,7 @@ export function SideBar({
           </div>
         </nav>
       )}
-      {collapsible && overlay && !hidden && showToggleButton && (
+      {collapsible && overlay && !hidden && (
         <div
           className="fixed inset-0 z-40 bg-(--neutral-black)/80"
           onClick={() => setHidden(true)}
