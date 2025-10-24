@@ -24,7 +24,7 @@ export function ListCard(props: ListCardProps) {
       <p className="flex items-center justify-center text-center">{props.userRole}</p>
 
       <div className="flex justify-center items-center">
-        <button className="px-3 py-2">
+        <button className="px-3 py-2 hover:cursor-pointer">
           <IconLib
             iconLibName="lu"
             icon="LuPencil"
@@ -36,7 +36,7 @@ export function ListCard(props: ListCardProps) {
       </div>
 
       <div className="flex justify-center items-center">
-        <button className="px-3 py-2">
+        <button className="px-3 py-2 hover:cursor-pointer">
           <IconLib
             iconLibName="hi2"
             icon="HiOutlineTrash"
