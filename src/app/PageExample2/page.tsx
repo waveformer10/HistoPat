@@ -9,7 +9,7 @@ export default function page(props: any) {
     {/*</div>*/}
 
     <div>
-      <HighlightCard/>
+      <HighlightCard title={"Total de Lâminas cadastradas"} value={1080}/>
     </div>
 
     </div>
