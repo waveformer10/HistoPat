@@ -35,7 +35,8 @@ export function SideBar({
   colorNavigation = "primary",
   title = "",
   colorText = "black",
-}: SideBarProps) {
+  showToggleButton = true,
+}: SideBarProps & { showToggleButton?: boolean }) {
   const [collapsed, setCollapsed] = useState(false);
   const [overlay, setOverlay] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -66,7 +67,7 @@ export function SideBar({
 
   return (
     <>
-      {overlay && (
+      {overlay && showToggleButton && (
         <button
           onClick={collapseAction}
           className="fixed top-4 left-4 z-[60] rounded-lg bg-(--primary-default) !p-2 text-white shadow-lg hover:cursor-pointer"
@@ -84,7 +85,7 @@ export function SideBar({
           })}
         >
           <div className="sticky top-0 z-10 bg-inherit">
-            {collapsible && !overlay && (
+            {collapsible && !overlay && showToggleButton && (
               <button
                 onClick={collapseAction}
                 className="absolute m-2 rounded !p-4 text-sm hover:cursor-pointer"
@@ -114,7 +115,7 @@ export function SideBar({
           </div>
         </nav>
       )}
-      {collapsible && overlay && !hidden && (
+      {collapsible && overlay && !hidden && showToggleButton && (
         <div
           className="fixed inset-0 z-40 bg-(--neutral-black)/80"
           onClick={() => setHidden(true)}
