@@ -16,11 +16,11 @@ const treeItemStyles = tv({
 });
 
 const itemRowStyles = tv({
-  base: `flex cursor-pointer flex-wrap items-center gap-2 rounded-md transition-colors duration-200 hover:bg-(--neutral-100)`,
+  base: `flex cursor-pointer flex-wrap items-center rounded-md transition-colors duration-200`,
 });
 
 const itemRowContentStyles = tv({
-  base: `flex items-center gap-2 rounded-md !px-1 !py-[1px]`,
+  base: `flex items-center gap-2 rounded-md !px-1 !py-[1px] hover:bg-(--neutral-100) relative`,
   variants: {
     selected: {
       true: "bg-(--neutral-200)",
@@ -43,25 +43,6 @@ export function ContentTreeItem({
   const [open, setOpen] = useState(defaultOpen);
   const [paddingLeft, setPaddingLeft] = useState(`${depth * 1.75}rem`);
 
-  useEffect(() => {
-    const resize = () => {
-      const aspectRatio = window.innerWidth / window.innerHeight;
-      const smallScreen = aspectRatio < 1;
-
-      const basePadding = smallScreen ? 0 : 1.75;
-      setPaddingLeft(`${depth * basePadding}rem`);
-    };
-
-    resize();
-    window.addEventListener("resize", resize);
-    return () => window.removeEventListener("resize", resize);
-  }, []);
-
-  const clickAction = () => {
-    if (hasChildren) setOpen((prev) => !prev);
-    if (onSelect) onSelect(title);
-  };
-
   const renderedChildren: ReactNode[] = [];
   const hasObjectChildren = Array.isArray(children) && children.length > 0;
 
@@ -81,6 +62,28 @@ export function ContentTreeItem({
 
   const hasChildren = renderedChildren.length > 0;
   const isSelected = selectedTitle === title;
+  
+  useEffect(() => {
+    const resize = () => {
+      const aspectRatio = window.innerWidth / window.innerHeight;
+      const smallScreen = aspectRatio < 1;
+
+      const basePadding = smallScreen ? 0 : 1.75;
+      const offset = hasChildren ? 0 : 1.25;
+      setPaddingLeft(`${depth * basePadding + offset}rem`);
+    };
+
+    resize();
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, [depth, hasChildren]);
+
+
+  const clickAction = () => {
+    if (hasChildren) setOpen((prev) => !prev);
+    if (onSelect) onSelect(title);
+  };
+
 
   return (
     <div className={treeItemStyles()}>
@@ -89,10 +92,10 @@ export function ContentTreeItem({
         style={{ paddingLeft }}
         onClick={clickAction}
       >
-        <div
-          className={`flex h-5 w-5 items-center justify-center ${hasChildren ? "" : "hidden"}`}
-        >
-          {hasChildren && (
+        {hasChildren && (
+          <div
+            className={`relative flex h-5 w-5 items-center justify-center`}
+          >
             <div
               className={`transition-transform duration-200 ${
                 open ? "rotate-90" : ""
@@ -100,8 +103,8 @@ export function ContentTreeItem({
             >
               <IconSvg size="sm" icon="arrow_icon" color="black" />
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         <div className={itemRowContentStyles({ selected: isSelected })}>
           <IconSvg icon={icon} color="black" />
@@ -121,7 +124,7 @@ export function ContentTreeItem({
       </div>
 
       {open && hasChildren && (
-        <div className="mt-1 flex flex-wrap">{renderedChildren}</div>
+        <div className="mt-1 flex flex-col">{renderedChildren}</div>
       )}
     </div>
   );
