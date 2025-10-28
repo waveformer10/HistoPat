@@ -20,7 +20,7 @@ const itemRowStyles = tv({
 });
 
 const itemRowContentStyles = tv({
-  base: `flex items-center gap-2 rounded-md !px-1 !py-[1px] hover:bg-(--neutral-100) relative`,
+  base: `relative flex items-center gap-2 rounded-md !px-1 !py-[1px] hover:bg-(--neutral-100)`,
   variants: {
     selected: {
       true: "bg-(--neutral-200)",
@@ -62,7 +62,7 @@ export function ContentTreeItem({
 
   const hasChildren = renderedChildren.length > 0;
   const isSelected = selectedTitle === title;
-  
+
   useEffect(() => {
     const resize = () => {
       const aspectRatio = window.innerWidth / window.innerHeight;
@@ -72,18 +72,17 @@ export function ContentTreeItem({
       const offset = hasChildren ? 0 : 1.25;
       setPaddingLeft(`${depth * basePadding + offset}rem`);
     };
+    console.log("EXECUTOU RESIZE");
 
     resize();
     window.addEventListener("resize", resize);
     return () => window.removeEventListener("resize", resize);
   }, [depth, hasChildren]);
 
-
   const clickAction = () => {
     if (hasChildren) setOpen((prev) => !prev);
     if (onSelect) onSelect(title);
   };
-
 
   return (
     <div className={treeItemStyles()}>
@@ -93,9 +92,7 @@ export function ContentTreeItem({
         onClick={clickAction}
       >
         {hasChildren && (
-          <div
-            className={`relative flex h-5 w-5 items-center justify-center`}
-          >
+          <div className={`relative flex h-5 w-5 items-center justify-center`}>
             <div
               className={`transition-transform duration-200 ${
                 open ? "rotate-90" : ""
