@@ -8,6 +8,7 @@ import { SideBar } from "components/SideBar/SideBar";
 import { SideBarItem } from "components/SideBarItem/SideBarItem";
 
 import { useRouter,usePathname } from "next/navigation";
+import ContentTreePath from "components/ContentTreePath/ContentTreePath";
 
 export default function SideBarExample() {
 
@@ -50,6 +51,7 @@ export default function SideBarExample() {
                     defaultOpen={true}
                     allowAddButton
                     onSelect={(title) => setContent(title)}
+                    onAddClick={() => (null)}
                     selectedTitle={content ?? ""}
                     children={[
                         {
@@ -81,9 +83,10 @@ export default function SideBarExample() {
 
             </SideBar>
             <main className="ml-70 overflow-y-auto">
-                <h1 className="text-4xl font-bold">
-                    {content !== null ? `Conteúdo Selecionado: ${content}` : "Nenhum Conteúdo Selecionado"}
-                </h1>
+                <ContentTreePath 
+                    text="Caminho:"
+                    path={content ? content : "Nenhum item selecionado"}
+                />
                 <Checkbox
                         label="Master"
                         checked={true}
