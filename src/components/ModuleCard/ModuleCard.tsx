@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { tv } from "tailwind-variants";
 import { ModuleCardProps } from "./ModuleCard.types";
+import { useRouter } from "next/navigation";
 
 const moduleCardStyles = tv({
   slots: {
@@ -42,19 +43,22 @@ const moduleCardStyles = tv({
 });
 
 export const ModuleCard: React.FC<ModuleCardProps> = ({
+  id,
   imageSrc,
   title,
   size,
   theme,
 }) => {
+  const router = useRouter();
   const { wrapperSlot, imageWrapperSlot, imageSlot, titleSlot } =
     moduleCardStyles({ size, theme });
 
   return (
-    <div className={wrapperSlot()}>
+    <div className={wrapperSlot()}
+    onClick={() => router.push(`/Modulo/${id}`)}>
       <div className={imageWrapperSlot()}>
         <Image
-          src={imageSrc}
+          src={imageSrc.startsWith("/uploads") ? `http://localhost:5047${imageSrc}` : imageSrc}
           alt={title}
           fill
           className={imageSlot()}
