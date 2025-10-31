@@ -11,4 +11,7 @@ export type ContentTreeItemProps = {
   allowAddButton?: boolean;
   children?: ContentTreeItemProps[];
   jsxChildren?: ReactNode;
+  parentPath?: string;
+  globalDepth?: number;
+  onAddClick?: () => void;
 };
