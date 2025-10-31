@@ -6,7 +6,7 @@ import { tv } from "tailwind-variants";
 const buttonStyles = tv({
   slots: {
     wrapper:
-      "bg-dark-blue hover:bg-dark-blue-80 flex w-full items-center justify-center rounded-sm text-white hover:cursor-pointer",
+      "bg-dark-blue hover:bg-dark-blue-80 flex w-52 items-center justify-center rounded-sm text-white hover:cursor-pointer",
     text: "!py-2.5",
   },
   variants: {

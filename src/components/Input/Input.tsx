@@ -8,13 +8,13 @@ import { IconLib } from "components/IconLib/IconLib";
 const inputStyles = tv({
   slots: {
     wrapperSlot: "flex w-full flex-col gap-1.5",
-    labelSlot: "font-medium text-gray-900",
+    labelSlot: "font-bold text-gray-900",
     wrapperInputSlot:
       "flex w-full flex-row items-center rounded-md border-2 bg-white",
     inputSlot:
-      "flex-1 !px-2.5 !py-2 text-[14px] text-black placeholder-gray-400 outline-none",
-    iconLeft: "!pl-2.5",
-    iconRight: "!pr-2.5 active:opacity-60",
+      "flex-1 px-2.5 py-2 text-[14px] leading-tight text-black placeholder-gray-400 outline-none",
+    iconLeft: "pl-2.5",
+    iconRight: "pr-2.5 active:opacity-60",
   },
   variants: {
     borderColor: {
@@ -86,10 +86,10 @@ export function Input({
           <textarea
             id={label}
             rows={initialRows}
-            maxLength={300}
             className={inputSlot()}
             onFocus={handleFocus}
             disabled={disabled}
+            placeholder={placeholder}
             onBlur={handleBlur}
             value={value}
             onChange={(text) => onChangeValue(text.target.value)}
