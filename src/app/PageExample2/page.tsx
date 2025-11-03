@@ -1,6 +1,9 @@
+"use client";
+
 import { ListCard } from "../../components/ListCard/ListCard";
 import { HighlightCard } from "../../components/HighlightCard/HighlightCard";
 import { Path } from "../../components/Path/Path";
+import ZoomImage from "../../components/ImageZoom/ImageZoom";
 
 export default function page(props: any) {
   return(
@@ -8,6 +11,15 @@ export default function page(props: any) {
     {/*<div >*/}
     {/*  <ListCard onPress={() => { return; }} username={"Lauane Gonzaga e Silva"} userRole={"Administrator"} />*/}
     {/*</div>*/}
+
+      <div>
+        <ZoomImage
+          src="images.jpeg"
+          alt="Imagem de teste"
+          className="w-80 h-60"
+        />
+      </div>
+
 
     <div>
       <HighlightCard title={"Total de Lâminas cadastradas"} value={1080}/>
