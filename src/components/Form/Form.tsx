@@ -61,17 +61,16 @@ export default function Form({ type }: FormProps) {
         value={title}
         onChangeValue={(text) => setTitle(text)}
       />
-      <Input
-        label="Descrição"
-        placeholder="Descrição"
-        multiline
-        initialRows={3}
-        value={description}
-        onChangeValue={(text) => setDescription(text)}
-      />
-
       {type !== "TOPIC" && (
         <>
+          <Input
+            label="Descrição"
+            placeholder="Descrição"
+            multiline
+            initialRows={3}
+            value={description}
+            onChangeValue={(text) => setDescription(text)}
+          />
           <div className={wrapperStyle()}>
             <p className={labelImage()}>Imagem</p>
             <ImagePreview imageSrc="/images.jpeg" fileName="minha-imagem.jpg" />
