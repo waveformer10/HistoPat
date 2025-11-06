@@ -1,6 +1,6 @@
 import { IModuleSave } from "service/@types/module";
+import { apiHistopat } from "service/api/ApiHistopat";
 
-export async function saveModule(props: IModuleSave) {
-  console.log("MODULE");
-  Object.values(props).forEach((item) => console.log(item));
+export async function saveModule(data: IModuleSave) {
+  return await apiHistopat.post("/api/Module", data);
 }

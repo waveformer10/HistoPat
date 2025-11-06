@@ -72,7 +72,6 @@ export function ContentTreeItem({
       const offset = hasChildren ? 0 : 1.25;
       setPaddingLeft(`${depth * basePadding + offset}rem`);
     };
-    console.log("EXECUTOU RESIZE");
 
     resize();
     window.addEventListener("resize", resize);

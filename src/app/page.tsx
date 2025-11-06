@@ -59,6 +59,7 @@ export default function Home() {
             initialRows={2}
             label="Título"
             value={state}
+            errorMessage="Pla"
             onChangeValue={(e) => setState(e)}
           />
 
