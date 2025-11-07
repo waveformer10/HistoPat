@@ -10,13 +10,13 @@ const navbarStyles = tv({
     fixed top-0 left-0 w-full
     flex items-center justify-between
     bg-(--primary-extra-light) text-black
-    h-30 px-1 shadow-md
+    h-24 px-6 shadow-md
     z-30
   `,
 });
 
 const logoStyles = tv({
-  base: "text-lg font-semibold select-none pl-10",
+  base: "flex items-center select-none",
 });
 
 const itemContainerStyles = tv({
@@ -50,16 +50,17 @@ export function Navbar() {
       <nav className={navbarStyles()}>
         <div className={logoStyles()}>
           <img
-            src="/images/logos.png"
+            src="/images/logo_unipam.png"
             alt="logo"
-            className="h-full object-contain"
+            className="h-12 md:h-16 w-auto object-contain ml-6"
           />
         </div>
-        {/* ainda preciso colocar as rotas */}
+
         <div className={itemContainerStyles()}>
           <a className={itemStyles()} href="#">Início</a>
           <a className={itemStyles()} href="#">Log in</a>
         </div>
+
         <button
           onClick={() => setSidebarOpen(true)}
           className="md:hidden p-2 rounded-md hover:bg-(--primary-light)"
@@ -74,13 +75,12 @@ export function Navbar() {
           onClick={() => setSidebarOpen(false)}
         />
       )}
-      {/* preciso editar a sidebar dps pra ficar branca tb */}
+
       {sidebarOpen && (
         <SideBar
           collapsible
           colorNavigation="primary"
           title="Menu"
-          showToggleButton={false}
         >
           <a className={itemStyles()} href="#">Início</a>
           <a className={itemStyles()} href="#">Log in</a>
