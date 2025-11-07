@@ -41,6 +41,16 @@ export default function SideBarExample() {
             }
           }}
         />
+        <SideBarItem
+          icon={"users_icon"}
+          title="Usuarios"
+          selected={false}
+          onClick={() => {
+            if (pathname !== "/Usuarios") {
+              router.push("/Usuarios");
+            }
+          }}
+        />
       </SideBar>
       <SideBar colorNavigation="secondary" title="Estrutura do conteúdo">
         <ContentTreeItem

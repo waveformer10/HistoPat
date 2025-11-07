@@ -1,9 +1,18 @@
-import { ButtonProps } from "../Button/Button.types";
+"use client";
+
+import { useRouter } from "next/navigation";
 import { IconLib } from "../IconLib/IconLib";
 import { ListCardProps } from "./ListCard.types";
 
-
 export function ListCard(props: ListCardProps) {
+  const router = useRouter();
+
+  const handleAction = (action?: string | (() => void)) => {
+    if (!action) return;
+    if (typeof action === "function") return action();
+    router.push(action);
+  };
+
   return (
     <div
       className="
@@ -19,12 +28,14 @@ export function ListCard(props: ListCardProps) {
           {props.username.at(0)}
         </p>
       </div>
-
       <p className="flex items-center justify-center text-center truncate">{props.username}</p>
       <p className="flex items-center justify-center text-center">{props.userRole}</p>
 
       <div className="flex justify-center items-center">
-        <button className="px-3 py-2 hover:cursor-pointer">
+        <button
+          className="px-3 py-2 hover:cursor-pointer"
+          onClick={() => handleAction(props.editAction)}
+        >
           <IconLib
             iconLibName="lu"
             icon="LuPencil"
@@ -36,7 +47,10 @@ export function ListCard(props: ListCardProps) {
       </div>
 
       <div className="flex justify-center items-center">
-        <button className="px-3 py-2 hover:cursor-pointer">
+        <button
+          className="px-3 py-2 hover:cursor-pointer"
+          onClick={() => handleAction(props.deleteAction)}
+        >
           <IconLib
             iconLibName="hi2"
             icon="HiOutlineTrash"
@@ -49,4 +63,3 @@ export function ListCard(props: ListCardProps) {
     </div>
   );
 }
-
