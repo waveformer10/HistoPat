@@ -15,6 +15,14 @@ import { Navbar } from "components/layout/Navbar/Navbar";
 import { Footer } from "components/layout/Footer/Footer";
 import { RouteBar } from "components/RouteBar/RouteBar";
 import Link from "next/link";
+import { findModules } from "service/requests/module/findModules";
+import { findModuleById } from "service/requests/module/findModuleById";
+import { findTopicById } from "service/requests/topic/findTopicById";
+import { findTopicsByModuleId } from "service/requests/topic/findTopicsByModuleId";
+import { findSubTopicById } from "service/requests/subtopic/findSubTopicById";
+import { findSubTopicsByTopicId } from "service/requests/subtopic/findSubTopicsByTopicId";
+import { findSlideById } from "service/requests/slide/findSlideById";
+import { findSlidesBySubTopicId } from "service/requests/slide/findSlidesBySubTopicId";
 
 export default function Home() {
   const [state, setState] = useState("");
@@ -23,6 +31,11 @@ export default function Home() {
   const ROUTEBAR_HEIGHT = 80;
 
   const router = useRouter();
+
+  async function test() {
+    const res = await findSlidesBySubTopicId(2);
+    console.log(res);
+  }
 
   return (
     <>
@@ -63,7 +76,7 @@ export default function Home() {
             onChangeValue={(e) => setState(e)}
           />
 
-          <Button onPress={() => {}} title="Acesse" />
+          <Button onPress={test} title="Acesse" />
 
           <div style={{ width: 1000 }}>
             <Accordion
