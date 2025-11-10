@@ -11,7 +11,7 @@ export default function Home() {
     const [searchTerm, setSearchTerm] = useState("");
 
     return (
-        <div>
+        <div className="min-h-screen flex flex-col bg-white text-gray-900">
             {/* Header */}
             <header className="flex justify-between items-center px-8 py-4 shadow-sm bg-white relative z-10">
                 <div className="flex items-center gap-3 h-20">
@@ -46,16 +46,10 @@ export default function Home() {
 
             <div className="!mx-32 !mt-12">
 
-                <section className=" flex flex-row justify-center w-full gap-16 !mb-16">
-                    <Image className="w-128 h-68 rounded 16px"
-                        src="/images.jpeg"
-                        alt="Logos FEPAM e UNIPAM"
-                        width={160}
-                        height={40}
-                    />
-                    <div className="max-w-128">
-                        <h1 className="text-[32px] font-normal text-gray-800 mb-3">Titulo Modulo</h1>
-                        <p className="text-[24px] font-light text-gray-800 mb-3 !text-justify"> Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</p>
+                <section className=" flex flex-row justify-start w-full gap-16 !mb-32">
+                    <div className="w-full">
+                        <h1 className="text-[32px] font-normal text-gray-800 mb-3">Esteatose</h1>
+                        <p className="text-[24px] font-light text-gray-800 mb-3 !text-justify"> Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</p>
                     </div>
                 </section>
 
@@ -68,12 +62,6 @@ export default function Home() {
                             value={searchTerm}
                             onChangeValue={setSearchTerm}
                         />
-                    </div>
-                </section>
-
-                <section className="!mb-12">
-                    <div className="bg-[#f0f0f0] h-full p-12 justify-center">
-                        <h1 className="text-[28px] font-light text-gray-800 !p-6">FÍGADO</h1>
                     </div>
                 </section>
 

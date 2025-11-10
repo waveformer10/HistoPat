@@ -105,7 +105,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 justify-items-center w-full">
               {filteredModules.map((module) => (
                 <ModuleCard
-                  key={module.id}
+                  id={module.id}
                   imageSrc={module.imageUrl}
                   title={module.title}
                   size="medium"
