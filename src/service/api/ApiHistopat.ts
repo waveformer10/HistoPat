@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const apiHistopat = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_HISTOPAT_API_BASE_URL_LOCAL,
+  baseURL: "http://localhost:5047"
 });
 
 // apiHistopat.interceptors.response.use(

@@ -54,7 +54,7 @@ export const ModuleCard: React.FC<ModuleCardProps> = ({
     <div className={wrapperSlot()}>
       <div className={imageWrapperSlot()}>
         <Image
-          src={imageSrc}
+          src={`http://localhost:5047/uploads/${imageSrc}`}
           alt={title}
           fill
           className={imageSlot()}

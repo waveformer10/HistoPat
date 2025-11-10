@@ -4,18 +4,42 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Input } from "components/Input/Input";
 import { ModuleCard } from "components/ModuleCard/ModuleCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { findModules } from "service/requests/module/findModules";
+import { IModuleFind } from "service/@types/module";
 
 export default function Home() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
+  const [modules, setModules] = useState<IModuleFind[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadModules() {
+      try {
+        const response = await findModules();
+        setModules(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar módulos:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadModules();
+  }, []);
+
+  const filteredModules = modules.filter((module) =>
+    module.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col bg-white text-gray-900">
       {/* Header */}
       <header className="flex justify-between items-center px-8 py-4 shadow-sm bg-white relative z-10">
         <div className="flex items-center gap-3 h-20">
-          <Image className="!m-8"
+          <Image
+            className="!m-8"
             src="/images/logos.png"
             alt="Logos FEPAM e UNIPAM"
             width={160}
@@ -50,9 +74,7 @@ export default function Home() {
 
       {/* Conteúdo pós-banner */}
       <div className="!mx-32 !mt-12">
-
         <section className="flex flex-col justify-center items-start w-full !mb-8">
-          {/* Título e subtítulo alinhados à esquerda */}
           <div className="text-left">
             <h1 className="text-[32px] font-normal text-gray-800 mb-3">
               Bem-vindo ao HistoPat - o atlas de histologia da Unipam
@@ -63,7 +85,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Input alinhado à direita */}
+        {/* Input de busca */}
         <section className="flex flex-col justify-center items-end w-full !mb-8">
           <div>
             <Input
@@ -75,50 +97,48 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Seção dos cards */}
-        <section className="flex flex-col items-center items-start sm:items-center w-full mx-auto !mb-24">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 justify-items-center w-full">
-            <ModuleCard
-              imageSrc="/images.jpeg"
-              title="Módulo de Teste"
-              size="medium"
-              theme="light"
-            />
-            <ModuleCard
-              imageSrc="/images.jpeg"
-              title="Módulo de Teste"
-              size="medium"
-              theme="light"
-            />
-            <ModuleCard
-              imageSrc="/images.jpeg"
-              title="Módulo de Teste"
-              size="medium"
-              theme="light"
-            />
-          </div>
+        {/* Seção dos módulos */}
+        <section className="flex flex-col items-center w-full mx-auto !mb-24">
+          {loading ? (
+            <p className="text-gray-600 text-lg">Carregando módulos...</p>
+          ) : filteredModules.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 justify-items-center w-full">
+              {filteredModules.map((module) => (
+                <ModuleCard
+                  key={module.id}
+                  imageSrc={module.imageUrl}
+                  title={module.title}
+                  size="medium"
+                  theme="light"
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500 text-lg">Nenhum módulo encontrado.</p>
+          )}
         </section>
 
+        {/* Seção microscópio */}
         <section className="flex flex-col justify-center items-start w-full !mb-8">
-          {/* Título e subtítulo alinhados à esquerda */}
           <div className="text-left">
             <h1 className="text-[32px] font-normal text-gray-800 mb-3">
               Microscópio
             </h1>
             <p className="text-[24px] font-light text-gray-600">
-              Entenda a funcionalidade de cada peça do microscópio</p>
+              Entenda a funcionalidade de cada peça do microscópio
+            </p>
           </div>
         </section>
 
         <section className="flex flex-col justify-center items-start w-full !mb-8">
-          <Image className="w-256 h-128 rounded 16px"
+          <Image
+            className="w-256 h-128 rounded-2xl"
             src="/images/microscopioMockup.png"
-            alt="Logos FEPAM e UNIPAM"
+            alt="Microscópio ilustrativo"
             width={380}
             height={80}
           />
         </section>
-
       </div>
 
       {/* Footer */}
