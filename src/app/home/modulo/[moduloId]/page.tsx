@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { Input } from "components/Input/Input";
 import { Accordion } from "components/Accordion/Accordion";
 import { useEffect, useState } from "react";
@@ -12,10 +12,12 @@ import { ISubTopicFind } from "service/@types/subtopic";
 
 export default function Topico() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const moduleId = Number(searchParams.get("moduleId"));
+  const params = useParams();
+  const moduleId = Number(params.moduloId);
   const [searchTerm, setSearchTerm] = useState("");
-  const [accordions, setAccordions] = useState<{ title: string; items: { title: string }[] }[]>([]);
+  const [accordions, setAccordions] = useState<
+    { title: string; items: { title: string }[] }[]
+  >([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,7 +27,6 @@ export default function Topico() {
       try {
         const { data: topics } = await findTopicsByModuleId(moduleId);
 
-        // Para cada tópico, buscar subtópicos
         const accordionsData = await Promise.all(
           topics.map(async (topic: ITopicFind) => {
             const { data: subtopics } = await findSubTopicsByTopicId(topic.id);
@@ -47,7 +48,6 @@ export default function Topico() {
     fetchTopics();
   }, [moduleId]);
 
-  // 🔍 Filtragem dinâmica
   const filteredAccordions = accordions
     .map((acc) => ({
       ...acc,
@@ -63,7 +63,7 @@ export default function Topico() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-gray-900">
-      {/* Header */}
+
       <header className="flex justify-between items-center px-8 py-4 shadow-sm bg-white relative z-10">
         <div className="flex items-center gap-3 h-20">
           <Image
@@ -75,16 +75,10 @@ export default function Topico() {
           />
         </div>
         <nav className="flex gap-6 text-sm text-gray-600 !m-8">
-          <button
-            onClick={() => router.push("/")}
-            className="hover:underline transition"
-          >
+          <button onClick={() => router.push("/")} className="hover:underline transition">
             Início
           </button>
-          <button
-            onClick={() => router.push("/login")}
-            className="hover:underline transition"
-          >
+          <button onClick={() => router.push("/login")} className="hover:underline transition">
             Log in
           </button>
         </nav>
@@ -115,7 +109,6 @@ export default function Topico() {
           </div>
         </section>
 
-        {/* Input alinhado à direita */}
         <section className="flex flex-col justify-center items-end w-full !mb-8">
           <div>
             <Input
@@ -127,20 +120,20 @@ export default function Topico() {
           </div>
         </section>
 
-        {/* Accordions dinâmicos */}
         {loading ? (
           <p className="text-gray-600 text-lg">Carregando tópicos...</p>
         ) : filteredAccordions.length > 0 ? (
-          filteredAccordions.map((acc, index) => (
-            <Accordion key={index} title={acc.title} items={acc.items} />
-          ))
+          <div className="flex flex-col gap-6">
+            {filteredAccordions.map((acc, index) => (
+              <Accordion key={index} title={acc.title} items={acc.items} />
+            ))}
+          </div>
         ) : (
           <p className="text-gray-500 text-lg">Nenhum tópico encontrado.</p>
         )}
       </div>
 
-      {/* Footer */}
-      <footer className="bg-[#26406C] text-white text-center text-sm py-6 mt-auto">
+      <footer className="bg-[#26406C] text-white text-center text-sm py-6 mt-24">
         © 2025 Centro Universitário de Patos de Minas - UNIPAM. Todos os direitos reservados.
       </footer>
     </div>

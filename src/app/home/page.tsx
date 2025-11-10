@@ -35,7 +35,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-gray-900">
-      {/* Header */}
+
       <header className="flex justify-between items-center px-8 py-4 shadow-sm bg-white relative z-10">
         <div className="flex items-center gap-3 h-20">
           <Image
@@ -62,7 +62,6 @@ export default function Home() {
         </nav>
       </header>
 
-      {/* Hero Banner */}
       <section className="relative w-full h-[500px] overflow-hidden">
         <Image
           src="/images/banner.png"
@@ -72,7 +71,6 @@ export default function Home() {
         />
       </section>
 
-      {/* Conteúdo pós-banner */}
       <div className="!mx-32 !mt-12">
         <section className="flex flex-col justify-center items-start w-full !mb-8">
           <div className="text-left">
@@ -85,7 +83,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Input de busca */}
         <section className="flex flex-col justify-center items-end w-full !mb-8">
           <div>
             <Input
@@ -97,7 +94,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Seção dos módulos */}
         <section className="flex flex-col items-center w-full mx-auto !mb-24">
           {loading ? (
             <p className="text-gray-600 text-lg">Carregando módulos...</p>
@@ -105,6 +101,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 justify-items-center w-full">
               {filteredModules.map((module) => (
                 <ModuleCard
+                  key={module.id}
                   id={module.id}
                   imageSrc={module.imageUrl}
                   title={module.title}
@@ -118,7 +115,6 @@ export default function Home() {
           )}
         </section>
 
-        {/* Seção microscópio */}
         <section className="flex flex-col justify-center items-start w-full !mb-8">
           <div className="text-left">
             <h1 className="text-[32px] font-normal text-gray-800 mb-3">
@@ -141,7 +137,6 @@ export default function Home() {
         </section>
       </div>
 
-      {/* Footer */}
       <footer className="bg-[#26406C] text-white text-center text-sm py-6 mt-auto">
         © 2025 Centro Universitário de Patos de Minas - UNIPAM. Todos os direitos reservados.
       </footer>
