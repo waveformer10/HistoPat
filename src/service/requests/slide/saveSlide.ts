@@ -1,6 +1,6 @@
 import { ISlideSave } from "service/@types/slide";
+import { apiHistopat } from "service/api/ApiHistopat";
 
-export async function saveSlide(props: ISlideSave) {
-  console.log("SLIDE");
-  Object.values(props).forEach((item) => console.log(item));
+export async function saveSlide(data: ISlideSave) {
+  return await apiHistopat.post("/api/Slide", data);
 }

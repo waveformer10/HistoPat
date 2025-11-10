@@ -1,8 +1,12 @@
 export interface IBaseEntity {
   title: string;
   description: string;
-  active: boolean;
+  imageUrl?: string;
+}
+
+export interface IBaseEntityGet {
+  id: number;
   createdAt: string;
   lastModified?: string;
-  imageUrl?: string;
+  active: boolean;
 }

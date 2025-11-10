@@ -7,29 +7,19 @@ import { Plus, File } from "lucide-react";
 
 const uploadStyles = tv({
   slots: {
-    wrapper: `
-      flex flex-col items-center justify-start
-      cursor-pointer
-      transition
-      rounded-lg
-      border-2
-      text-[#404040]
-      font-semibold
-      text-[14px]
-      overflow-hidden
-    `,
+    wrapper: `flex cursor-pointer flex-col items-center justify-start overflow-hidden rounded-lg border-2 text-[14px] font-semibold text-[#404040] transition`,
     icon: "!mt-3 text-[#404040]",
-    text: "mt-2 text-[14px] font-semibold text-center break-all",
+    text: "mt-2 text-center text-[14px] font-semibold break-all",
   },
   variants: {
     size: {
-      default: { wrapper: "w-[195px] h-[94px] p-[14px] gap-[2px]" },
-      small: { wrapper: "w-[150px] h-[70px] p-[10px] gap-[1px]" },
-      large: { wrapper: "w-[250px] h-[120px] p-[16px] gap-[3px]" },
+      default: { wrapper: "h-[94px] w-[195px] gap-[2px] p-[14px]" },
+      small: { wrapper: "h-[70px] w-[150px] gap-[1px] p-[10px]" },
+      large: { wrapper: "h-[120px] w-[250px] gap-[3px] p-[16px]" },
     },
     state: {
-      empty: { wrapper: "bg-white border-[#4444444d] hover:bg-gray-50" },
-      filled: { wrapper: "bg-gray-50 border-gray-300" },
+      empty: { wrapper: "border-[#4444444d] bg-white hover:bg-gray-50" },
+      filled: { wrapper: "border-gray-300 bg-gray-50" },
     },
   },
   defaultVariants: {

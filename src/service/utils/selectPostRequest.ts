@@ -18,8 +18,8 @@ type AllEntitySaveTypes = { type: EntityType } & IModuleSave &
   ISubTopicSave &
   ISlideSave;
 
-export async function selectPostRequest(props: AllEntitySaveTypes) {
-  const { type, ...rest } = props;
+export async function selectPostRequest(data: AllEntitySaveTypes) {
+  const { type, ...rest } = data;
 
   const postFunction = postRequestEnum[type];
 

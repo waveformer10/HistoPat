@@ -16,7 +16,7 @@ export default function SideBarExample() {
   const pathname = usePathname();
 
   const [content, setContent] = useState<string | null>(null);
-  const [entityType, setEntityType] = useState<EntityType>("SLIDE");
+  const [entityType, setEntityType] = useState<EntityType>("MODULE");
 
   return (
     <div className="bg-light-gray flex h-screen w-screen flex-1">
@@ -103,7 +103,7 @@ export default function SideBarExample() {
                     checked={true}
                     onChange={(checked) => console.log("Novo estado:", checked)}
                 /> */}
-        <Form type={entityType} />
+        <Form type={entityType} operation="EDITAR" />
       </main>
     </div>
   );

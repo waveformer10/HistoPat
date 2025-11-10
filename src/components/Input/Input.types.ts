@@ -10,4 +10,5 @@ export type InputProps = {
   isSearch?: boolean;
   multiline?: boolean;
   initialRows?: number;
+  errorMessage?: string;
 };

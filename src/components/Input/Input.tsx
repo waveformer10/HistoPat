@@ -7,14 +7,15 @@ import { IconLib } from "components/IconLib/IconLib";
 
 const inputStyles = tv({
   slots: {
-    wrapperSlot: "flex w-full flex-col gap-1.5",
-    labelSlot: "font-bold text-gray-900",
+    wrapperSlot: "flex w-full flex-col",
+    labelSlot: "mb-1.5 font-bold text-gray-900",
     wrapperInputSlot:
       "flex w-full flex-row items-center rounded-md border-2 bg-white",
     inputSlot:
       "flex-1 px-2.5 py-2 text-[14px] leading-tight text-black placeholder-gray-400 outline-none",
     iconLeft: "pl-2.5",
     iconRight: "pr-2.5 active:opacity-60",
+    errorSpan: "mt-0.5 text-[12px] font-medium text-red-500",
   },
   variants: {
     borderColor: {
@@ -37,6 +38,7 @@ export function Input({
   label,
   placeholder,
   value,
+  errorMessage,
   onChangeValue,
 }: InputProps) {
   const [isFocus, setIsFocus] = useState(false);
@@ -49,6 +51,7 @@ export function Input({
     wrapperInputSlot,
     iconLeft,
     iconRight,
+    errorSpan,
   } = inputStyles({
     borderColor: isFocus ? "secondary" : "primary",
   });
@@ -105,6 +108,7 @@ export function Input({
             onFocus={handleFocus}
             onBlur={handleBlur}
             value={value}
+            autoComplete="off"
             onChange={(text) => onChangeValue(text.target.value)}
           />
         )}
@@ -120,6 +124,7 @@ export function Input({
           </button>
         )}
       </div>
+      <span className={errorSpan()}>{errorMessage || ""}</span>
     </div>
   );
 }
