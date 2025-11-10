@@ -1,4 +1,4 @@
-import { IBaseEntity, IBaseEntityGet } from "./base";
+import { IBaseEntity, IBaseEntityGet, IBasePartialEntity } from "./base";
 
 export interface ITopicSave
   extends Omit<IBaseEntity, "imageUrl" | "description"> {}
@@ -9,4 +9,6 @@ export interface ITopicEdit
 
 export interface ITopicFind
   extends Omit<IBaseEntity, "imageUrl" | "description">,
-    IBaseEntityGet {}
+    IBaseEntityGet {
+      SubTopics: IBasePartialEntity
+    }
