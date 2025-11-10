@@ -14,6 +14,15 @@ import { Accordion } from "components/Accordion/Accordion";
 import { Navbar } from "components/layout/Navbar/Navbar";
 import { Footer } from "components/layout/Footer/Footer";
 import { RouteBar } from "components/RouteBar/RouteBar";
+import Link from "next/link";
+import { findModules } from "service/requests/module/findModules";
+import { findModuleById } from "service/requests/module/findModuleById";
+import { findTopicById } from "service/requests/topic/findTopicById";
+import { findTopicsByModuleId } from "service/requests/topic/findTopicsByModuleId";
+import { findSubTopicById } from "service/requests/subtopic/findSubTopicById";
+import { findSubTopicsByTopicId } from "service/requests/subtopic/findSubTopicsByTopicId";
+import { findSlideById } from "service/requests/slide/findSlideById";
+import { findSlidesBySubTopicId } from "service/requests/slide/findSlidesBySubTopicId";
 
 export default function Home() {
   const [state, setState] = useState("");
@@ -23,17 +32,22 @@ export default function Home() {
 
   const router = useRouter();
 
+  async function test() {
+    const res = await findSlidesBySubTopicId(2);
+    console.log(res);
+  }
+
   return (
     <>
       <Navbar />
-      <RouteBar routeText="/teste/texto" title="Esteatose"/>
-      <div 
-        className="flex flex-col min-h-screen bg-amber-900 font-sans"
+      <RouteBar routeText="/teste/texto" title="Esteatose" />
+      <div
+        className="flex min-h-screen flex-col bg-amber-900 font-sans"
         style={{
           paddingTop: `${NAVBAR_HEIGHT + ROUTEBAR_HEIGHT}px`,
         }}
       >
-        <main className="flex-1 flex flex-col items-center gap-8 bg-amber-200 px-8 pt-35 pb-12">
+        <main className="flex flex-1 flex-col items-center gap-8 bg-amber-200 px-8 pt-35 pb-12">
           <Image
             className="dark:invert"
             src="/next.svg"
@@ -58,10 +72,11 @@ export default function Home() {
             initialRows={2}
             label="Título"
             value={state}
+            errorMessage="Pla"
             onChangeValue={(e) => setState(e)}
           />
 
-          <Button onPress={() => { }} title="Acesse" />
+          <Button onPress={test} title="Acesse" />
 
           <div style={{ width: 1000 }}>
             <Accordion
@@ -129,8 +144,10 @@ export default function Home() {
               Read our docs
             </a>
           </div>
+          <Link href={"/PageExample"} title="NAVEGAR">
+            <p>NAVEGAR</p>
+          </Link>
         </main>
-
         <Footer />
       </div>
     </>

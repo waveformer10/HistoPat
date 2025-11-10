@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 
@@ -11,11 +11,11 @@ import { useRouter,usePathname } from "next/navigation";
 import ContentTreePath from "components/ContentTreePath/ContentTreePath";
 
 export default function SideBarExample() {
+  const router = useRouter();
+  const pathname = usePathname();
 
-    const router = useRouter();
-    const pathname = usePathname();
-
-    const [content, setContent] = useState<string | null>(null);
+  const [content, setContent] = useState<string | null>(null);
+  const [entityType, setEntityType] = useState<EntityType>("MODULE");
 
     return (
         <div className="flex h-screen w-screen bg-light-gray">
@@ -96,8 +96,9 @@ export default function SideBarExample() {
                     label="Administrador"
                     checked={true}
                     onChange={(checked) => console.log("Novo estado:", checked)}
-                />
-            </main>
-        </div>
-    )
+                /> */}
+        <Form type={entityType} operation="EDITAR" />
+      </main>
+    </div>
+  );
 }

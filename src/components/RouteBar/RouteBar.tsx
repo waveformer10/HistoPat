@@ -9,14 +9,13 @@ const routeBarStyles = tv({
     w-full
     bg-(--primary-default)
     text-white
-    py-16 px-8
+    h-45
+    px-8
     shadow-sm
-    gap-3
-    flex flex-col
-    justify-center
-    fixed top-[120px]
+    flex items-center justify-between
+    fixed top-24
     z-20
-    transition-transform duration-280 ease-in-out
+    transition-transform duration-300 ease-in-out
   `,
   variants: {
     hidden: {
@@ -26,15 +25,21 @@ const routeBarStyles = tv({
   },
 });
 
+const textContainerStyles = tv({
+  base: `
+    flex flex-col justify-center
+  `,
+});
+
 const routeTextStyles = tv({
   base: `
-    text-xl text-(--neutral-200)
+    text-sm text-(--neutral-200)
   `,
 });
 
 const titleTextStyles = tv({
   base: `
-    text-4xl font-semibold
+    text-2xl font-semibold leading-tight
   `,
 });
 
@@ -58,12 +63,14 @@ export const RouteBar: React.FC<RouteBarProps> = ({
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [setScroll]);
+  }, [scroll]);
 
   return (
     <div className={routeBarStyles({ hidden })}>
-      <p className={routeTextStyles()}>{routeText}</p>
-      <h1 className={titleTextStyles()}>{title}</h1>
+      <div className={textContainerStyles()}>
+        <p className={routeTextStyles()}>{routeText}</p>
+        <h1 className={titleTextStyles()}>{title}</h1>
+      </div>
     </div>
   );
-}
+};

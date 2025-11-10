@@ -21,7 +21,7 @@ const itemRowStyles = tv({
 });
 
 const itemRowContentStyles = tv({
-  base: `flex items-center gap-2 rounded-md !px-1 !py-[1px] hover:bg-(--neutral-100) relative`,
+  base: `relative flex items-center gap-2 rounded-md !px-1 !py-[1px] hover:bg-(--neutral-100)`,
   variants: {
     selected: {
       true: "bg-(--neutral-200)",
@@ -134,9 +134,7 @@ export function ContentTreeItem({
         onClick={clickAction}
       >
         {hasChildren && (
-          <div
-            className={`relative flex h-5 w-5 items-center justify-center`}
-          >
+          <div className={`relative flex h-5 w-5 items-center justify-center`}>
             <div
               className={`transition-transform duration-200 ${
                 open ? "rotate-90" : ""

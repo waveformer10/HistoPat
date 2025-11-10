@@ -13,13 +13,13 @@ const imagePreviewStyles = tv({
     size: {
       default: {},
       small: {
-        imageWrapper: "w-[200px] h-[100px]",
-        image: "w-[200px] h-[100px]",
+        imageWrapper: "h-[100px] w-[200px]",
+        image: "h-[100px] w-[200px]",
         fileName: "text-[14px]",
       },
       large: {
-        imageWrapper: "w-[500px] h-[250px]",
-        image: "w-[500px] h-[250px]",
+        imageWrapper: "h-[250px] w-[500px]",
+        image: "h-[250px] w-[500px]",
         fileName: "text-[18px]",
       },
     },
@@ -29,8 +29,17 @@ const imagePreviewStyles = tv({
   },
 });
 
-export const ImagePreview: React.FC<ImagePreviewProps> = ({ imageSrc, fileName, size }) => {
-  const { wrapper, imageWrapper, image, fileName: fileNameSlot } = imagePreviewStyles({ size });
+export const ImagePreview: React.FC<ImagePreviewProps> = ({
+  imageSrc,
+  fileName,
+  size,
+}) => {
+  const {
+    wrapper,
+    imageWrapper,
+    image,
+    fileName: fileNameSlot,
+  } = imagePreviewStyles({ size });
 
   return (
     <div className={wrapper()}>
