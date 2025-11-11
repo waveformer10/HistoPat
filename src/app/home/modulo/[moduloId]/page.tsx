@@ -22,7 +22,7 @@ export default function Topico() {
   const [searchTerm, setSearchTerm] = useState("");
   const [module, setModule] = useState<IModuleFind | null>(null);
   const [accordions, setAccordions] = useState<
-    { title: string; items: { title: string }[] }[]
+    { title: string; items: { id: number; title: string }[] }[]
   >([]);
   const [loading, setLoading] = useState(true);
 
@@ -42,6 +42,7 @@ export default function Topico() {
             return {
               title: topic.title,
               items: responseSub.data.map((st: ISubTopicFind) => ({
+                id: st.id,
                 title: st.title,
               })),
             };

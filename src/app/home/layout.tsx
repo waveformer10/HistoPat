@@ -15,7 +15,7 @@ export default function HomeLayout({
   return (
     <>
       <Navbar />
-      <main className="flex-1 pt-24">
+      <main className="bg-white flex-1 pt-24 pb-24">
         {children}
       </main>
       <Footer />
