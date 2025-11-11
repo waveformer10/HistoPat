@@ -113,8 +113,7 @@ export default function Home() {
             imageSrc="/images.jpeg"
             title="Módulo de Teste"
             size="large"
-            theme="light"
-          />
+            theme="light" id={0}          />
 
           <ImagePreview imageSrc="/images.jpeg" fileName="minha-imagem.jpg" />
 
