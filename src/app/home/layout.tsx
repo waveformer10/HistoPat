@@ -7,20 +7,18 @@ export const metadata = {
   description: "Atlas de histologia",
 };
 
-export default function RootLayout({
+export default function HomeLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-br">
-      <body className="min-h-screen flex flex-col bg-white text-gray-900">
-        <Navbar />
-        <main className="flex-1 pt-24">
-          {children}
-        </main>
-        <Footer />
-      </body>
-    </html>
+    <>
+      <Navbar />
+      <main className="flex-1 pt-24">
+        {children}
+      </main>
+      <Footer />
+    </>
   );
 }

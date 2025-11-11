@@ -73,7 +73,7 @@ export default function Topico() {
     );
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-gray-900">
+    <div>
 
       <section className="bg-[#26406C] w-full h-full items-center !mb-32">
         <h1 className="text-[32px] font-semibold text-white !p-12">
