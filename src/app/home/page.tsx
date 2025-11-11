@@ -7,6 +7,7 @@ import { ModuleCard } from "components/ModuleCard/ModuleCard";
 import { useEffect, useState } from "react";
 import { findModules } from "service/requests/module/findModules";
 import { IModuleFind } from "service/@types/module";
+import MicroscopeInteractive  from "components/Microscope/Microscope";
 
 export default function Home() {
   const router = useRouter();
@@ -100,14 +101,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="flex flex-col justify-center items-start w-full !mb-8">
-          <Image
-            className="w-256 h-128 rounded-2xl"
-            src="/images/microscopioMockup.png"
-            alt="Microscópio ilustrativo"
-            width={380}
-            height={80}
-          />
+        <section className="flex flex-col justify-center items-center w-full !mb-24">
+          <MicroscopeInteractive />
         </section>
       </div>
 
