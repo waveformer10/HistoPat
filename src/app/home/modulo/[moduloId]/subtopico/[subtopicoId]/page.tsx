@@ -1,65 +1,59 @@
 "use client";
 
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Input } from "components/Input/Input";
 import { useEffect, useState } from "react";
 import { SlideCard } from "components/SlideCard/SlideCard";
+import { RouteBar } from "components/RouteBar/RouteBar";
 
-import { findSubTopicsByTopicId } from "service/requests/subtopic/findSubTopicsByTopicId";
+import { findSubTopicById } from "service/requests/subtopic/findSubTopicById";
+import { findTopicById } from "service/requests/topic/findTopicById";
+import { findModuleById } from "service/requests/module/findModuleById";
 import { findSlidesBySubTopicId } from "service/requests/slide/findSlidesBySubTopicId";
 
 import { ISubTopicFind } from "service/@types/subtopic";
+import { ITopicFind } from "service/@types/topic";
+import { IModuleFind } from "service/@types/module";
 import { ISlideFind } from "service/@types/slide";
 
 export default function SubTopicSlides() {
     const params = useParams();
     const subTopicId = Number(params.subtopicoId);
 
-    console.log("🔹 params:", params);
-    console.log("🔹 subTopicId extraído:", subTopicId);
-
-
     const [searchTerm, setSearchTerm] = useState("");
-    const [subTopic, setSubTopic] = useState<ISubTopicFind | null>(null);
-    const [slides, setSlides] = useState<ISlideFind[]>([]);
     const [loading, setLoading] = useState(true);
+    const [subTopic, setSubTopic] = useState<ISubTopicFind | null>(null);
+    const [topic, setTopic] = useState<ITopicFind | null>(null);
+    const [module, setModule] = useState<IModuleFind | null>(null);
+    const [slides, setSlides] = useState<ISlideFind[]>([]);
 
     useEffect(() => {
         async function loadData() {
-            console.log("▶️ loadData executando...");
-
             try {
-                const responseSub = await findSubTopicsByTopicId(subTopicId);
-                console.log("✅ responseSub:", responseSub);
+                const resSub = await findSubTopicById(subTopicId);
+                const foundSub = resSub?.data;
+                setSubTopic(foundSub);
 
-                console.log("✅ responseSub.data:", responseSub?.data);
+                if (foundSub?.idTopic) {
+                    const resTopic = await findTopicById(foundSub.idTopic);
+                    setTopic(resTopic?.data);
 
-                const found = responseSub?.data?.find(
-                    (item: ISubTopicFind) => item.id === subTopicId
-                );
+                    if (resTopic?.data?.idModule) {
+                        const resModule = await findModuleById(resTopic.data.idModule);
+                        setModule(resModule?.data);
+                    }
+                }
 
-                console.log("🔎 SubTopic encontrado:", found);
-
-                setSubTopic(found ?? null);
-
-                const responseSlides = await findSlidesBySubTopicId(subTopicId);
-                console.log("✅ responseSlides:", responseSlides);
-                console.log("✅ responseSlides.data:", responseSlides?.data);
-
-                setSlides(responseSlides.data ?? []);
+                const resSlides = await findSlidesBySubTopicId(subTopicId);
+                setSlides(resSlides?.data ?? []);
             } catch (error) {
-                console.error("❌ Erro ao buscar dados:", error);
+                console.error("Erro ao carregar dados:", error);
             } finally {
                 setLoading(false);
-                console.log("⏹ Finalizou o loadData");
             }
         }
 
-        if (subTopicId) {
-            loadData();
-        } else {
-            console.warn("⚠️ subTopicId não encontrado!");
-        }
+        if (subTopicId) loadData();
     }, [subTopicId]);
 
     const filteredSlides =
@@ -67,23 +61,14 @@ export default function SubTopicSlides() {
             s.title?.toLowerCase().includes(searchTerm.toLowerCase())
         ) ?? [];
 
-    console.log("📌 subtópico final:", subTopic);
-    console.log("📌 slides finais:", slides);
-    console.log("📌 slides filtrados:", filteredSlides);
-
     return (
         <div>
-            {/* HEADER */}
-            <section className="bg-[#26406C] w-full mb-32 flex items-center">
-                <h1 className="text-3xl font-semibold text-white p-12">
-                    Laminário patológico
-                </h1>
-            </section>
+            <RouteBar
+                routeText={`/${module?.title ?? "Módulo indefinido"}/${topic?.title ?? "Tópico indefinido"}`}
+                title={subTopic?.title ?? "Subtópico"}
+            />
 
-            {/* CONTAINER */}
-            <div className="mx-32 mt-12">
-
-                {/* TÍTULO + DESCRIÇÃO */}
+            <div className="mx-32 mt-56">
                 <section className="flex flex-row justify-start w-full gap-16 mb-32">
                     <div className="w-full">
                         <h1 className="text-3xl font-normal text-gray-800 mb-3">
@@ -96,7 +81,6 @@ export default function SubTopicSlides() {
                     </div>
                 </section>
 
-                {/* INPUT BUSCA */}
                 <section className="flex flex-col justify-center items-end w-full mb-8">
                     <div className="w-full max-w-sm">
                         <Input
@@ -108,7 +92,6 @@ export default function SubTopicSlides() {
                     </div>
                 </section>
 
-                {/* LISTA */}
                 {loading ? (
                     <p className="text-gray-600 text-lg">Carregando lâminas...</p>
                 ) : filteredSlides.length > 0 ? (

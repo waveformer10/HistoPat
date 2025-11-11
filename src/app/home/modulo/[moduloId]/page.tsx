@@ -13,6 +13,7 @@ import { findSubTopicsByTopicId } from "service/requests/subtopic/findSubTopicsB
 import { IModuleFind } from "service/@types/module";
 import { ITopicFind } from "service/@types/topic";
 import { ISubTopicFind } from "service/@types/subtopic";
+import { RouteBar } from "components/RouteBar/RouteBar";
 
 export default function Topico() {
   const router = useRouter();
@@ -76,13 +77,9 @@ export default function Topico() {
   return (
     <div>
 
-      <section className="bg-[#26406C] w-full h-full items-center !mb-32">
-        <h1 className="text-[32px] font-semibold text-white !p-12">
-          {module?.title ?? "Módulo"}
-        </h1>
-      </section>
+      <RouteBar routeText="" title={module?.title ?? "Módulo"} />
 
-      <div className="!mx-32 !mt-12">
+      <div className="!mx-32 !mt-56">
 
         <section className="flex flex-row justify-center w-full gap-16 !mb-16">
 
