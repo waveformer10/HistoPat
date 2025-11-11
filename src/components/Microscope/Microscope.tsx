@@ -10,93 +10,69 @@ type PartInfo = {
 
 const PARTS: { id: string; area: { top: number; left: number; width: number; height: number }; info: PartInfo }[] = [
   {
-    id: "PÉ OU BASE",
-    area: { top: 320, left: 20, width: 160, height: 80 },
+    id: "BASE",
+    area: { top: 300, left: 50, width: 200, height: 100 },
     info: {
-      name: "PÉ OU BASE",
-      description: "Sustenta demais peças."
+      name: "BASE",
+      description: "Sustenta todo o microscópio."
     }
   },
-  {
-    id: "PARAFUSOS MACROMÉTRICO E MICROMÉTRICO",
-    area: { top: 200, left: 180, width: 80, height: 80 },
-    info: {
-      name: "PARAFUSOS MACROMÉTRICO E MICROMÉTRICO",
-      description: "Macrométrico: Permite regular a altura da platina, através de movimentos amplos para um ajuste grosso do foco. Micrométrico: Permite regular a altura da platina, porém é um ajuste fino do foco."
-    }
-  },
-  {
-    id: "CHARRIOT",
-    area: { top: 20, left: 80, width: 100, height: 120 },
-    info: {
-      name: "CHARRIOT",
-      description: "Sua função é permitir o movimento da lâmina sobre a platina."
-    }
-  }
   {
     id: "PLATINA",
-    area: { top: 320, left: 20, width: 160, height: 80 },
+    area: { top: 260, left: 70, width: 180, height: 60 },
     info: {
       name: "PLATINA",
-      description: "Plataforma plana que tem como função suportar o material ou lâmina que está em observação. "
+      description: "Superfície onde o material é colocado."
     }
   },
   {
-    id: "BRAÇO OU COLUNA",
-    area: { top: 200, left: 180, width: 80, height: 80 },
+    id: "BRAÇO / COLUNA",
+    area: { top: 120, left: 220, width: 80, height: 200 },
     info: {
       name: "BRAÇO OU COLUNA",
-      description: "É fixo na base do microscópio e serve de suporte para as demais partes."
+      description: "Suporta as partes superiores do microscópio."
     }
   },
   {
-    id: "REVOLVER",
-    area: { top: 20, left: 80, width: 100, height: 120 },
+    id: "AJUSTE MACRO",
+    area: { top: 160, left: 200, width: 100, height: 80 },
     info: {
-      name: "REVOLVER",
-      description: "Utensílio giratório que acopla as lentes objetivas, modificando o aumento de acordo com o giro."
+      name: "PARAFUSO MACROMÉTRICO",
+      description: "Ajuste grosseiro de foco."
     }
   },
   {
-    id: "TUBO ÓTICO OU CANHÃO",
-    area: { top: 320, left: 20, width: 160, height: 80 },
+    id: "CABO / FONTE DE LUZ",
+    area: { top: 140, left: 150, width: 100, height: 60 },
     info: {
-      name: "TUBO ÓTICO OU CANHÃO",
-      description: "É a estrutura responsável por sustentar as lentes oculares."
+      name: "CABO / ILUMINAÇÃO",
+      description: "Fornece energia ao sistema."
     }
   },
   {
-    id: "FONTE DE LUZ",
-    area: { top: 200, left: 180, width: 80, height: 80 },
+    id: "OBJETIVA",
+    area: { top: 120, left: 100, width: 100, height: 80 },
     info: {
-      name: "FONTE DE LUZ",
-      description: "Responsável pela iluminação que permite a observação ideal de suas amostras, bem como a captura de imagens e análise de dados."
+      name: "LENTES OBJETIVAS",
+      description: "Lentes próximas ao objeto observado."
     }
   },
   {
-    id: "CONDENSADOR E DIAFRAGMA",
-    area: { top: 20, left: 80, width: 100, height: 120 },
+    id: "TUBO ÓTICO",
+    area: { top: 50, left: 120, width: 140, height: 90 },
     info: {
-      name: "CONDENSADOR E DIAFRAGMA",
-      description: "Diafragma: controla tamanho e intensidade do cone de luz que é projetado sobre o objeto. Condensador: controla o foco e posicionamento da luz sobre a amostra analisada. "
+      name: "TUBO ÓTICO",
+      description: "Estrutura que conecta as objetivas às oculares."
     }
   },
   {
-    id: "LENTE OBJETIVA",
-    area: { top: 320, left: 20, width: 160, height: 80 },
+    id: "OCULAR",
+    area: { top: 0, left: 70, width: 200, height: 80 },
     info: {
-      name: "LENTE OBJETIVA",
-      description: "É a lente que fica mais próxima da lâmina e forma uma imagem real do objeto. Apresenta aumentos de: 40x, 100x, 400x e 1000x (necessário óleo de imerção)."
+      name: "LENTES OCULARES",
+      description: "Lentes próximas aos olhos do observador."
     }
-  },
-  {
-    id: "LENTE OCULAR",
-    area: { top: 320, left: 20, width: 160, height: 80 },
-    info: {
-      name: "LENTE OCULAR",
-      description: "É a lente que fica mais próxima do olho e funciona como uma lente de aumento para observar a imagem formada pela objetiva. "
-    }
-  },
+  }
 ];
 
 export default function MicroscopeInteractive() {
@@ -125,16 +101,16 @@ export default function MicroscopeInteractive() {
       </div>
 
       {/* Painel da direita */}
-      <div className="flex items-center justify-center w-[350px] h-[300px] border rounded-lg p-4 bg-gray-50">
+      <div className="flex items-center justify-center w-[550px] h-[500px] border rounded-lg p-4 bg-gray-50">
         {hoveredPart ? (
           <div className="text-center">
-            <h2 className="text-xl font-semibold">{hoveredPart.name}</h2>
+            <h2 className="text-xl text-gray-900 font-semibold">{hoveredPart.name}</h2>
             <p className="text-gray-700 mt-2">{hoveredPart.description}</p>
           </div>
         ) : (
           <div className="flex flex-col items-center text-center opacity-75">
-            <Image src={instructionImg} alt="Passe o cursor" width={220} />
             <p className="mt-3 text-gray-600">Posicione o cursor sobre uma parte do microscópio.</p>
+            <Image src={instructionImg} alt="Passe o cursor" width={320} />
           </div>
         )}
       </div>
