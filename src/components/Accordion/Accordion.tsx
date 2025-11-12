@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { tv } from "tailwind-variants";
 import { AccordionProps } from "./Accordion.types";
 import { useVirtualizer } from "@tanstack/react-virtual";
+import { useRouter, useParams } from "next/navigation";
 
 const accordionStyles = tv({
   slots: {
@@ -20,6 +21,10 @@ const accordionStyles = tv({
 export function Accordion({ title, items }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [titleOverflow, setTitleOverflow] = useState(false);
+
+  const router = useRouter();
+  const params = useParams();
+  const moduloId = params?.moduloId;
 
   const {
     wrapper,
@@ -45,6 +50,11 @@ export function Accordion({ title, items }: AccordionProps) {
 
   function handleOpenClose() {
     setIsOpen((prev) => !prev);
+  }
+
+  function handleNavigate(subtopicoId: number) {
+    if (!moduloId) return console.warn("módulo não encontrado na URL");
+    router.push(`/home/modulo/${moduloId}/subtopico/${subtopicoId}`);
   }
 
   useEffect(() => {
@@ -100,7 +110,13 @@ export function Accordion({ title, items }: AccordionProps) {
                     transform: `translateY(${virtualItem.start}px)`,
                   }}
                 >
-                  <p className={titleStyle()}>{item.title}</p>
+                  <p
+                    className={`${titleStyle()} cursor-pointer hover:text-[#26406C] transition-colors`}
+                    onClick={() => handleNavigate(item.id)}
+                  >
+                    {item.title}
+                  </p>
+
                 </div>
               );
             })}
