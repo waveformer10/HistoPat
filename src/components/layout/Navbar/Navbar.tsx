@@ -9,7 +9,7 @@ const navbarStyles = tv({
   base: `
     fixed top-0 left-0 w-full
     flex items-center justify-between
-    bg-(--primary-extra-light) text-black
+    bg-white text-black
     h-24 px-6 shadow-md
     z-30
   `,
@@ -28,6 +28,7 @@ const itemStyles = tv({
     cursor-pointer select-none
     transition-colors duration-150
     hover:text-(--primary-light)
+    text-sm font-semibold
   `,
 });
 
@@ -52,7 +53,7 @@ export function Navbar() {
           <img
             src="/images/logo_unipam.png"
             alt="logo"
-            className="h-12 md:h-16 w-auto object-contain ml-6"
+            className="h-8 md:h-10 w-auto object-contain ml-6"
           />
         </div>
 

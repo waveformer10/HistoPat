@@ -69,6 +69,7 @@ textarea::-webkit-scrollbar-thumb:hover {
   --foreground: #171717;
 
   /* -- Cor primária -- */
+  --primary-extra-lighter: #F7F9F9;
   --primary-extra-light: #e9eef6;
   --primary-light: #7b93b8;
   --primary-default: #26406c;
