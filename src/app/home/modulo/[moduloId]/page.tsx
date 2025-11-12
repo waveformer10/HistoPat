@@ -30,7 +30,6 @@ export default function Topico() {
   useEffect(() => {
     async function loadData() {
       try {
-
         const responseModule = await findModuleById(moduleId);
         setModule(responseModule.data);
 
@@ -39,7 +38,6 @@ export default function Topico() {
         const accordionsData = await Promise.all(
           responseTopics.data.map(async (topic: ITopicFind) => {
             const responseSub = await findSubTopicsByTopicId(topic.id);
-
             return {
               title: topic.title,
               items: responseSub.data.map((st: ISubTopicFind) => ({
@@ -75,35 +73,38 @@ export default function Topico() {
     );
 
   return (
-    <div>
-
+    <div className="w-full">
       <RouteBar routeText="" title={module?.title ?? "Módulo"} />
 
-      <div className="!mx-32 !mt-56">
+      <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 mt-56 sm:mt-32 md:mt-56">
+        {/* Seção do módulo */}
+        <section className="flex flex-col md:flex-row justify-start items-center md:items-start w-full gap-8 md:gap-16 mb-16">
+          <div className="w-full sm:w-[400px] flex-shrink-0">
+            {module?.imageUrl && (
+              <Image
+                className="rounded-2xl w-full h-auto object-cover shadow-sm"
+                src={`http://localhost:5047/uploads/${module.imageUrl}`}
+                alt={module?.title ?? "Imagem do módulo"}
+                width={400}
+                height={250}
+                priority
+              />
+            )}
+          </div>
 
-        <section className="flex flex-row justify-center w-full gap-16 !mb-16">
-
-          <Image
-            className="w-128 h-68 rounded-2xl"
-            src={`http://localhost:5047/uploads/${module?.imageUrl}`}
-            alt={module?.title ?? "Imagem do módulo"}
-            width={400}
-            height={250}
-          />
-
-          <div className="max-w-128">
-            <h1 className="text-[32px] font-normal text-gray-800 mb-3">
+          <div className="w-full md:max-w-[600px] text-center md:text-left">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 mb-3">
               {module?.title ?? "Título do módulo"}
             </h1>
-
-            <p className="text-[24px] font-light text-gray-800 mb-3 !text-justify">
+            <p className="text-base sm:text-lg md:text-xl font-light text-gray-700 text-justify leading-relaxed">
               {module?.description ?? "Descrição não disponível"}
             </p>
           </div>
         </section>
 
-        <section className="flex flex-col justify-center items-end w-full !mb-8">
-          <div>
+        {/* Campo de busca */}
+        <section className="flex flex-col sm:flex-row justify-center sm:justify-end w-full mb-8">
+          <div className="w-full sm:w-[80%] md:w-[60%] lg:w-[40%]">
             <Input
               isSearch
               placeholder="Buscar tópico ou subtópico"
@@ -113,8 +114,11 @@ export default function Topico() {
           </div>
         </section>
 
+        {/* Acordeões */}
         {loading ? (
-          <p className="text-gray-600 text-lg">Carregando tópicos...</p>
+          <p className="text-gray-600 text-lg text-center sm:text-left">
+            Carregando tópicos...
+          </p>
         ) : filteredAccordions.length > 0 ? (
           <div className="flex flex-col gap-6">
             {filteredAccordions.map((acc, index) => (
@@ -122,10 +126,11 @@ export default function Topico() {
             ))}
           </div>
         ) : (
-          <p className="text-gray-500 text-lg">Nenhum tópico encontrado.</p>
+          <p className="text-gray-500 text-lg text-center sm:text-left">
+            Nenhum tópico encontrado.
+          </p>
         )}
       </div>
-
     </div>
   );
 }

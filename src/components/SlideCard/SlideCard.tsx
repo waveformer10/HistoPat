@@ -7,10 +7,13 @@ import ZoomImage from "components/ImageZoom/ImageZoom";
 const slideCardStyles = tv({
   slots: {
     wrapperSlot:
-      "flex w-full bg-white rounded-xl p-3 gap-4 shadow-sm",
-    contentSlot: "flex flex-col gap-2",
-    titleSlot: "font-semibold text-black text-lg",
-    descriptionSlot: "text-sm text-gray-700",
+      "flex flex-col lg:flex-row w-full bg-white rounded-xl p-4 sm:p-6 lg:p-8 gap-6 lg:gap-8 shadow-md transition-all",
+    contentSlot:
+      "flex flex-col gap-3 sm:gap-4 justify-start w-full text-center lg:text-left",
+    titleSlot:
+      "font-semibold text-black text-lg sm:text-xl lg:text-2xl leading-tight",
+    descriptionSlot:
+      "text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed",
   },
 });
 
@@ -25,9 +28,12 @@ export const SlideCard: React.FC<SlideCardProps> = ({
 
   return (
     <div className={wrapperSlot()}>
-
-      <div className="w-[45%] min-w-[240px] relative">
-        <ZoomImage src={imageSrc} alt={title} className="rounded-lg" />
+      <div className="w-full lg:w-[45%] min-w-[200px] relative">
+        <ZoomImage
+          src={imageSrc}
+          alt={title}
+          className="rounded-lg w-full h-auto object-cover"
+        />
       </div>
 
       <div className={contentSlot()}>
