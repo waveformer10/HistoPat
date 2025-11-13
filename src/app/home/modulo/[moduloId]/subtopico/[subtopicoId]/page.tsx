@@ -68,7 +68,7 @@ export default function SubTopicSlides() {
         title={subTopic?.title ?? "Subtópico"}
       />
 
-      <div className="px-4 sm:px-8 lg:px-32 mt-12 sm:mt-12">
+      <div className="px-8 sm:px-16 md:px-32 lg:px-48 xl:px-64 mt-12 sm:mt-12">
         {/* Descrição do subtópico */}
         <section className="flex flex-col lg:flex-row justify-start w-full gap-8 lg:gap-16 mb-16 lg:mb-16">
           <div className="w-full">

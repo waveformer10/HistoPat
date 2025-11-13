@@ -76,7 +76,7 @@ export default function Topico() {
     <div className="w-full">
       <RouteBar routeText="" title={module?.title ?? "Módulo"} />
 
-      <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 mt-12 sm:mt-24 md:mt-24">
+      <div className="px-8 sm:px-16 md:px-32 lg:px-48 xl:px-64 mt-12 sm:mt-24 md:mt-24">
         {/* Seção do módulo */}
         <section className="flex flex-col md:flex-row justify-start items-center md:items-start w-full gap-8 md:gap-16 mb-16">
           <div className="w-full sm:w-[400px] flex-shrink-0">

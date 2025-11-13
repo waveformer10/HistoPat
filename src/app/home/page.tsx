@@ -49,7 +49,7 @@ export default function Home() {
       </section>
 
       {/* Conteúdo Principal */}
-      <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 mt-8 sm:mt-12">
+      <div className="px-8 sm:px-16 md:px-32 lg:px-48 xl:px-64 mt-8 sm:mt-12">
 
         {/* Texto de Boas-vindas */}
         <section className="flex flex-col lg:flex-row justify-start w-full gap-8 lg:gap-16 mb-12 lg:mb-12">
