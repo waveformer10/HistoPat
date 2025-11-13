@@ -52,13 +52,15 @@ export default function Home() {
       <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 mt-8 sm:mt-12">
 
         {/* Texto de Boas-vindas */}
-        <section className="flex flex-col justify-center items-start w-full mb-8 text-left">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 mb-3">
+        <section className="flex flex-col lg:flex-row justify-start w-full gap-8 lg:gap-16 mb-12 lg:mb-12">
+          <div className="w-full">
+          <h1 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-3 text-center lg:text-left">
             Bem-vindo ao HistoPat — o atlas de histologia da Unipam
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl font-light text-gray-600">
+          <p className="text-base sm:text-lg lg:text-2xl font-light text-gray-800 mb-3 text-center leading-relaxed">
             Explore as lâminas disponíveis na universidade!
           </p>
+          </div>
         </section>
 
         {/* Campo de Busca */}

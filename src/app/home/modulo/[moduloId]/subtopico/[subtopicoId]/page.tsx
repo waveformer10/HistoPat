@@ -68,23 +68,23 @@ export default function SubTopicSlides() {
         title={subTopic?.title ?? "Subtópico"}
       />
 
-      <div className="px-4 sm:px-8 lg:px-32 mt-24 sm:mt-40">
+      <div className="px-4 sm:px-8 lg:px-32 mt-12 sm:mt-12">
         {/* Descrição do subtópico */}
-        <section className="flex flex-col lg:flex-row justify-start w-full gap-8 lg:gap-16 mb-16 lg:mb-32">
+        <section className="flex flex-col lg:flex-row justify-start w-full gap-8 lg:gap-16 mb-16 lg:mb-16">
           <div className="w-full">
             <h1 className="text-2xl sm:text-3xl font-normal text-gray-800 mb-3 text-center lg:text-left">
               {subTopic?.title ?? "Carregando..."}
             </h1>
 
-            <p className="text-base sm:text-lg lg:text-2xl font-light text-gray-800 mb-3 text-justify leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-2xl font-light text-gray-800 mb-3 text-center leading-relaxed">
               {subTopic?.description ?? "Descrição não disponível."}
             </p>
           </div>
         </section>
 
         {/* Campo de busca */}
-        <section className="flex flex-col sm:flex-row justify-center sm:justify-end items-center w-full mb-8">
-          <div className="w-full sm:w-80 max-w-md">
+        <section className="flex flex-col sm:flex-row justify-center sm:justify-end w-full mb-8">
+          <div className="w-full sm:w-[80%] md:w-[60%] lg:w-[40%]">
             <Input
               isSearch
               placeholder="Buscar lâmina"
@@ -100,7 +100,7 @@ export default function SubTopicSlides() {
             Carregando lâminas...
           </p>
         ) : filteredSlides.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
+          <div className="grid gap-6 place-items-center">
             {filteredSlides.map((slide) => (
               <SlideCard
                 key={slide.id}

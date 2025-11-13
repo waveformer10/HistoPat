@@ -13,7 +13,7 @@ const routeBarStyles = tv({
     px-8
     shadow-sm
     flex items-center justify-between
-    fixed top-24
+    relative
     z-20
     transition-transform duration-300 ease-in-out
   `,
