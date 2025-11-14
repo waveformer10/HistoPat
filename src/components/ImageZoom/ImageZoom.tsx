@@ -64,21 +64,25 @@ export default function ZoomImage({ src, alt = "", className = "" }: ZoomImagePr
   return (
     <>
       {/* --- IMAGEM BASE --- */}
-        <div
-          className={`relative group overflow-hidden cursor-pointer rounded-2xl ${className}`}
-          onClick={() => setIsOpen(true)}
-        >
-          <img
-            src={src}
-            alt={alt}
-            className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
-          />
+      <div
+        className={`relative group overflow-hidden cursor-pointer rounded-2xl ${className}`}
+        onClick={() => setIsOpen(true)}
+      >
+        <img
+          src={src}
+          alt={alt}
+          className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+        />
 
-          {/* --- LUPA --- */}
-          <div className="absolute bottom-0 right-0 w-12 h-10 rounded bg-[#26406C] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-            <ZoomIn className="text-white w-5 h-5" />
-          </div>
+        {/* --- LUPA --- */}
+        <div className="absolute bottom-0 right-0 w-22 h-12 rounded bg-[#26406C] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pl-2 pt-1"
+          style={{
+            clipPath: "polygon(25% 16%, 100% 0px, 100% 100%, 0% 100%)",
+          }}>
+
+          <ZoomIn className="text-white w-6 h-6" />
         </div>
+      </div>
 
 
       {/* modal */}

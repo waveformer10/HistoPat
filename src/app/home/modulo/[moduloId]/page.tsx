@@ -96,7 +96,7 @@ export default function Topico() {
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 mb-3">
               {module?.title ?? "Título do módulo"}
             </h1>
-            <p className="text-base sm:text-lg md:text-xl font-light text-gray-700 text-justify leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl font-light text-gray-700 text-center lg:text-left">
               {module?.description ?? "Descrição não disponível"}
             </p>
           </div>
@@ -104,7 +104,7 @@ export default function Topico() {
 
         {/* Campo de busca */}
         <section className="flex flex-col sm:flex-row justify-center sm:justify-end w-full mb-8">
-          <div className="w-full sm:w-[80%] md:w-[60%] lg:w-[40%]">
+          <div className="w-full sm:w-[60%] md:w-[40%] lg:w-[20%]">
             <Input
               isSearch
               placeholder="Buscar tópico ou subtópico"

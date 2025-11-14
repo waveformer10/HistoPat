@@ -76,7 +76,7 @@ export default function SubTopicSlides() {
               {subTopic?.title ?? "Carregando..."}
             </h1>
 
-            <p className="text-base sm:text-lg lg:text-2xl font-light text-gray-800 mb-3 text-center leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-2xl font-light text-gray-800 mb-3 text-center lg:text-left">
               {subTopic?.description ?? "Descrição não disponível."}
             </p>
           </div>
@@ -84,7 +84,7 @@ export default function SubTopicSlides() {
 
         {/* Campo de busca */}
         <section className="flex flex-col sm:flex-row justify-center sm:justify-end w-full mb-8">
-          <div className="w-full sm:w-[80%] md:w-[60%] lg:w-[40%]">
+          <div className="w-full sm:w-[60%] md:w-[40%] lg:w-[20%]">
             <Input
               isSearch
               placeholder="Buscar lâmina"
