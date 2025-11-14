@@ -1,5 +1,6 @@
 export interface ModuleCardProps {
-  imageSrc: string;
+  id: number;
+  imageSrc?: string;
   title: string;
   size?: "small" | "medium" | "large";
   theme?: "light" | "dark";

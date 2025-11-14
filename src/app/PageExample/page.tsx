@@ -6,11 +6,10 @@ import { Checkbox } from "components/Checkbox/Checkbox";
 import { ContentTreeItem } from "components/ContentTreeItem/ContentTreeItem";
 import { SideBar } from "components/SideBar/SideBar";
 import { SideBarItem } from "components/SideBarItem/SideBarItem";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useRouter, usePathname } from "next/navigation";
-import Form from "components/Form/Form";
-import { EntityType } from "components/Form/Form.types";
+import ContentTreePath from "components/ContentTreePath/ContentTreePath";
 import { queryKeys } from "service/@types/queryKeys";
 import { http } from "service/requests/http";
 import { IModuleFind } from "service/@types/module";
@@ -28,12 +27,12 @@ export default function SideBarExample() {
   const [slideSelected, setSlideSelected] = useState<number>();
   const [entityType, setEntityType] = useState<EntityType>("MODULE");
 
-  const {data, isError, isPending, isLoading} = useQuery<IModuleFind[]>({
+  const { data, isError, isPending, isLoading } = useQuery<IModuleFind[]>({
     queryKey: queryKeys.ALL_MODULES,
     queryFn: http.module.findModules,
   })
 
-  const {data: subTopicData, isError: isErrorSubTopic, isPending: isPendingSubTopic, isLoading: isLoadingSubTopic} = useSubTopicsByTopicId(topicSelected);
+  const { data: subTopicData, isError: isErrorSubTopic, isPending: isPendingSubTopic, isLoading: isLoadingSubTopic } = useSubTopicsByTopicId(topicSelected);
 
   console.log("DATA", data);
 
@@ -72,14 +71,14 @@ export default function SideBarExample() {
           })
           return (
             <ContentTreeItem
-            title={item.title}
-            icon="folder_icon"
-            allowAddButton
-            defaultOpen={index === 0}
-            onSelect={(title) => setContent(title)}
-            selectedTitle={content ?? ""}
-            children={[]}
-          />
+              title={item.title}
+              icon="folder_icon"
+              allowAddButton
+              defaultOpen={index === 0}
+              onSelect={(title) => setContent(title)}
+              selectedTitle={content ?? ""}
+              children={[]}
+            />
           )
         })}
         {/* <ContentTreeItem

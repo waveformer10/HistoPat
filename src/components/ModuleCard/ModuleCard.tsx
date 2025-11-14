@@ -1,14 +1,17 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { tv } from "tailwind-variants";
 import { ModuleCardProps } from "./ModuleCard.types";
 
 const moduleCardStyles = tv({
   slots: {
     wrapperSlot: "flex flex-col gap-2 group cursor-pointer w-full",
-    imageWrapperSlot: "relative overflow-hidden rounded-[8px] w-full aspect-[16/9]",
-    imageSlot: "object-cover transition-transform duration-300 ease-in-out group-hover:scale-105",
+    imageWrapperSlot:
+      "relative overflow-hidden rounded-[8px] w-full aspect-[16/9]",
+    imageSlot:
+      "object-cover transition-transform duration-300 ease-in-out group-hover:scale-105",
     titleSlot: "mt-3 text-left font-semibold text-black",
   },
   variants: {
@@ -42,6 +45,7 @@ const moduleCardStyles = tv({
 });
 
 export const ModuleCard: React.FC<ModuleCardProps> = ({
+  id,
   imageSrc,
   title,
   size,
@@ -50,11 +54,17 @@ export const ModuleCard: React.FC<ModuleCardProps> = ({
   const { wrapperSlot, imageWrapperSlot, imageSlot, titleSlot } =
     moduleCardStyles({ size, theme });
 
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/home/modulo/${id}`);
+  };
+
   return (
-    <div className={wrapperSlot()}>
+    <div className={wrapperSlot()} onClick={handleClick}>
       <div className={imageWrapperSlot()}>
         <Image
-          src={imageSrc}
+          src={`http://localhost:5047/uploads/${imageSrc}`}
           alt={title}
           fill
           className={imageSlot()}
