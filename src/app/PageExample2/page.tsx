@@ -14,7 +14,7 @@ export default function page(props: any) {
 
       <div>
         <ZoomImage
-          src="images.jpeg"
+          src="unnamed.jpg"
           alt="Imagem de teste"
           className="w-80 h-60"
         />
