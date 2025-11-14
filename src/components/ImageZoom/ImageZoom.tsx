@@ -63,14 +63,23 @@ export default function ZoomImage({ src, alt = "", className = "" }: ZoomImagePr
 
   return (
     <>
-      {/* preview */}
-      <div className={`relative group cursor-pointer ${className}`} onClick={() => setIsOpen(true)}>
-        <img
-          src={src}
-          alt={alt}
-          className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105 rounded-lg"
-        />
-      </div>
+      {/* --- IMAGEM BASE --- */}
+        <div
+          className={`relative group overflow-hidden cursor-pointer rounded-2xl ${className}`}
+          onClick={() => setIsOpen(true)}
+        >
+          <img
+            src={src}
+            alt={alt}
+            className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+          />
+
+          {/* --- LUPA --- */}
+          <div className="absolute bottom-0 right-0 w-12 h-10 rounded bg-[#26406C] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <ZoomIn className="text-white w-5 h-5" />
+          </div>
+        </div>
+
 
       {/* modal */}
       <AnimatePresence>
