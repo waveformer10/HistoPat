@@ -105,7 +105,7 @@ export default function SubTopicSlides() {
               <SlideCard
                 key={slide.id}
                 id={slide.id}
-                imageSrc={`http://localhost:5047/uploads/${slide.imageUrl}`}
+                imageSrc={slide.imageUrl}
                 title={slide.title}
                 description={slide.description ?? ""}
               />

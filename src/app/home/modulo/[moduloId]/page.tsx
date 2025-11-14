@@ -83,7 +83,7 @@ export default function Topico() {
             {module?.imageUrl && (
               <Image
                 className="rounded-2xl w-full h-auto object-cover shadow-sm"
-                src={`http://localhost:5047/uploads/${module.imageUrl}`}
+                src={module.imageUrl}
                 alt={module?.title ?? "Imagem do módulo"}
                 width={400}
                 height={250}
