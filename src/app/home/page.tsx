@@ -38,15 +38,13 @@ export default function Home() {
     <div className="flex flex-col w-full overflow-hidden">
 
       {/* Banner Responsivo */}
-      <section className="relative w-full h-[250px] sm:h-[400px] md:h-[500px] overflow-hidden">
-        <Image
-          src="/images/banner.png"
-          alt="Microscópio e estudante"
-          fill
-          priority
-          className="object-cover object-center"
-        />
-      </section>
+      <section
+        className="w-full h-[250px] sm:h-[400px] md:h-[500px] bg-no-repeat bg-center overflow-hidden"
+        style={{
+          backgroundImage: "url('/images/banner.png')",
+          backgroundSize: "contain"   // 👈 substitui bg-[length:100%_auto]
+        }}
+      />
 
       {/* Conteúdo Principal */}
       <div className="px-8 sm:px-16 md:px-32 lg:px-48 xl:px-64 mt-8 sm:mt-12">
@@ -54,21 +52,21 @@ export default function Home() {
         {/* Texto de Boas-vindas */}
         <section className="flex flex-col lg:flex-row justify-start w-full gap-8 lg:gap-16 mb-12 lg:mb-12">
           <div className="w-full">
-          <h1 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-3 text-center lg:text-left">
-            Bem-vindo ao HistoPat — o atlas de histologia da Unipam
-          </h1>
-          <p className="text-base sm:text-lg lg:text-2xl font-light text-gray-800 mb-3 text-center leading-relaxed">
-            Explore as lâminas disponíveis na universidade!
-          </p>
+            <h1 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-3 text-center lg:text-left">
+              Bem-vindo ao HistoPat — o atlas de histologia da Unipam
+            </h1>
+            <p className="text-base sm:text-lg lg:text-2xl font-light text-gray-800 mb-3 text-center lg:text-left">
+              Explore as lâminas disponíveis na universidade!
+            </p>
           </div>
         </section>
 
         {/* Campo de Busca */}
         <section className="flex flex-col sm:flex-row justify-end w-full mb-8">
-          <div className="w-full sm:w-[60%] md:w-[40%]">
+          <div className="w-full sm:w-[60%] md:w-[40%] lg:w-[20%]">
             <Input
               isSearch
-              placeholder="Buscar aqui"
+              placeholder="Buscar módulo"
               value={searchTerm}
               onChangeValue={setSearchTerm}
             />
