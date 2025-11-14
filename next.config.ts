@@ -4,10 +4,9 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "localhost",
-        port: "5047",
-        pathname: "/uploads/**",
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/histopat/image/upload/**",
       },
     ],
   },

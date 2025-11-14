@@ -17,99 +17,106 @@ import { IModuleFind } from "service/@types/module";
 import { ISlideFind } from "service/@types/slide";
 
 export default function SubTopicSlides() {
-    const params = useParams();
-    const subTopicId = Number(params.subtopicoId);
+  const params = useParams();
+  const subTopicId = Number(params.subtopicoId);
 
-    const [searchTerm, setSearchTerm] = useState("");
-    const [loading, setLoading] = useState(true);
-    const [subTopic, setSubTopic] = useState<ISubTopicFind | null>(null);
-    const [topic, setTopic] = useState<ITopicFind | null>(null);
-    const [module, setModule] = useState<IModuleFind | null>(null);
-    const [slides, setSlides] = useState<ISlideFind[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [subTopic, setSubTopic] = useState<ISubTopicFind | null>(null);
+  const [topic, setTopic] = useState<ITopicFind | null>(null);
+  const [module, setModule] = useState<IModuleFind | null>(null);
+  const [slides, setSlides] = useState<ISlideFind[]>([]);
 
-    useEffect(() => {
-        async function loadData() {
-            try {
-                const resSub = await findSubTopicById(subTopicId);
-                const foundSub = resSub?.data;
-                setSubTopic(foundSub);
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const resSub = await findSubTopicById(subTopicId);
+        const foundSub = resSub?.data;
+        setSubTopic(foundSub);
 
-                if (foundSub?.idTopic) {
-                    const resTopic = await findTopicById(foundSub.idTopic);
-                    setTopic(resTopic?.data);
+        if (foundSub?.idTopic) {
+          const resTopic = await findTopicById(foundSub.idTopic);
+          setTopic(resTopic?.data);
 
-                    if (resTopic?.data?.idModule) {
-                        const resModule = await findModuleById(resTopic.data.idModule);
-                        setModule(resModule?.data);
-                    }
-                }
-
-                const resSlides = await findSlidesBySubTopicId(subTopicId);
-                setSlides(resSlides?.data ?? []);
-            } catch (error) {
-                console.error("Erro ao carregar dados:", error);
-            } finally {
-                setLoading(false);
-            }
+          if (resTopic?.data?.idModule) {
+            const resModule = await findModuleById(resTopic.data.idModule);
+            setModule(resModule?.data);
+          }
         }
 
-        if (subTopicId) loadData();
-    }, [subTopicId]);
+        const resSlides = await findSlidesBySubTopicId(subTopicId);
+        setSlides(resSlides?.data ?? []);
+      } catch (error) {
+        console.error("Erro ao carregar dados:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
 
-    const filteredSlides =
-        slides?.filter((s) =>
-            s.title?.toLowerCase().includes(searchTerm.toLowerCase())
-        ) ?? [];
+    if (subTopicId) loadData();
+  }, [subTopicId]);
 
-    return (
-        <div>
-            <RouteBar
-                routeText={`/${module?.title ?? "Módulo indefinido"}/${topic?.title ?? "Tópico indefinido"}`}
-                title={subTopic?.title ?? "Subtópico"}
+  const filteredSlides =
+    slides?.filter((s) =>
+      s.title?.toLowerCase().includes(searchTerm.toLowerCase())
+    ) ?? [];
+
+  return (
+    <div className="flex flex-col">
+      <RouteBar
+        routeText={`/${module?.title ?? "Módulo indefinido"}/${topic?.title ?? "Tópico indefinido"}`}
+        title={subTopic?.title ?? "Subtópico"}
+      />
+
+      <div className="px-8 sm:px-16 md:px-32 lg:px-48 xl:px-64 mt-12 sm:mt-12">
+        {/* Descrição do subtópico */}
+        <section className="flex flex-col lg:flex-row justify-start w-full gap-8 lg:gap-16 mb-16 lg:mb-16">
+          <div className="w-full">
+            <h1 className="text-2xl sm:text-3xl font-normal text-gray-800 mb-3 text-center lg:text-left">
+              {subTopic?.title ?? "Carregando..."}
+            </h1>
+
+            <p className="text-base sm:text-lg lg:text-2xl font-light text-gray-800 mb-3 text-center leading-relaxed">
+              {subTopic?.description ?? "Descrição não disponível."}
+            </p>
+          </div>
+        </section>
+
+        {/* Campo de busca */}
+        <section className="flex flex-col sm:flex-row justify-center sm:justify-end w-full mb-8">
+          <div className="w-full sm:w-[80%] md:w-[60%] lg:w-[40%]">
+            <Input
+              isSearch
+              placeholder="Buscar lâmina"
+              value={searchTerm}
+              onChangeValue={setSearchTerm}
             />
+          </div>
+        </section>
 
-            <div className="mx-32 mt-56">
-                <section className="flex flex-row justify-start w-full gap-16 mb-32">
-                    <div className="w-full">
-                        <h1 className="text-3xl font-normal text-gray-800 mb-3">
-                            {subTopic?.title ?? "Carregando..."}
-                        </h1>
-
-                        <p className="text-2xl font-light text-gray-800 mb-3 text-justify">
-                            {subTopic?.description ?? "Descrição não disponível."}
-                        </p>
-                    </div>
-                </section>
-
-                <section className="flex flex-col justify-center items-end w-full mb-8">
-                    <div className="w-full max-w-sm">
-                        <Input
-                            isSearch
-                            placeholder="Buscar lâmina"
-                            value={searchTerm}
-                            onChangeValue={setSearchTerm}
-                        />
-                    </div>
-                </section>
-
-                {loading ? (
-                    <p className="text-gray-600 text-lg">Carregando lâminas...</p>
-                ) : filteredSlides.length > 0 ? (
-                    <div className="grid grid-cols-2 gap-6">
-                        {filteredSlides.map((slide) => (
-                            <SlideCard
-                                key={slide.id}
-                                id={slide.id}
-                                imageSrc={`http://localhost:5047/uploads/${slide.imageUrl}`}
-                                title={slide.title}
-                                description={slide.description ?? ""}
-                            />
-                        ))}
-                    </div>
-                ) : (
-                    <p className="text-gray-500 text-lg">Nenhuma lâmina encontrada.</p>
-                )}
-            </div>
-        </div>
-    );
+        {/* Lista de lâminas */}
+        {loading ? (
+          <p className="text-gray-600 text-center text-lg">
+            Carregando lâminas...
+          </p>
+        ) : filteredSlides.length > 0 ? (
+          <div className="grid gap-6 place-items-center">
+            {filteredSlides.map((slide) => (
+              <SlideCard
+                key={slide.id}
+                id={slide.id}
+                imageSrc={slide.imageUrl}
+                title={slide.title}
+                description={slide.description ?? ""}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-500 text-center text-lg">
+            Nenhuma lâmina encontrada.
+          </p>
+        )}
+      </div>
+    </div>
+  );
 }

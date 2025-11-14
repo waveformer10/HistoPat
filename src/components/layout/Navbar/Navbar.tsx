@@ -66,7 +66,7 @@ export function Navbar() {
           onClick={() => setSidebarOpen(true)}
           className="md:hidden p-2 rounded-md hover:bg-(--primary-light)"
         >
-          <IconSvg icon="menu_icon" size="lg" />
+          <IconSvg icon="menu_icon" size="lg" color="var(--primary-default)" />
         </button>
       </nav>
 
