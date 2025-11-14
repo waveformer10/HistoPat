@@ -60,11 +60,13 @@ export const ModuleCard: React.FC<ModuleCardProps> = ({
     router.push(`/home/modulo/${id}`);
   };
 
+  console.log("IMAGE SRC =>", imageSrc);
+
   return (
     <div className={wrapperSlot()} onClick={handleClick}>
       <div className={imageWrapperSlot()}>
         <Image
-          src={`http://localhost:5047/uploads/${imageSrc}`}
+          src={imageSrc}
           alt={title}
           fill
           className={imageSlot()}
