@@ -7,7 +7,7 @@ import { SideBarItemProps } from "./SideBarItem.types";
 import { IconSvg } from "components/IconSvg/IconSvg";
 
 const sideBarItemStyles = tv({
-  base: `flex h-10 w-full flex-row items-center justify-start overflow-hidden bg-(--primary-default) !px-5 hover:cursor-pointer hover:bg-(--neutral-white)/20`,
+  base: `flex py-1 w-full flex-row items-center justify-start overflow-hidden bg-(--primary-default) !px-5 hover:cursor-pointer hover:bg-(--neutral-white)/20`,
   variants: {
     selected: {
       true: "border-l-2 border-(--secondary-default) bg-(--neutral-white)/40 hover:bg-(--neutral-white)/40",
@@ -66,9 +66,7 @@ export function SideBarItem({
       }}
     >
       {icon && (
-        <div className="flex h-6 w-6 items-center justify-center">
-          <IconSvg size="md" icon={icon} color="white" />
-        </div>
+        <IconSvg size="md" icon={icon} color="white" />
       )}
       {!hideText && title && (
         <span className="overflow-hidden !px-2 text-left whitespace-nowrap text-(--neutral-white)">

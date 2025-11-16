@@ -4,6 +4,7 @@ import { useState } from "react";
 import { UploadProps } from "./ImageUpload.types";
 import { tv } from "tailwind-variants";
 import { Plus, File } from "lucide-react";
+import toast from "react-hot-toast";
 
 const uploadStyles = tv({
   slots: {
@@ -33,10 +34,28 @@ export function ImageUpload({ onChange }: UploadProps) {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setFileName(file.name);
-      onChange(file);
+
+    if (!file) {
+      toast.error("Nenhuma imagem selecionada", {
+        position: "bottom-right",
+      });
+
+      return;
     }
+
+    const imageSizeInMB = (file.size / (1024)) / 1024;
+
+    if (imageSizeInMB > 1) {
+      toast.error("A imagem é maior que 1MB", {
+        position: "bottom-right",
+      });
+
+      return;
+    }
+
+    setFileName(file.name);
+    onChange(file);
+
   };
 
   const { wrapper, icon, text } = uploadStyles({

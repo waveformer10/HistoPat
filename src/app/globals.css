@@ -13,7 +13,8 @@
 
 @layer components {
   .custom-scrollbar::-webkit-scrollbar {
-    width: 10px;
+    width: 6px;
+    height: 6px;
     background-color: var(--color-gray-300);
     border-radius: 4px;
   }

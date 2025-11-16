@@ -1,17 +1,36 @@
+import { EntityType } from "components/Form/Form.types";
 import { IconSvgName } from "../IconSvg/IconSvg.types";
 import { ReactNode } from "react";
+import { IModuleFind } from "service/@types/module";
+import { ITopicFind } from "service/@types/topic";
+import { ISubTopicFind } from "service/@types/subtopic";
+import { ISlideFind } from "service/@types/slide";
+import { SelectedEntityType } from "store/appState";
+
+export type AllEntityFindTypes = IModuleFind & ITopicFind & ISubTopicFind & ISlideFind;
+
+export const entityTypeIconEnum: Record<EntityType, IconSvgName> = {
+  MODULE: "folder_icon",
+  TOPIC: "list_icon",
+  SUBTOPIC: "collection_icon",
+  SLIDE: "file_icon"
+}
+
+export const nextEntityType: Record<EntityType, EntityType> = {
+  MODULE: "TOPIC",
+  TOPIC: "SUBTOPIC",
+  SUBTOPIC: "SLIDE",
+  SLIDE: "SLIDE"
+}
 
 export type ContentTreeItemProps = {
-  title: string;
-  icon?: IconSvgName;
   defaultOpen?: boolean;
   depth?: number;
-  onSelect?: (title: string) => void;
-  selectedTitle?: string;
+  entityType: EntityType;
+  entityData: AllEntityFindTypes;
   allowAddButton?: boolean;
-  children?: ContentTreeItemProps[];
   jsxChildren?: ReactNode;
-  parentPath?: string;
-  globalDepth?: number;
-  onAddClick?: () => void;
+  parentPath: string;
+  parentId?: number;
+  parentEntityType?: EntityType;
 };

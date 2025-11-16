@@ -5,13 +5,13 @@ import { Button } from "components/Button/Button";
 import { ImagePreview } from "components/ImagePreview/ImagePreview";
 import { ImageUpload } from "components/ImageUpload/ImageUpload";
 import { Input } from "components/Input/Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { saveImage } from "service/requests/image/saveImage";
 import { tv } from "tailwind-variants";
 import {
   EntityTitleEnum,
   EntityType,
-  FormProps,
+  FormStateType,
   OperationTitleEnum,
   ValidateErrorsType,
 } from "./Form.types";
@@ -20,55 +20,90 @@ import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { selectEditRequest } from "service/utils/selectPutRequest";
 import { selectDeleteRequest } from "service/utils/selectDeleteRequest";
+import { appState } from "store/appState";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "service/@types/queryKeys";
+import { http } from "service/requests/http";
+import { IconLib } from "components/IconLib/IconLib";
 
 const formStyles = tv({
   slots: {
     wrapper:
-      "bg-form-background flex h-full w-full flex-1 flex-col items-start justify-center gap-4 px-52 py-2.5",
+      "bg-form-background flex h-full w-full flex-1 flex-col items-start justify-center gap-4 px-11 py-2.5 overflow-auto relative",
     titleSlot: "mb-2.5 self-center text-2xl font-bold text-gray-900",
     labelImage: "font-bold text-gray-900",
     wrapperStyle: "flex flex-col items-start gap-3",
     wrapperButtons: "flex w-1/3 flex-row items-center gap-2.5",
+    pathSlot: "flex flex-row gap-0.5 flex-wrap",
+    titlePath: "font-bold text-gray-900",
+    normalPath: "font-normal text-gray-500",
+
+    wrapperModal: "absolute inset-0 bg-black/50 flex items-center justify-center",
+    modalContent: "flex flex-col bg-form-background p-4 rounded-[4px] gap-5 max-w-2/4",
+    wrapperRowModal: "flex flex-row items-center justify-center gap-3",
+
+    wrapperDeleted: "bg-form-background flex h-full w-full flex-1 flex-col gap-2.5 items-center justify-center",
+    titleDeleted: "text-gray-900 font-normal"
   },
 });
 
-async function handleSaveImage() {
-  try {
-    const imageUrl = saveImage();
-    return imageUrl;
-  } catch (error) {}
-}
-
-export default function Form({ type, operation }: FormProps) {
-  const { titleSlot, wrapper, wrapperStyle, wrapperButtons, labelImage } =
+export default function Form() {
+  const { titleSlot, wrapper, wrapperStyle, wrapperButtons, labelImage, normalPath, pathSlot, titlePath, wrapperRowModal, modalContent, wrapperModal, titleDeleted, wrapperDeleted } =
     formStyles();
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [imageUrl, setImageUrl] = useState("dasdasd");
+  const [formState, setFormState] = useState<FormStateType>({
+    title: "",
+    description: "",
+    imageUrl: "",
+  })
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
+
+  const queryClient = useQueryClient();
+
+  const selectedEntity = appState((state) => state.selectedEntity);
+  const entityForm = appState((state) => state.entityForm);
+  const path = appState((state) => state.path);
+  const idParentEntityToSave = appState((state) => state.idParentEntityToSave);
+  const setcloseParentOf = appState((state) => state.setcloseParentOf);
 
   const [validateErrors, setValidateErrors] = useState<ValidateErrorsType>({});
 
   async function handleSaveSubmit() {
     try {
-      const res = await selectPostRequest({
-        type,
-        description: description,
-        imageUrl: imageUrl,
-        title: title,
+      const imageUrl = await handleUploadImage();
+
+      if (!imageUrl) return;
+
+      await selectPostRequest({
+        type: entityForm.entityType,
+        description: formState.description,
+        imageUrl,
+        title: formState.title,
+        idParentEntity: idParentEntityToSave ? idParentEntityToSave : 0,
       });
 
-      console.log("REQUISIÇÂO BEM SUCEDIDA", res);
+      setFormState(prev => ({
+        ...prev,
+        imageUrl
+      }))
+
       setValidateErrors({});
+
       toast.success("Item cadastrado", {
         position: "bottom-right",
       });
+
+      setcloseParentOf(idParentEntityToSave);
+
     } catch (error) {
       if (error && error instanceof AxiosError) {
         if (
           error.status === 400 &&
           error.response?.data.title ===
-            "One or more validation errors occurred."
+          "One or more validation errors occurred."
         ) {
           setValidateErrors(error.response.data.errors);
           return;
@@ -76,99 +111,220 @@ export default function Form({ type, operation }: FormProps) {
       }
 
       console.log("ERRO DESCONHECIDO", error);
+      toast.error("Falha ao salvar o item", {
+        position: "bottom-right",
+      });
     }
   }
 
   async function handleEditSubmit() {
     try {
-      const res = await selectEditRequest({
-        id: 2,
-        description,
-        title,
-        type,
-        imageUrl,
+      if (!formState.id) {
+        toast.error("Não foi possível editar o item", {
+          position: "bottom-right",
+        });
+        return;
+      }
+
+      let imageUrl;
+
+      if (selectedImage) {
+        imageUrl = await handleUploadImage();
+
+        if (!imageUrl) return;
+      }
+
+      await selectEditRequest({
+        id: formState.id,
+        description: formState.description,
+        title: formState.title,
+        type: entityForm.entityType,
+        imageUrl: imageUrl ? imageUrl : formState.imageUrl
       });
 
-      console.log("REQUISIÇÂO BEM SUCEDIDA", res);
+      if (imageUrl) {
+        setFormState(prev => ({
+          ...prev,
+          imageUrl
+        }))
+      }
+
       setValidateErrors({});
       toast.success("Item alterado", {
         position: "bottom-right",
       });
+
+      setcloseParentOf(selectedEntity.parentId);
     } catch (error) {
       if (error && error instanceof AxiosError) {
         if (
           error.status === 400 &&
           error.response?.data.title ===
-            "One or more validation errors occurred."
+          "One or more validation errors occurred."
         ) {
           setValidateErrors(error.response.data.errors);
           return;
         }
       }
       console.log("ERRO DESCONHECIDO", error);
+      toast.error("Falha ao editar o item", {
+        position: "bottom-right",
+      });
     }
   }
 
   async function handleDeleteSubmit() {
     try {
-      const res = await selectDeleteRequest(type, 2);
+      await selectDeleteRequest(entityForm.entityType, selectedEntity.id);
 
-      console.log("REQUISIÇÂO BEM SUCEDIDA", res);
       toast.success("Item removido", {
         position: "bottom-right",
       });
+
+      setIsDeleted(true);
+
+      setcloseParentOf(selectedEntity.parentId);
+
     } catch (error) {
       if (error && error instanceof AxiosError) {
         if (
           error.status === 400 &&
           error.response?.data.title ===
-            "One or more validation errors occurred."
+          "One or more validation errors occurred."
         ) {
           setValidateErrors(error.response.data.errors);
           return;
         }
       }
       console.log("ERRO DESCONHECIDO", error);
+      toast.error("Falha ao excluir o item", {
+        position: "bottom-right",
+      });
     }
+  }
+
+  async function handleUploadImage() {
+    try {
+      if (!selectedImage) {
+        toast.error("Selecione uma imagem", {
+          position: "bottom-right",
+        });
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", selectedImage);
+      formData.append("customFileName", `${entityForm.entityType}-${selectedEntity.id}`);
+
+      const imageUrl = await http.image.saveImage(formData);
+
+      return imageUrl;
+    } catch (error) {
+      toast.error("Falha no upload da imagem", {
+        position: "bottom-right",
+      });
+    }
+
+  }
+
+  useEffect(() => {
+    if (Object.keys(selectedEntity).length > 1 && entityForm.operation === "EDITAR") {
+      setFormState({
+        description: selectedEntity.description,
+        imageUrl: selectedEntity?.imageUrl ? selectedEntity.imageUrl : "",
+        title: selectedEntity.title,
+        id: selectedEntity.id
+      })
+    } else {
+      setFormState({
+        description: "",
+        imageUrl: "",
+        title: "",
+      })
+    }
+
+    setIsDeleted(false);
+  }, [selectedEntity])
+
+  if (isDeleted) {
+    return (
+      <div className={wrapperDeleted()}>
+        <IconLib
+          iconLibName="md"
+          icon="MdDeleteForever"
+          color="var(--color-red-500)"
+          size={30}
+        />
+        <p className={titleDeleted()}>O item foi removido.</p>
+      </div>
+
+    );
   }
 
   return (
     <div className={wrapper()}>
+      {isOpenModal && <div className={wrapperModal()}>
+        <div className={modalContent()}>
+          <p className="text-black text-center">Tem certeza de que deseja excluir o item {EntityTitleEnum[entityForm.entityType]}? <br /> A exclusão também removerá todos os subitens vinculados a ele de forma permanente.</p>
+          <div className={wrapperRowModal()}>
+            <Button
+              onPress={() => {
+                setIsOpenModal(false);
+                handleDeleteSubmit();
+              }}
+              title="Sim"
+              variant="secondary"
+            />
+            <Button
+              onPress={() => { setIsOpenModal(false) }}
+              title="Não"
+            />
+          </div>
+        </div>
+      </div>}
       <p className={titleSlot()}>
-        {OperationTitleEnum[operation]} {EntityTitleEnum[type]}
+        {OperationTitleEnum[entityForm.operation]} {EntityTitleEnum[entityForm.entityType]}
       </p>
+      <div className={pathSlot()}>
+        <p className={titlePath()}>Caminho: </p>
+        <p className={normalPath()}>{path}</p>
+      </div>
       <Input
         label="Título"
         placeholder="Título"
-        value={title}
-        onChangeValue={(text) => setTitle(text)}
+        value={formState.title}
+        onChangeValue={(text) => setFormState(prev => ({
+          ...prev, title: text
+        }))}
         errorMessage={validateErrors.Title?.[0]}
       />
-      {type !== "TOPIC" && (
+      {entityForm.entityType !== "TOPIC" && (
         <>
           <Input
             label="Descrição"
             placeholder="Descrição"
             multiline
             initialRows={3}
-            value={description}
-            onChangeValue={(text) => setDescription(text)}
+            value={formState.description}
+            onChangeValue={(text) => setFormState(prev => ({
+              ...prev, description: text
+            }))}
             errorMessage={validateErrors.Description?.[0]}
           />
-          {imageUrl && (
+          {formState.imageUrl && (
             <div className={wrapperStyle()}>
               <p className={labelImage()}>Imagem</p>
               <ImagePreview
-                imageSrc="/images.jpeg"
-                fileName="minha-imagem.jpg"
+                imageSrc={formState.imageUrl}
+                fileName="imagem-inválida.jpg"
                 size="small"
               />
             </div>
           )}
           <div className={wrapperStyle()}>
-            <Badge text="tamanho permitido (9000kb)" variant="primary" />
+            <Badge text="Tamanho permitido (1MB)" variant="primary" />
             <ImageUpload
-              onChange={(file) => console.log("Imagem selecionada:", file)}
+              onChange={(file) => setSelectedImage(file)}
             />
           </div>
         </>
@@ -176,9 +332,9 @@ export default function Form({ type, operation }: FormProps) {
       <div className={wrapperButtons()}>
         <Button
           title="Salvar"
-          onPress={operation === "SALVAR" ? handleSaveSubmit : handleEditSubmit}
+          onPress={entityForm.operation === "SALVAR" ? handleSaveSubmit : handleEditSubmit}
         />
-        <Button title="Excluir" onPress={() => {}} />
+        <Button title="Excluir" onPress={() => setIsOpenModal(true)} />
       </div>
     </div>
   );

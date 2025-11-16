@@ -1,3 +1,4 @@
+import { saveImage } from "./image/saveImage";
 import { deleteModule } from "./module/deleteModule";
 import { editModule } from "./module/editModule";
 import { findModuleById } from "./module/findModuleById";
@@ -48,4 +49,7 @@ export const http = {
     findSlideById,
     findSlidesBySubTopicId
   },
+  image: {
+    saveImage
+  }
 };
