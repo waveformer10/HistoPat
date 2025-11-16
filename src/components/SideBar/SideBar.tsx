@@ -115,11 +115,11 @@ export function SideBar({
               </div>
             )}
             {title && (
-              <h1
-                className={`px-5 py-6 text-${colorText} text-sm font-normal`}
+              <p
+                className={`px-5 py-6 text-${colorText} text-[20px] font-normal`}
               >
                 {title}
-              </h1>
+              </p>
             )}
           </div>
           <div className="flex h-full w-full flex-col overflow-auto bg-inherit custom-scrollbar" ref={sideBarRef}>

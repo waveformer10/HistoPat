@@ -24,6 +24,7 @@ import { appState } from "store/appState";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "service/@types/queryKeys";
 import { http } from "service/requests/http";
+import { IconLib } from "components/IconLib/IconLib";
 
 const formStyles = tv({
   slots: {
@@ -39,12 +40,15 @@ const formStyles = tv({
 
     wrapperModal: "absolute inset-0 bg-black/50 flex items-center justify-center",
     modalContent: "flex flex-col bg-form-background p-4 rounded-[4px] gap-5 max-w-2/4",
-    wrapperRowModal: "flex flex-row items-center justify-center gap-3"
+    wrapperRowModal: "flex flex-row items-center justify-center gap-3",
+
+    wrapperDeleted: "bg-form-background flex h-full w-full flex-1 flex-col gap-2.5 items-center justify-center",
+    titleDeleted: "text-gray-900 font-normal"
   },
 });
 
 export default function Form() {
-  const { titleSlot, wrapper, wrapperStyle, wrapperButtons, labelImage, normalPath, pathSlot, titlePath, wrapperRowModal, modalContent, wrapperModal } =
+  const { titleSlot, wrapper, wrapperStyle, wrapperButtons, labelImage, normalPath, pathSlot, titlePath, wrapperRowModal, modalContent, wrapperModal, titleDeleted, wrapperDeleted } =
     formStyles();
 
   const [formState, setFormState] = useState<FormStateType>({
@@ -53,7 +57,9 @@ export default function Form() {
     imageUrl: "",
   })
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
 
   const queryClient = useQueryClient();
 
@@ -67,13 +73,22 @@ export default function Form() {
 
   async function handleSaveSubmit() {
     try {
+      const imageUrl = await handleUploadImage();
+
+      if (!imageUrl) return;
+
       await selectPostRequest({
         type: entityForm.entityType,
         description: formState.description,
-        imageUrl: formState.imageUrl,
+        imageUrl,
         title: formState.title,
         idParentEntity: idParentEntityToSave ? idParentEntityToSave : 0,
       });
+
+      setFormState(prev => ({
+        ...prev,
+        imageUrl
+      }))
 
       setValidateErrors({});
 
@@ -111,13 +126,28 @@ export default function Form() {
         return;
       }
 
+      let imageUrl;
+
+      if (selectedImage) {
+        imageUrl = await handleUploadImage();
+
+        if (!imageUrl) return;
+      }
+
       await selectEditRequest({
         id: formState.id,
         description: formState.description,
         title: formState.title,
         type: entityForm.entityType,
-        imageUrl: formState.imageUrl
+        imageUrl: imageUrl ? imageUrl : formState.imageUrl
       });
+
+      if (imageUrl) {
+        setFormState(prev => ({
+          ...prev,
+          imageUrl
+        }))
+      }
 
       setValidateErrors({});
       toast.success("Item alterado", {
@@ -150,6 +180,8 @@ export default function Form() {
       toast.success("Item removido", {
         position: "bottom-right",
       });
+
+      setIsDeleted(true);
 
       setcloseParentOf(selectedEntity.parentId);
 
@@ -184,9 +216,9 @@ export default function Form() {
       formData.append("file", selectedImage);
       formData.append("customFileName", `${entityForm.entityType}-${selectedEntity.id}`);
 
-      const res = await http.image.saveImage(formData);
+      const imageUrl = await http.image.saveImage(formData);
 
-      console.log(res);
+      return imageUrl;
     } catch (error) {
       toast.error("Falha no upload da imagem", {
         position: "bottom-right",
@@ -210,7 +242,24 @@ export default function Form() {
         title: "",
       })
     }
+
+    setIsDeleted(false);
   }, [selectedEntity])
+
+  if (isDeleted) {
+    return (
+      <div className={wrapperDeleted()}>
+        <IconLib
+          iconLibName="md"
+          icon="MdDeleteForever"
+          color="var(--color-red-500)"
+          size={30}
+        />
+        <p className={titleDeleted()}>O item foi removido.</p>
+      </div>
+
+    );
+  }
 
   return (
     <div className={wrapper()}>
@@ -266,14 +315,14 @@ export default function Form() {
             <div className={wrapperStyle()}>
               <p className={labelImage()}>Imagem</p>
               <ImagePreview
-                imageSrc="/images.jpeg"
-                fileName="minha-imagem.jpg"
+                imageSrc={formState.imageUrl}
+                fileName="imagem-inválida.jpg"
                 size="small"
               />
             </div>
           )}
           <div className={wrapperStyle()}>
-            <Badge text="tamanho permitido (9000kb)" variant="primary" />
+            <Badge text="Tamanho permitido (1MB)" variant="primary" />
             <ImageUpload
               onChange={(file) => setSelectedImage(file)}
             />
@@ -283,7 +332,7 @@ export default function Form() {
       <div className={wrapperButtons()}>
         <Button
           title="Salvar"
-          onPress={handleUploadImage}
+          onPress={entityForm.operation === "SALVAR" ? handleSaveSubmit : handleEditSubmit}
         />
         <Button title="Excluir" onPress={() => setIsOpenModal(true)} />
       </div>

@@ -13,17 +13,20 @@ import { AllEntityFindTypes, ContentTreeItemProps, entityTypeIconEnum, nextEntit
 import { IconSvg } from "components/IconSvg/IconSvg";
 import { selectFindRequest } from "service/utils/selectFindRequest";
 import { useQuery } from "@tanstack/react-query";
-import { BeatLoader, SyncLoader } from "react-spinners";
+import { BeatLoader } from "react-spinners";
 import { OperationType } from "components/Form/Form.types";
 import { appState, SelectedEntityType } from "store/appState";
+import { IconLib } from "components/IconLib/IconLib";
 
 const contentTreeItemStyle = tv({
   slots: {
     wrapper: "flex flex-col w-full select-none pb-0.5",
     wrapperRow: "flex flex-row items-center gap-1 cursor-pointer flex-nowrap  ",
     titleSlot: "text-black text-[16px] whitespace-nowrap first-letter:uppercase",
-    infoTextSlot: "text-black text-[14px] whitespace-nowrap",
-    addIcon: "flex items-center justify-center p-[2px] rounded-[4px] bg-dark-blue hover:bg-dark-blue-80 cursor-pointer"
+    infoTextSlot: "text-gray-900 text-[14px] whitespace-nowrap",
+    addIcon: "flex items-center justify-center p-[2px] rounded-[4px] bg-dark-blue hover:bg-dark-blue-80 cursor-pointer",
+
+    wrapperInfo: "flex flex-row gap-1"
   }
 })
 
@@ -50,7 +53,7 @@ export function ContentTreeItem({
   const paddingLeft = `${depth * 1}rem`;
   const paddingLeftComponent = `${(depth + 1) * 1}rem`
 
-  const { infoTextSlot, titleSlot, wrapper, wrapperRow, addIcon } = contentTreeItemStyle();
+  const { infoTextSlot, titleSlot, wrapper, wrapperRow, addIcon, wrapperInfo } = contentTreeItemStyle();
 
   const { data = [], isError, isLoading, isRefetching, error } = useQuery<AllEntityFindTypes[]>({
     queryKey: [`${entityType}`, entityData.id],
@@ -178,8 +181,31 @@ export function ContentTreeItem({
           {isLoading ? (
             <div className={infoTextSlot()} style={{ paddingLeft: paddingLeftComponent }}><BeatLoader size={2} /></div>
           ) : isError ? (
-            <div style={{ paddingLeft: paddingLeftComponent }}><p className={infoTextSlot()}>Não foi possível buscar os itens</p></div>
-          ) : data.length === 0 ? (<div style={{ paddingLeft: paddingLeftComponent }} ><p className={infoTextSlot()}>Nenhum item encontrado</p></div>) :
+            <div
+              className={wrapperInfo()}
+              style={{ paddingLeft: paddingLeftComponent }}
+            >
+              <IconLib
+                iconLibName="md"
+                icon="MdErrorOutline"
+                color="var(--color-gray-900)"
+                size={20}
+              />
+              <p className={infoTextSlot()}>Não foi possível buscar os itens</p>
+            </div>
+          ) : data.length === 0 ? (
+            <div
+              className={wrapperInfo()}
+              style={{ paddingLeft: paddingLeftComponent }}
+            >
+              <IconLib
+                iconLibName="md"
+                icon="MdSearchOff"
+                color="var(--color-gray-900)"
+                size={20}
+              />
+              <p className={infoTextSlot()}>Nenhum item encontrado</p>
+            </div>) :
             (
               data.map((item) => (
                 <ContentTreeItem

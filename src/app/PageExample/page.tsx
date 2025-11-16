@@ -18,8 +18,20 @@ import { ContentTreeItemProps } from "components/ContentTreeItem/ContentTreeItem
 import Form from "components/Form/Form";
 import { EntityType } from "components/Form/Form.types";
 import { appState, SelectedEntityType } from "store/appState";
+import { IconLib } from "components/IconLib/IconLib";
+import { tv } from "tailwind-variants";
+import { Button } from "components/Button/Button";
+import { BeatLoader } from "react-spinners";
+
+const painelStyles = tv({
+  slots: {
+    infoTextSlot: "text-gray-900 text-[14px] whitespace-nowrap",
+    wrapperInfo: "flex-1 flex flex-col gap-1 items-center justify-center"
+  }
+})
 
 export default function SideBarExample() {
+  const { infoTextSlot, wrapperInfo } = painelStyles();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -28,12 +40,10 @@ export default function SideBarExample() {
 
   const [entityType, setEntityType] = useState<EntityType>("MODULE");
 
-  const { data = [], isError, isPending, isLoading } = useQuery<IModuleFind[]>({
+  const { data = [], isError, isPending, isLoading, refetch } = useQuery<IModuleFind[]>({
     queryKey: queryKeys.ALL_MODULES,
     queryFn: http.module.findModules,
   })
-
-
 
   useEffect(() => {
     if (data.length > 0) {
@@ -77,17 +87,47 @@ export default function SideBarExample() {
         />
       </SideBar>
       <SideBar colorNavigation="secondary" title="Estrutura do conteúdo">
-        {data?.map((item, index) => (
-          <ContentTreeItem
-            key={item.id}
-            entityData={item}
-            parentPath={item.title}
-            allowAddButton
-            defaultOpen={index === 0}
-            entityType={entityType}
-          />
-        )
-        )}
+        {isLoading ?
+          <div className={wrapperInfo()}><BeatLoader size={10} /></div>
+          : isError ?
+            <div className={wrapperInfo()}>
+              <IconLib
+                iconLibName="md"
+                icon="MdErrorOutline"
+                color="var(--color-gray-900)"
+                size={20}
+              />
+              <p className={infoTextSlot()}>Não foi possível buscar os itens</p>
+              <Button
+                title="Buscar"
+                onPress={refetch}
+              />
+            </div>
+            : data.length === 0 ?
+              <div className={wrapperInfo()}>
+                <IconLib
+                  iconLibName="md"
+                  icon="MdSearchOff"
+                  color="var(--color-gray-900)"
+                  size={20}
+                />
+                <p className={infoTextSlot()}>Nenhum item encontrado</p>
+                <Button
+                  title="Buscar"
+                  onPress={refetch}
+                />
+              </div>
+              : data.map((item, index) => (
+                <ContentTreeItem
+                  key={item.id}
+                  entityData={item}
+                  parentPath={item.title}
+                  allowAddButton
+                  defaultOpen={index === 0}
+                  entityType={entityType}
+                />
+              )
+              )}
       </SideBar>
       <main className="flex-1">
         <Form />

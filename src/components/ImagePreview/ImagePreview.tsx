@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { ImagePreviewProps } from "./ImagePreview.types";
 import { tv } from "tailwind-variants";
+import { useEffect, useState } from "react";
 
 const imagePreviewStyles = tv({
   slots: {
     wrapper: "flex flex-col items-start gap-2",
     imageWrapper: "overflow-hidden rounded-[8px]",
-    image: "object-cover",
+    image: "object-contain",
     fileName: "text-[16px] text-[#FE5000]",
   },
   variants: {
@@ -29,8 +30,10 @@ const imagePreviewStyles = tv({
   },
 });
 
+const fallback = "/images/image_not_valid.png";
+
 export const ImagePreview: React.FC<ImagePreviewProps> = ({
-  imageSrc,
+  imageSrc = fallback,
   fileName,
   size,
 }) => {
@@ -41,14 +44,33 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
     fileName: fileNameSlot,
   } = imagePreviewStyles({ size });
 
+
+  const [imageUrl, setImageUrl] = useState(
+    imageSrc && imageSrc.startsWith("http")
+      ? imageSrc
+      : fallback
+  );
+
+  useEffect(() => {
+    if (!imageSrc) {
+      setImageUrl(fallback);
+      return;
+    }
+
+    setImageUrl(
+      imageSrc.startsWith("http") ? imageSrc : fallback
+    );
+  }, [imageSrc]);
+
   return (
     <div className={wrapper()}>
       <div className={imageWrapper()}>
         <Image
-          src={"https://res.cloudinary.com/histopat/image/upload/v1763275850/mbaeayjfezcoumqyxc8c.jpg"}
+          src={imageUrl}
           alt={fileName}
           width={364}
           height={170}
+          onError={() => setImageUrl(fallback)}
           className={image()}
         />
       </div>
