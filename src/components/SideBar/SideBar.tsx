@@ -1,21 +1,21 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { tv } from "tailwind-variants";
 
 import { SideBarProps } from "./SideBar.types";
 import { IconSvg } from "components/IconSvg/IconSvg";
 
 const sideBarStyles = tv({
-  base: "flex h-screen min-w-12 flex-col transition-all duration-200 ease-in-out",
+  base: "flex h-screen min-w-24 flex-col transition-all duration-200 ease-in-out overflow-x-auto",
   variants: {
     color: {
       primary: "bg-(--primary-default)",
       secondary: "bg-(--neutral-white)",
     },
-    collapse: {
-      true: "w-16",
-      false: "w-70 max-w-50/100 min-w-40",
+    widthVariant: {
+      true: "w-[20%]",
+      false: "w-[30%]",
     },
     overlay: {
       true: "fixed top-0 left-0 z-50 h-full transform shadow-xl transition-transform",
@@ -31,7 +31,6 @@ const sideBarStyles = tv({
 export function SideBar({
   children,
   image,
-  imageCollapsed,
   collapsible = false,
   colorNavigation = "primary",
   title = "",
@@ -40,6 +39,29 @@ export function SideBar({
   const [collapsed, setCollapsed] = useState(false);
   const [overlay, setOverlay] = useState(false);
   const [hidden, setHidden] = useState(false);
+
+  const sideBarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = sideBarRef.current;
+    if (!el) return;
+
+    const handleWheel = (e: any) => {
+
+      const hasVertical = el.scrollHeight > el.clientHeight;
+      const hasHorizontal = el.scrollWidth > el.clientWidth;
+
+      if (hasVertical && hasHorizontal) return;
+
+      if (hasHorizontal && !hasVertical) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY * 0.3;
+      }
+    };
+
+    el.addEventListener("wheel", handleWheel, { passive: false });
+    return () => el.removeEventListener("wheel", handleWheel);
+  }, []);
 
   useEffect(() => {
     if (!collapsible) return;
@@ -58,11 +80,9 @@ export function SideBar({
 
   function collapseAction() {
     if (!collapsible) return;
-    if (overlay) {
-      setHidden((prev) => !prev);
-    } else {
-      setCollapsed((prev) => !prev);
-    }
+
+    setHidden((prev) => !prev);
+
   }
 
   return (
@@ -79,24 +99,16 @@ export function SideBar({
         <nav
           className={sideBarStyles({
             color: colorNavigation,
-            collapse: collapsed,
+            widthVariant: collapsible,
             overlay: collapsible ? overlay : false,
             hidden: collapsible ? hidden : false,
           })}
         >
           <div className="sticky top-0 z-10 bg-inherit">
-            {collapsible && !overlay && (
-              <button
-                onClick={collapseAction}
-                className="absolute m-2 rounded !p-4 text-sm hover:cursor-pointer"
-              >
-                <IconSvg size="xl" icon="menu_icon" />
-              </button>
-            )}
             {image && (
               <div className="flex h-40 w-full items-center justify-center">
                 <img
-                  src={collapsed ? imageCollapsed : image}
+                  src={image}
                   alt="Logo"
                   className="h-25/100 w-80/100 object-contain"
                 />
@@ -104,13 +116,13 @@ export function SideBar({
             )}
             {title && (
               <h1
-                className={`!px-5 !py-8 text-${colorText} text-sm font-normal`}
+                className={`px-5 py-6 text-${colorText} text-sm font-normal`}
               >
                 {title}
               </h1>
             )}
           </div>
-          <div className="scrollbar-hidden flex h-full w-full flex-col overflow-y-auto overscroll-y-contain bg-inherit">
+          <div className="flex h-full w-full flex-col overflow-auto bg-inherit custom-scrollbar" ref={sideBarRef}>
             {children}
           </div>
         </nav>

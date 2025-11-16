@@ -6,7 +6,7 @@ import { ISlideSave } from "service/@types/slide";
 import { ISubTopicSave } from "service/@types/subtopic";
 import { ITopicSave } from "service/@types/topic";
 
-const postRequestEnum: Record<EntityType, ({}: any) => any> = {
+const postRequestEnum: Record<EntityType, ({ }: any) => any> = {
   MODULE: http.module.saveModule,
   SLIDE: http.slide.saveSlide,
   SUBTOPIC: http.subTopic.saveSubTopic,

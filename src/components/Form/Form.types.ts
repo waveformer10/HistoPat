@@ -1,4 +1,5 @@
 export type EntityType = "MODULE" | "TOPIC" | "SUBTOPIC" | "SLIDE";
+export type EntityTypeWithoutSlide = Exclude<EntityType, "SLIDE">;
 export type OperationType = "SALVAR" | "EDITAR";
 
 export const EntityTitleEnum: Record<EntityType, string> = {
@@ -13,10 +14,13 @@ export const OperationTitleEnum: Record<OperationType, string> = {
   SALVAR: "Salvar",
 };
 
-export type FormProps = {
-  type: EntityType;
-  operation: OperationType;
-};
+export type FormStateType = {
+  title: string,
+  description: string,
+  id?: number,
+  imageUrl: string,
+
+}
 
 export type ValidateErrorsType = {
   Title?: string[];

@@ -45,7 +45,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
     <div className={wrapper()}>
       <div className={imageWrapper()}>
         <Image
-          src={imageSrc}
+          src={"https://res.cloudinary.com/histopat/image/upload/v1763275850/mbaeayjfezcoumqyxc8c.jpg"}
           alt={fileName}
           width={364}
           height={170}
