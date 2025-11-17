@@ -5,7 +5,7 @@ export interface IUserBase {
 
 export interface IUserFind extends IUserBase {
     idUser: number;
-    idRoles: number[];
+    idRoles?: number[];
     createdAt: string;
     lastModified?: string;
 }
