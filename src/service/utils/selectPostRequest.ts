@@ -6,11 +6,18 @@ import { ISlideSave } from "service/@types/slide";
 import { ISubTopicSave } from "service/@types/subtopic";
 import { ITopicSave } from "service/@types/topic";
 
+type UserRoleType = "USER" | "ROLE";
+
 const postRequestEnum: Record<EntityType, ({ }: any) => any> = {
   MODULE: http.module.saveModule,
   SLIDE: http.slide.saveSlide,
   SUBTOPIC: http.subTopic.saveSubTopic,
   TOPIC: http.topic.saveTopic,
+};
+
+const postUserRoleRequestEnum: Record<UserRoleType, ({}: any) => any> = {
+  USER: http.user.saveUser,
+  ROLE: http.role.saveRole
 };
 
 type AllEntitySaveTypes = { type: EntityType } & IModuleSave &
