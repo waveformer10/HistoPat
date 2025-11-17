@@ -59,7 +59,7 @@ export function Navbar() {
 
         <div className={itemContainerStyles()}>
           <a className={itemStyles()} href="#">Início</a>
-          <a className={itemStyles()} href="#">Log in</a>
+          <a className={itemStyles()} href="/Login">Log in</a>
         </div>
 
         <button

@@ -81,7 +81,7 @@ export default function Home() {
                 <ModuleCard
                   key={module.id}
                   id={module.id}
-                  imageSrc={module.imageUrl}
+                  imageSrc={module.imageUrl ?? 'teste'}
                   title={module.title}
                   size="medium"
                   theme="light"

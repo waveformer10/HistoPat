@@ -73,7 +73,7 @@ export default function SideBarExample() {
           icon={"home_icon"}
           title="Início"
           selected={false}
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/HomeAdm")}
         />
         <SideBarItem
           icon={"folder_icon"}
@@ -84,6 +84,12 @@ export default function SideBarExample() {
               router.push("/PageExample");
             }
           }}
+        />
+        <SideBarItem
+          icon={"users_icon"}
+          title="Usuários"
+          selected={false}
+          onClick={() => router.push("/Usuarios")}
         />
       </SideBar>
       <SideBar colorNavigation="secondary" title="Estrutura do conteúdo">
