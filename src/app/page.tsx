@@ -1,154 +1,115 @@
 "use client";
 
 import Image from "next/image";
-import { Button } from "components/Button/Button";
 import { useRouter } from "next/navigation";
 import { Input } from "components/Input/Input";
-import { useState } from "react";
-import { Badge } from "components/Badge/Badge";
-import { ImageUpload } from "components/ImageUpload/ImageUpload";
 import { ModuleCard } from "components/ModuleCard/ModuleCard";
-import { ImagePreview } from "components/ImagePreview/ImagePreview";
-import { IconLib } from "components/IconLib/IconLib";
-import { Accordion } from "components/Accordion/Accordion";
-import { Navbar } from "components/layout/Navbar/Navbar";
-import { Footer } from "components/layout/Footer/Footer";
-import { RouteBar } from "components/RouteBar/RouteBar";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import { findModules } from "service/requests/module/findModules";
-import { findModuleById } from "service/requests/module/findModuleById";
-import { findTopicById } from "service/requests/topic/findTopicById";
-import { findTopicsByModuleId } from "service/requests/topic/findTopicsByModuleId";
-import { findSubTopicById } from "service/requests/subtopic/findSubTopicById";
-import { findSubTopicsByTopicId } from "service/requests/subtopic/findSubTopicsByTopicId";
-import { findSlideById } from "service/requests/slide/findSlideById";
-import { findSlidesBySubTopicId } from "service/requests/slide/findSlidesBySubTopicId";
+import { IModuleFind } from "service/@types/module";
+import MicroscopeInteractive from "components/Microscope/Microscope";
 
 export default function Home() {
-  const [state, setState] = useState("");
-
-  const NAVBAR_HEIGHT = 120;
-  const ROUTEBAR_HEIGHT = 80;
-
   const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [modules, setModules] = useState<IModuleFind[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  async function test() {
-    const res = await findSlidesBySubTopicId(2);
-    console.log(res);
-  }
+  useEffect(() => {
+    async function loadModules() {
+      try {
+        const response = await findModules();
+        setModules(response);
+      } catch (error) {
+        console.error("Erro ao buscar módulos:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadModules();
+  }, []);
+
+  const filteredModules = modules.filter((module) =>
+    module.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <>
-      <Navbar />
-      <RouteBar routeText="/teste/texto" title="Esteatose" />
-      <div
-        className="flex min-h-screen flex-col bg-amber-900 font-sans"
+    <div className="flex flex-col w-full overflow-hidden">
+
+      {/* Banner Responsivo */}
+      <section
+        className="w-full h-[250px] sm:h-[400px] md:h-[500px] bg-no-repeat bg-center overflow-hidden"
         style={{
-          paddingTop: `${NAVBAR_HEIGHT + ROUTEBAR_HEIGHT}px`,
+          backgroundImage: "url('/images/banner.png')",
+          backgroundSize: "contain"   // 👈 substitui bg-[length:100%_auto]
         }}
-      >
-        <main className="flex flex-1 flex-col items-center gap-8 bg-amber-200 px-8 pt-35 pb-12">
-          <Image
-            className="dark:invert"
-            src="/next.svg"
-            alt="Next.js logo"
-            width={180}
-            height={38}
-            priority
-          />
-          <ol className="m-0 list-inside space-y-2 p-0 font-mono text-sm leading-6 tracking-[-0.01em] max-sm:text-center">
-            <li>
-              Get started by editing{" "}
-              <code className="font-inherit bg-gray-alpha-100 dark:bg-dark-gray-alpha-100 rounded px-1 py-0.5 font-semibold">
-                src/app/page.tsx
-              </code>
-              .
-            </li>
-            <li>Save and see your changes instantly.</li>
-          </ol>
+      />
 
-          <Input
-            multiline
-            initialRows={2}
-            label="Título"
-            value={state}
-            errorMessage="Pla"
-            onChangeValue={(e) => setState(e)}
-          />
+      {/* Conteúdo Principal */}
+      <div className="px-8 sm:px-16 md:px-32 lg:px-48 xl:px-64 mt-8 sm:mt-12">
 
-          <Button onPress={test} title="Acesse" />
+        {/* Texto de Boas-vindas */}
+        <section className="flex flex-col lg:flex-row justify-start w-full gap-8 lg:gap-16 mb-12 lg:mb-12">
+          <div className="w-full">
+            <h1 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-3 text-center lg:text-left">
+              Bem-vindo ao HistoPat — o atlas de histologia da Unipam
+            </h1>
+            <p className="text-base sm:text-lg lg:text-2xl font-light text-gray-800 mb-3 text-center lg:text-left">
+              Explore as lâminas disponíveis na universidade!
+            </p>
+          </div>
+        </section>
 
-          <div style={{ width: 1000 }}>
-            <Accordion
-              title="Lorem Ipsum is simply dummy text of orem Ipsum is simply dummy text of Lorem Ipsum is simply dummy Lorem Ipsum is simply dummy text of orem Ipsum is simply dummy text of Lorem Ipsum is simply dummy Lorem Ipsum is simply dummy text of orem Ipsum is simply dummy text of Lorem Ipsum is simply dummy"
-              items={[
-                {
-                  title:
-                    "Lorem Ipsum is simply dummy text of orem Ipsum is simply dummy text of Lorem Ipsum is simply dummy",
-                },
-                { title: "Esteatose 1" },
-                { title: "Esteatose 2" },
-                { title: "Esteatose 3" },
-                { title: "Esteatose 4" },
-                { title: "Esteatose 5" },
-                { title: "Esteatose 6" },
-                { title: "Esteatose 7" },
-                { title: "Esteatose 8" },
-                { title: "Esteatose 9" },
-                { title: "Esteatose 10" },
-                { title: "Esteatose 12 " },
-                { title: "Esteatose 13" },
-                { title: "Esteatose 14" },
-              ]}
+        {/* Campo de Busca */}
+        <section className="flex flex-col sm:flex-row justify-end w-full mb-8">
+          <div className="w-full sm:w-[60%] md:w-[40%] lg:w-[20%]">
+            <Input
+              isSearch
+              placeholder="Buscar módulo"
+              value={searchTerm}
+              onChangeValue={setSearchTerm}
             />
           </div>
+        </section>
 
-          <Badge text="tamanho permitido (9000kb)" variant="primary" />
+        {/* Módulos */}
+        <section className="flex flex-col items-center w-full mx-auto mb-24">
+          {loading ? (
+            <p className="text-gray-600 text-lg">Carregando módulos...</p>
+          ) : filteredModules.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center w-full">
+              {filteredModules.map((module) => (
+                <ModuleCard
+                  key={module.id}
+                  id={module.id}
+                  imageSrc={module.imageUrl}
+                  title={module.title}
+                  size="medium"
+                  theme="light"
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500 text-lg">Nenhum módulo encontrado.</p>
+          )}
+        </section>
 
-          <ImageUpload
-            onChange={(file) => console.log("Imagem selecionada:", file)}
-          />
+        {/* Seção do Microscópio */}
+        <section className="flex flex-col justify-center items-start w-full mb-8 text-left">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 mb-3">
+            Microscópio
+          </h1>
+          <p className="text-lg sm:text-xl md:text-2xl font-light text-gray-600">
+            Entenda a funcionalidade de cada peça do microscópio
+          </p>
+        </section>
 
-          <ModuleCard
-            imageSrc="/images.jpeg"
-            title="Módulo de Teste"
-            size="large"
-            theme="light" id={0}          />
-
-          <ImagePreview imageSrc="/images.jpeg" fileName="minha-imagem.jpg" />
-
-          <div className="flex gap-4 max-sm:flex-col">
-            <a
-              className="bg-foreground text-background hover:bg-button-primary-hover dark:hover:bg-dark-button-primary-hover flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-transparent px-5 text-base leading-5 font-medium transition-colors max-sm:h-10 max-sm:px-4 max-sm:text-sm"
-              href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                className="dark:invert"
-                src="/vercel.svg"
-                alt="Vercel logomark"
-                width={20}
-                height={20}
-              />
-              Deploy now
-            </a>
-            <IconLib iconLibName="fa" icon="FaAd" color="#000000" size={30} />
-            <a
-              href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border-gray-alpha-200 dark:border-dark-gray-alpha-200 hover:bg-button-secondary-hover dark:hover:bg-dark-button-secondary-hover flex h-12 min-w-[158px] cursor-pointer items-center justify-center rounded-full border px-5 text-base leading-5 font-medium transition-colors hover:border-transparent max-sm:h-10 max-sm:min-w-0 max-sm:px-4 max-sm:text-sm"
-            >
-              Read our docs
-            </a>
-          </div>
-          <Link href={"/PageExample"} title="NAVEGAR">
-            <p>NAVEGAR</p>
-          </Link>
-        </main>
-        <Footer />
+        {/* Componente do Microscópio */}
+        <section className="flex flex-col justify-center items-center w-full mb-24">
+          <MicroscopeInteractive />
+        </section>
       </div>
-    </>
+    </div>
   );
 }
