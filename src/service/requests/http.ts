@@ -19,6 +19,16 @@ import { editTopic } from "./topic/editTopic";
 import { findTopicById } from "./topic/findTopicById";
 import { findTopicsByModuleId } from "./topic/findTopicsByModuleId";
 import { saveTopic } from "./topic/saveTopic";
+import { deleteUser } from "./user/deleteUser";
+import { editUser } from "./user/editUser";
+import { saveUser } from "./user/saveUser";
+import { findUsers } from "./user/findUsers";
+import { findUserById } from "./user/findUserById";
+import { deleteRole } from "./role/deleteRole";
+import { editRole } from "./role/editRole";
+import { saveRole } from "./role/saveRole";
+import { findRoles } from "./role/findRoles";
+import { findRoleById } from "./role/findRoleById";
 
 export const http = {
   module: {
@@ -51,5 +61,19 @@ export const http = {
   },
   image: {
     saveImage
+  },
+  user: {
+    saveUser,
+    editUser,
+    deleteUser,
+    findUsers,
+    findUserById
+  },
+  role: {
+    saveRole,
+    editRole,
+    deleteRole,
+    findRoles,
+    findRoleById
   }
 };
