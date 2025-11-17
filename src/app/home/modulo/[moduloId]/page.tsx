@@ -31,7 +31,7 @@ export default function Topico() {
     async function loadData() {
       try {
         const responseModule = await findModuleById(moduleId);
-        setModule(responseModule);
+        setModule(responseModule.data);
 
         const responseTopics = await findTopicsByModuleId(moduleId);
 
