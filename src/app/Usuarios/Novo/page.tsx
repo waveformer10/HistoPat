@@ -10,9 +10,14 @@ import { Input } from "components/Input/Input";
 import { Button } from "components/Button/Button";
 import { IconSvg } from "components/IconSvg/IconSvg";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { http } from "service/requests/http";
+import { queryKeys } from "service/@types/queryKeys";
+
 export default function NovoUsuario() {
   const router = useRouter();
   const pathname = usePathname();
+  const queryClient = useQueryClient();
 
   const [nome, setNome] = useState("");
   const [login, setLogin] = useState("");
@@ -20,7 +25,30 @@ export default function NovoUsuario() {
   const [nivelMaster, setNivelMaster] = useState(false);
   const [nivelAdmin, setNivelAdmin] = useState(false);
 
+  const saveUserMutation = useMutation({
+    mutationFn: http.user.saveUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [queryKeys.ALL_USERS] });
+      router.push("/Usuarios");
+    },
+    onError: (error) => {
+      console.error("Erro ao salvar usuário:", error);
+    },
+  });
+
   const handleSalvar = () => {
+    const idRoles: number[] = [];
+    if (nivelMaster) idRoles.push(1);
+    if (nivelAdmin) idRoles.push(2);
+
+    const novoUsuarioParaBackend = {
+      name: nome,
+      active: true,
+      idRoles: idRoles.length > 0 ? idRoles : undefined,
+    };
+
+    saveUserMutation.mutate(novoUsuarioParaBackend);
+    //-------------------------------------------------------
     const novoUsuario = {
       id: Math.floor(Math.random() * 10000),
       nome,
@@ -134,11 +162,7 @@ export default function NovoUsuario() {
               />
             </div>
           </section>
-
-          <div className="flex justify-end max-w-xl">
-            <Button onPress={handleSalvar} title="Criar" />
-          </div>
-
+          <Button onPress={handleSalvar} title={saveUserMutation.isPending ? "Criando..." : "Criar"} />
         </div>
       </main>
     </div>
