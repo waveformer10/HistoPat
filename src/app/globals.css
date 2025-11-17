@@ -133,3 +133,14 @@ a {
     color-scheme: dark;
   }
 }
+
+@keyframes imageSwap {
+  0%   { content: url("/images/gif1.png"); }
+  50%  { content: url("/images/gif2.png"); }
+  100% { content: url("/images/gif1.png"); }
+}
+
+.animate-gif-swap {
+  animation: imageSwap 1.4s infinite ease-in-out;
+}
+
