@@ -5,7 +5,7 @@ export function HighlightCard(props: HighlightCardProps) {
   return (
     <div className="h-full w-full bg-[#26406C] border rounded-xl shadow-sm p-6 flex flex-col justify-center items-center transform transition-all duration-300 hover:scale-102 ">
       <h3 className="text-white text-2x1 text-center font-bold">{props.title}</h3>
-      <span className="text-3xl font-bold mt-2">{props.value}</span>
+      <span className="text-white text-3xl font-bold mt-2">{props.value}</span>
     </div>
   )
 }

@@ -10,7 +10,7 @@ export function AdmHeader({ texto }: AdmHeaderProps) {
         {texto}
       </h1>
 
-      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-600 text-white text-xl font-bold">
+      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-dark-blue text-white text-xl font-bold">
         {inicial}
       </div>
     </div>
