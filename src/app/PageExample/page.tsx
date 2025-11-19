@@ -37,6 +37,8 @@ export default function SideBarExample() {
 
   const selectEntity = appState((state) => state.setSelectedEntity);
   const setPath = appState((state) => state.setPath);
+  const reloadModules = appState((state) => state.reloadModules);
+  const setReloadModules = appState((state) => state.setReloadModules);
 
   const [entityType, setEntityType] = useState<EntityType>("MODULE");
 
@@ -60,7 +62,15 @@ export default function SideBarExample() {
 
       setPath(data[0].title);
     }
-  }, [data])
+  }, [data]);
+
+  
+  useEffect(() => {
+    if(reloadModules){
+      refetch();
+      setReloadModules(false);
+    }
+  },[reloadModules])
 
   return (
     <div className="bg-light-gray flex h-screen w-screen flex-1">

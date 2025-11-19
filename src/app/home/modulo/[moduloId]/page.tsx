@@ -107,7 +107,7 @@ export default function Topico() {
           <div className="w-full sm:w-[60%] md:w-[40%] lg:w-[20%]">
             <Input
               isSearch
-              placeholder="Buscar tópico ou subtópico"
+              placeholder="Buscar tópico"
               value={searchTerm}
               onChangeValue={setSearchTerm}
             />

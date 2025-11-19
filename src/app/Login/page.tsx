@@ -13,7 +13,7 @@ export default function Login() {
   const [senha, setSenha] = useState("");
 
   const handleSalvar = () => {
-    router.push("/home");
+    router.push("/HomeAdm");
   };
 
   return (

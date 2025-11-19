@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UploadProps } from "./ImageUpload.types";
 import { tv } from "tailwind-variants";
 import { Plus, File } from "lucide-react";
@@ -29,7 +29,7 @@ const uploadStyles = tv({
   },
 });
 
-export function ImageUpload({ onChange }: UploadProps) {
+export function ImageUpload({ onChange, onReset, reset }: UploadProps) {
   const [fileName, setFileName] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,6 +61,13 @@ export function ImageUpload({ onChange }: UploadProps) {
   const { wrapper, icon, text } = uploadStyles({
     state: fileName ? "filled" : "empty",
   });
+
+  useEffect(() => {
+    if(reset) {
+      setFileName(null);
+      onReset();
+    }
+  }, [reset])
 
   return (
     <label className={wrapper()}>
