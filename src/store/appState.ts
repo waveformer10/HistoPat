@@ -11,6 +11,7 @@ type StateType = {
     path: string,
     idParentEntityToSave?: number,
     closeParentOf?: number,
+    reloadModules: boolean,
 }
 
 type ActionType = {
@@ -19,6 +20,7 @@ type ActionType = {
     setPath: (path: StateType["path"]) => void,
     setIdParentEntityToSave: (id: StateType["idParentEntityToSave"]) => void;
     setcloseParentOf: (id: StateType["closeParentOf"]) => void;
+    setReloadModules: (reaload: StateType["reloadModules"]) => void;
 }
 
 export const appState = create<StateType & ActionType>((set) => ({
@@ -29,5 +31,7 @@ export const appState = create<StateType & ActionType>((set) => ({
     path: "",
     setPath: (path) => set(() => ({ path })),
     setIdParentEntityToSave: (id) => set(() => ({ idParentEntityToSave: id })),
-    setcloseParentOf: (id) => set({ closeParentOf: id })
+    setcloseParentOf: (id) => set({ closeParentOf: id }),
+    reloadModules: false,
+    setReloadModules: (reaload) => set(() => ({reloadModules: reaload}))
 }))

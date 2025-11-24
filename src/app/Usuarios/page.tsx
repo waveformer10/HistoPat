@@ -64,7 +64,7 @@ export default function Usuarios() {
           icon={"home_icon"}
           title="Início"
           selected={false}
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/HomeAdm")}
         />
         <SideBarItem
           icon={"folder_icon"}
@@ -88,7 +88,7 @@ export default function Usuarios() {
         />
       </SideBar>
 
-      <main className="flex-1 p-10 bg-white rounded-tl-2xl shadow-md">
+      <main className="flex-1 p-10 bg-white shadow-md">
         <AdmHeader texto="Usuários" />
         
         <div className="flex items-center justify-between mb-6 gap-4">

@@ -31,21 +31,21 @@ export default function SubTopicSlides() {
     async function loadData() {
       try {
         const resSub = await findSubTopicById(subTopicId);
-        const foundSub = resSub?.data;
+        const foundSub = resSub;
         setSubTopic(foundSub);
 
-        if (foundSub?.idTopic) {
-          const resTopic = await findTopicById(foundSub.idTopic);
-          setTopic(resTopic?.data);
+        if (foundSub.id) {
+          const resTopic = await findTopicById(foundSub.id);
+          setTopic(resTopic);
 
-          if (resTopic?.data?.idModule) {
-            const resModule = await findModuleById(resTopic.data.idModule);
-            setModule(resModule?.data);
+          if (resTopic?.id) {
+            const resModule = await findModuleById(resTopic.id);
+            setModule(resModule);
           }
         }
 
         const resSlides = await findSlidesBySubTopicId(subTopicId);
-        setSlides(resSlides?.data ?? []);
+        setSlides(resSlides ?? []);
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
       } finally {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, usePathname, useParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
 import { Checkbox } from "components/Checkbox/Checkbox";
 import { SideBar } from "components/SideBar/SideBar";
@@ -9,6 +9,7 @@ import { SideBarItem } from "components/SideBarItem/SideBarItem";
 import { Input } from "components/Input/Input";
 import { AdmHeader } from "components/AdmHeader/AdmHeader";
 import { Button } from "components/Button/Button";
+import { IconSvg } from "components/IconSvg/IconSvg";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { http } from "service/requests/http";
@@ -24,9 +25,7 @@ const usuarios = [
 
 export default function EditarUsuario() {
   const router = useRouter();
-  const pathname = usePathname();
   const params = useParams();
-
   const id = Number(params?.id);
 
   const queryClient = useQueryClient();
@@ -66,18 +65,6 @@ export default function EditarUsuario() {
   });
 
   const handleSalvar = () => {
-    const idRoles: number[] = [];
-    if (nivelMaster) idRoles.push(1);
-    if (nivelAdmin) idRoles.push(2);
-
-    const dadosParaEditar = {
-      idUser: id,
-      name: nome,
-      active: true,
-      idRoles: idRoles.length > 0 ? idRoles : undefined
-    };
-
-    editUserMutation.mutate(dadosParaEditar);
     alert(`Usuário "${nome}" atualizado com sucesso!`);
     router.push("/Usuarios");
   };
@@ -87,19 +74,34 @@ export default function EditarUsuario() {
   };
 
   return (
-    <div className="bg-light-gray flex h-screen w-screen flex-1">
+    <div className="bg-light-gray flex h-screen w-screen">
       <SideBar
         image="https://novoportal.unipam.edu.br/assets/logo_unipam-2d39776e.png"
         imageCollapsed="https://novoportal.unipam.edu.br/assets/logoWhiteMobile-aef87742.svg"
-        collapsible={true}
+        collapsible
       >
-        <SideBarItem icon="home_icon" title="Início" onClick={() => router.push("/HomeAdm")} />
-        <SideBarItem icon="folder_icon" title="Conteúdo" onClick={() => router.push("/PageExample")} />
-        <SideBarItem icon="users_icon" title="Usuários" selected onClick={() => router.push("/Usuarios")} />
+        <SideBarItem
+          icon="home_icon"
+          title="Início"
+          onClick={() => router.push("/HomeAdm")}
+        />
+        <SideBarItem
+          icon="folder_icon"
+          title="Conteúdo"
+          onClick={() => router.push("/PageExample")}
+        />
+        <SideBarItem
+          icon="users_icon"
+          title="Usuários"
+          selected
+          onClick={() => router.push("/Usuarios")}
+        />
       </SideBar>
 
-      <main className="flex-1 p-10 bg-white rounded-tl-2xl shadow-md">
-        <AdmHeader texto={`Editar Usuário ${nome}`} />
+      <main className="flex-1 flex flex-col bg-white shadow-sm overflow-y-auto">
+        <div className="p-8 pb-3">
+          <AdmHeader texto="Editar Usuário" />
+        </div>
 
         <div className="p-6 flex flex-col gap-6 relative max-w-xl">
           <button
@@ -108,7 +110,6 @@ export default function EditarUsuario() {
           >
             <IconSvg icon="arrow_icon" size="md" color="#444" />
           </button>
-
           <section className="flex flex-col gap-5 w-full max-w-xl">
             <div className="flex flex-col gap-1">
               <p className="text-sm font-medium text-gray-700">Nome</p>
@@ -144,6 +145,7 @@ export default function EditarUsuario() {
                   setNivelAdmin(false);
                 }}
               />
+
               <Checkbox
                 label="Administrador"
                 checked={nivelAdmin}
@@ -156,10 +158,7 @@ export default function EditarUsuario() {
           </section>
 
           <div className="flex justify-end max-w-xl">
-            <Button
-              title={editUserMutation.isPending ? "Salvando..." : "Salvar"}
-              onPress={handleSalvar}
-            />
+            <Button title="Salvar" onPress={handleSalvar} />
           </div>
         </div>
       </main>

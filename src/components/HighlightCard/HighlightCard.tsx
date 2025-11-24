@@ -1,11 +1,11 @@
 import { HighlightCardProps } from "./HighlightCard.types";
 
 
-export function HighlightCard(props: HighlightCardProps){
+export function HighlightCard(props: HighlightCardProps) {
   return (
-    <div className="bg-[#26406C] place-items-center place-content-center w-fit !p-6 rounded">
-      <p className="!p-2">{props.title}</p>
-      <h1 className={"text-4xl !p-2 hover:transform hover:scale-125"}>{formatThousands(props.value)}</h1>
+    <div className="h-full w-full bg-[#26406C] border rounded-xl shadow-sm p-6 flex flex-col justify-center items-center transform transition-all duration-300 hover:scale-102 ">
+      <h3 className="text-white text-2x1 text-center font-bold">{props.title}</h3>
+      <span className="text-white text-3xl font-bold mt-2">{props.value}</span>
     </div>
   )
 }

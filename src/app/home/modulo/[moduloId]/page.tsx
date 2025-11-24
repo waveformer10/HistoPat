@@ -36,11 +36,11 @@ export default function Topico() {
         const responseTopics = await findTopicsByModuleId(moduleId);
 
         const accordionsData = await Promise.all(
-          responseTopics.data.map(async (topic: ITopicFind) => {
+          responseTopics.map(async (topic: ITopicFind) => {
             const responseSub = await findSubTopicsByTopicId(topic.id);
             return {
               title: topic.title,
-              items: responseSub.data.map((st: ISubTopicFind) => ({
+              items: responseSub.map((st: ISubTopicFind) => ({
                 id: st.id,
                 title: st.title,
               })),
@@ -107,7 +107,7 @@ export default function Topico() {
           <div className="w-full sm:w-[60%] md:w-[40%] lg:w-[20%]">
             <Input
               isSearch
-              placeholder="Buscar tópico ou subtópico"
+              placeholder="Buscar tópico"
               value={searchTerm}
               onChangeValue={setSearchTerm}
             />

@@ -49,13 +49,14 @@ export function ContentTreeItem({
   const setIdParentEntityToSave = appState((state) => state.setIdParentEntityToSave);
   const setcloseParentOf = appState((state) => state.setcloseParentOf);
   const closeParentOf = appState((state) => state.closeParentOf);
+ 
 
   const paddingLeft = `${depth * 1}rem`;
   const paddingLeftComponent = `${(depth + 1) * 1}rem`
 
   const { infoTextSlot, titleSlot, wrapper, wrapperRow, addIcon, wrapperInfo } = contentTreeItemStyle();
 
-  const { data = [], isError, isLoading, isRefetching, error } = useQuery<AllEntityFindTypes[]>({
+  const { data = [], isError, isLoading, isRefetching, error, refetch } = useQuery<AllEntityFindTypes[]>({
     queryKey: [`${entityType}`, entityData.id],
     queryFn: () => entityType !== "SLIDE" ? selectFindRequest(entityType, entityData.id) : Promise.resolve([]),
     enabled: entityType !== "SLIDE" && open
@@ -145,7 +146,7 @@ export function ContentTreeItem({
       setOpen(false);
       setcloseParentOf(undefined);
     }
-  }, [closeParentOf])
+  }, [closeParentOf]);
 
   return (
     <div className={wrapper()} style={{ paddingLeft }}>
