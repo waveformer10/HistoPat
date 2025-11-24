@@ -12,4 +12,5 @@ export interface IUserFind extends IUserBase {
 
 export interface IUserEdit extends IUserBase {
     idUser: number;
+    idRoles?: number[];
 }
