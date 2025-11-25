@@ -14,7 +14,6 @@ import { IconSvg } from "components/IconSvg/IconSvg";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { http } from "service/requests/http";
 import { queryKeys } from "service/@types/queryKeys";
-import { IconSvg } from "components/IconSvg/IconSvg";
 
 const usuarios = [
   { id: 1, nome: "Marcelo Almeida", cargo: "Administrador", login: "marceloalmeida", senha: "********" },
