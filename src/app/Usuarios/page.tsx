@@ -15,6 +15,8 @@ import { queryKeys } from "service/@types/queryKeys";
 import { IUserFind } from "service/@types/user";
 import { BeatLoader } from "react-spinners";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 export default function Usuarios() {
   const router = useRouter();
   const pathname = usePathname();
@@ -36,6 +38,20 @@ export default function Usuarios() {
   const usuariosFiltrados = (usuarios ?? []).filter((u) =>
     u.name.toLowerCase().includes(busca.toLowerCase())
   );
+
+  const queryClient = useQueryClient();
+
+  const deleteUserMutation = useMutation({
+    mutationFn: (idUser: number) => http.user.deleteUser(idUser),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [queryKeys.ALL_USERS] });
+      alert("Usuário deletado com sucesso!");
+    },
+    onError: (err) => {
+      console.error("Erro ao deletar usuário:", err);
+      alert("Erro ao deletar usuário!");
+    }
+  });
 
   return (
     <div className="bg-light-gray flex h-screen w-screen flex-1">
@@ -100,8 +116,12 @@ export default function Usuarios() {
               key={user.idUser} 
               username={user.name}
               userRole={user.active ? "Ativo" : "Inativo"}
-              editAction={`/Usuarios/Editar/${user.idUser}`}
-              deleteAction={() => alert(`Deletar ${user.name}`)}
+              editAction={() => router.push(`/Usuarios/Editar/${user.idUser}`)}
+              deleteAction={() => {
+                if (confirm(`Tem certeza que deseja deletar "${user.name}"?`)) {
+                  deleteUserMutation.mutate(user.idUser);
+                }
+              }}
             />
           ))
         ) : (

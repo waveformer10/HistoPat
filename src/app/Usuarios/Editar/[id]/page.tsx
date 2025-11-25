@@ -11,6 +11,11 @@ import { AdmHeader } from "components/AdmHeader/AdmHeader";
 import { Button } from "components/Button/Button";
 import { IconSvg } from "components/IconSvg/IconSvg";
 
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { http } from "service/requests/http";
+import { queryKeys } from "service/@types/queryKeys";
+import { IconSvg } from "components/IconSvg/IconSvg";
+
 const usuarios = [
   { id: 1, nome: "Marcelo Almeida", cargo: "Administrador", login: "marceloalmeida", senha: "********" },
   { id: 2, nome: "Ana Beatriz Souza", cargo: "Normal", login: "anasouza", senha: "********" },
@@ -23,26 +28,49 @@ export default function EditarUsuario() {
   const params = useParams();
   const id = Number(params?.id);
 
+  const queryClient = useQueryClient();
+
   const [nome, setNome] = useState("");
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
   const [nivelMaster, setNivelMaster] = useState(false);
   const [nivelAdmin, setNivelAdmin] = useState(false);
 
+  const { data: usuario, isLoading } = useQuery<any>({
+    queryKey: [queryKeys.USER_BY_ID, id],
+    queryFn: () => http.user.findUserById(id),
+    enabled: !!id,
+    select: (res: any) => Array.isArray(res) ? res[0] : res.data,
+  });
+
   useEffect(() => {
-    const usuario = usuarios.find((u) => u.id === id);
+    console.log("Dados do usuário carregados:", usuario);
     if (usuario) {
-      setNome(usuario.nome);
-      setLogin(usuario.login);
-      setSenha(usuario.senha);
-      setNivelAdmin(usuario.cargo === "Administrador");
-      setNivelMaster(usuario.cargo === "Master");
+      setNome(usuario.name ?? "");
+      setNivelMaster(usuario.idRoles?.includes(1) ?? false);
+      setNivelAdmin(usuario.idRoles?.includes(2) ?? false);
     }
-  }, [id]);
+  }, [usuario, id]);
+
+  const editUserMutation = useMutation({
+    mutationFn: http.user.editUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [queryKeys.ALL_USERS] });
+      router.push("/Usuarios");
+    },
+    onError: (err) => {
+      console.error("Erro ao editar usuário:", err);
+      alert("Erro ao salvar");
+    }
+  });
 
   const handleSalvar = () => {
     alert(`Usuário "${nome}" atualizado com sucesso!`);
     router.push("/Usuarios");
+  };
+
+  if (isLoading) {
+    return <p className="p-8">Carregando usuário...</p>;
   };
 
   return (
@@ -112,13 +140,19 @@ export default function EditarUsuario() {
               <Checkbox
                 label="Master"
                 checked={nivelMaster}
-                onChange={() => setNivelMaster(!nivelMaster)}
+                onChange={() => {
+                  setNivelMaster(true);
+                  setNivelAdmin(false);
+                }}
               />
 
               <Checkbox
                 label="Administrador"
                 checked={nivelAdmin}
-                onChange={() => setNivelAdmin(!nivelAdmin)}
+                onChange={() => {
+                  setNivelAdmin(true);
+                  setNivelMaster(false);
+                }}
               />
             </div>
           </section>
