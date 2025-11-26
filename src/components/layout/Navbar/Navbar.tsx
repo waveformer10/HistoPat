@@ -4,6 +4,7 @@ import { tv } from "tailwind-variants";
 import { useEffect, useState } from "react";
 import { IconSvg } from "components/IconSvg/IconSvg";
 import { SideBar } from "components/SideBar/SideBar";
+import Link from "next/link";
 
 const navbarStyles = tv({
   base: `
@@ -58,8 +59,8 @@ export function Navbar() {
         </div>
 
         <div className={itemContainerStyles()}>
-          <a className={itemStyles()} href="#">Início</a>
-          <a className={itemStyles()} href="#">Log in</a>
+          <Link className={itemStyles()} href="">Início</Link>
+          <Link className={itemStyles()} href="/Painel">Log in</Link>
         </div>
 
         <button
@@ -83,8 +84,8 @@ export function Navbar() {
           colorNavigation="primary"
           title="Menu"
         >
-          <a className={itemStyles()} href="#">Início</a>
-          <a className={itemStyles()} href="#">Log in</a>
+          <Link className={itemStyles()} href="">Início</Link>
+          <Link className={itemStyles()} href="/Painel">Log in</Link>
         </SideBar>
       )}
     </>

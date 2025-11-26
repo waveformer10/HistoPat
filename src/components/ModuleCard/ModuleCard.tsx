@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { tv } from "tailwind-variants";
 import { ModuleCardProps } from "./ModuleCard.types";
+import { useEffect, useState } from "react";
 
 const moduleCardStyles = tv({
   slots: {
@@ -44,6 +45,8 @@ const moduleCardStyles = tv({
   },
 });
 
+const fallback = "/images/image_not_valid.png";
+
 export const ModuleCard: React.FC<ModuleCardProps> = ({
   id,
   imageSrc,
@@ -60,16 +63,34 @@ export const ModuleCard: React.FC<ModuleCardProps> = ({
     router.push(`/home/modulo/${id}`);
   };
 
+  const [imageUrl, setImageUrl] = useState(
+    imageSrc && imageSrc.startsWith("http")
+      ? imageSrc
+      : fallback
+  );
+
+  useEffect(() => {
+    if (!imageSrc) {
+      setImageUrl(fallback);
+      return;
+    }
+
+    setImageUrl(
+      imageSrc.startsWith("http") ? imageSrc : fallback
+    );
+  }, [imageSrc]);
+
   console.log("IMAGE SRC =>", imageSrc);
 
   return (
     <div className={wrapperSlot()} onClick={handleClick}>
       <div className={imageWrapperSlot()}>
         <Image
-          src={imageSrc}
+          src={imageUrl}
           alt={title}
           fill
           className={imageSlot()}
+          onError={() => setImageUrl(fallback)}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           priority
         />
