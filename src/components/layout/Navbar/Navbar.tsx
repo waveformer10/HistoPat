@@ -59,8 +59,8 @@ export function Navbar() {
         </div>
 
         <div className={itemContainerStyles()}>
-          <Link className={itemStyles()} href="">Início</Link>
-          <Link className={itemStyles()} href="/Painel">Log in</Link>
+          <a className={itemStyles()} href="#">Início</a>
+          <a className={itemStyles()} href="/Login">Log in</a>
         </div>
 
         <button

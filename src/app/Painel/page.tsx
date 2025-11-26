@@ -37,6 +37,8 @@ export default function SideBarExample() {
 
   const selectEntity = appState((state) => state.setSelectedEntity);
   const setPath = appState((state) => state.setPath);
+  const reloadModules = appState((state) => state.reloadModules);
+  const setReloadModules = appState((state) => state.setReloadModules);
 
   const [entityType, setEntityType] = useState<EntityType>("MODULE");
 
@@ -60,7 +62,15 @@ export default function SideBarExample() {
 
       setPath(data[0].title);
     }
-  }, [data])
+  }, [data]);
+
+  
+  useEffect(() => {
+    if(reloadModules){
+      refetch();
+      setReloadModules(false);
+    }
+  },[reloadModules])
 
   return (
     <div className="bg-light-gray flex h-screen w-screen flex-1">
@@ -73,7 +83,7 @@ export default function SideBarExample() {
           icon={"home_icon"}
           title="Início"
           selected={false}
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/HomeAdm")}
         />
         <SideBarItem
           icon={"folder_icon"}
@@ -84,6 +94,12 @@ export default function SideBarExample() {
               router.push("/PageExample");
             }
           }}
+        />
+        <SideBarItem
+          icon={"users_icon"}
+          title="Usuários"
+          selected={false}
+          onClick={() => router.push("/Usuarios")}
         />
       </SideBar>
       <SideBar colorNavigation="secondary" title="Estrutura do conteúdo">

@@ -39,12 +39,10 @@ export default function Home() {
 
       {/* Banner Responsivo */}
       <section
-        className="w-full h-[250px] sm:h-[400px] md:h-[500px] bg-no-repeat bg-center overflow-hidden"
-        style={{
-          backgroundImage: "url('/images/banner.png')",
-          backgroundSize: "contain"   // 👈 substitui bg-[length:100%_auto]
-        }}
+        className="w-full aspect-[16/5.5] bg-no-repeat bg-center"
+        style={{ backgroundImage: "url('/images/banner.png')", backgroundSize: "100% auto" }}
       />
+
 
       {/* Conteúdo Principal */}
       <div className="px-8 sm:px-16 md:px-32 lg:px-48 xl:px-64 mt-8 sm:mt-12">
@@ -83,7 +81,7 @@ export default function Home() {
                 <ModuleCard
                   key={module.id}
                   id={module.id}
-                  imageSrc={module.imageUrl}
+                  imageSrc={module.imageUrl ?? 'teste'}
                   title={module.title}
                   size="medium"
                   theme="light"

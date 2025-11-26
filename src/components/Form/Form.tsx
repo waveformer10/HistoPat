@@ -29,7 +29,7 @@ import { IconLib } from "components/IconLib/IconLib";
 const formStyles = tv({
   slots: {
     wrapper:
-      "bg-form-background flex h-full w-full flex-1 flex-col items-start justify-center gap-4 px-11 py-2.5 overflow-auto relative",
+      "bg-form-background flex h-full w-full flex-1 w-max-[30%] flex-col items-start justify-center gap-4 px-11 py-2.5 overflow-auto relative",
     titleSlot: "mb-2.5 self-center text-2xl font-bold text-gray-900",
     labelImage: "font-bold text-gray-900",
     wrapperStyle: "flex flex-col items-start gap-3",
@@ -59,6 +59,7 @@ export default function Form() {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [resetImageSelected, setResetImageSelected] = useState(false);
 
 
   const queryClient = useQueryClient();
@@ -68,6 +69,7 @@ export default function Form() {
   const path = appState((state) => state.path);
   const idParentEntityToSave = appState((state) => state.idParentEntityToSave);
   const setcloseParentOf = appState((state) => state.setcloseParentOf);
+  const setReloadModules = appState((state) => state.setReloadModules);
 
   const [validateErrors, setValidateErrors] = useState<ValidateErrorsType>({});
 
@@ -95,6 +97,8 @@ export default function Form() {
       toast.success("Item cadastrado", {
         position: "bottom-right",
       });
+
+      setResetImageSelected(true);
 
       setcloseParentOf(idParentEntityToSave);
 
@@ -154,7 +158,12 @@ export default function Form() {
         position: "bottom-right",
       });
 
+      setResetImageSelected(true);
+
       setcloseParentOf(selectedEntity.parentId);
+      if(entityForm.entityType === "MODULE"){
+        setReloadModules(true);
+      }
     } catch (error) {
       if (error && error instanceof AxiosError) {
         if (
@@ -204,6 +213,8 @@ export default function Form() {
   }
 
   async function handleUploadImage() {
+    if(entityForm.entityType === "TOPIC") return "url";
+
     try {
       if (!selectedImage) {
         toast.error("Selecione uma imagem", {
@@ -324,6 +335,8 @@ export default function Form() {
           <div className={wrapperStyle()}>
             <Badge text="Tamanho permitido (1MB)" variant="primary" />
             <ImageUpload
+              onReset={() => setResetImageSelected(false)}
+              reset={resetImageSelected}
               onChange={(file) => setSelectedImage(file)}
             />
           </div>
@@ -334,7 +347,8 @@ export default function Form() {
           title="Salvar"
           onPress={entityForm.operation === "SALVAR" ? handleSaveSubmit : handleEditSubmit}
         />
-        <Button title="Excluir" onPress={() => setIsOpenModal(true)} />
+        {entityForm.operation === "EDITAR" && 
+        <Button title="Excluir" onPress={() => setIsOpenModal(true)} />}
       </div>
     </div>
   );
