@@ -67,7 +67,7 @@ export default function SubTopicSlides() {
   return (
     <div className="flex flex-col">
       <RouteBar
-  routeText={`/${module?.title ?? "Módulo indefinido"}/${topic?.title ?? "Tópico indefinido"}`}
+  routeText={`/${module?.title ?? "Módulo indefinido"}/ - ${topic?.title ?? "Tópico indefinido"}`}
   title={subTopic?.title ?? "Subtópico"}
   moduleId={module?.id}
   topicId={topic?.id}
