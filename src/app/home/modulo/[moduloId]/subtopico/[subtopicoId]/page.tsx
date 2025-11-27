@@ -28,33 +28,36 @@ export default function SubTopicSlides() {
   const [slides, setSlides] = useState<ISlideFind[]>([]);
 
   useEffect(() => {
-    async function loadData() {
-      try {
-        const resSub = await findSubTopicById(subTopicId);
-        const foundSub = resSub;
-        setSubTopic(foundSub);
+  async function loadData() {
+    try {
+      setLoading(true);
 
-        if (foundSub.id) {
-          const resTopic = await findTopicById(foundSub.id);
-          setTopic(resTopic);
+      const resSub: any = await findSubTopicById(subTopicId);
+      setSubTopic(resSub);
 
-          if (resTopic?.id) {
-            const resModule = await findModuleById(resTopic.id);
-            setModule(resModule);
-          }
+      if (resSub.idTopic) {
+        const resTopicResponse: any = await findTopicById(resSub.idTopic);
+        const resTopic = resTopicResponse.data ?? resTopicResponse;
+        setTopic(resTopic);
+
+        if (resTopic.idModule) {
+          const resModuleResponse: any = await findModuleById(resTopic.idModule);
+          const resModule = resModuleResponse.data ?? resModuleResponse;
+          setModule(resModule);
         }
-
-        const resSlides = await findSlidesBySubTopicId(subTopicId);
-        setSlides(resSlides ?? []);
-      } catch (error) {
-        console.error("Erro ao carregar dados:", error);
-      } finally {
-        setLoading(false);
       }
-    }
 
-    if (subTopicId) loadData();
-  }, [subTopicId]);
+      const resSlides = await findSlidesBySubTopicId(subTopicId);
+      setSlides(resSlides ?? []);
+    } catch (error) {
+      console.error("Erro ao carregar dados:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (subTopicId) loadData();
+}, [subTopicId]);
 
   const filteredSlides =
     slides?.filter((s) =>
@@ -64,9 +67,11 @@ export default function SubTopicSlides() {
   return (
     <div className="flex flex-col">
       <RouteBar
-        routeText={`/${module?.title ?? "Módulo indefinido"}/${topic?.title ?? "Tópico indefinido"}`}
-        title={subTopic?.title ?? "Subtópico"}
-      />
+  routeText={`/${module?.title ?? "Módulo indefinido"}/${topic?.title ?? "Tópico indefinido"}`}
+  title={subTopic?.title ?? "Subtópico"}
+  moduleId={module?.id}
+  topicId={topic?.id}
+/>
 
       <div className="px-8 sm:px-16 md:px-32 lg:px-48 xl:px-64 mt-12 sm:mt-12">
         {/* Descrição do subtópico */}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { tv } from "tailwind-variants";
 import { RouteBarProps } from "./RouteBar.types";
 
@@ -43,21 +44,20 @@ const titleTextStyles = tv({
   `,
 });
 
-export const RouteBar: React.FC<RouteBarProps> = ({
+export const RouteBar: React.FC<RouteBarProps & { moduleId?: number; topicId?: number }> = ({
   routeText,
   title,
+  moduleId,
+  topicId,
 }) => {
   const [hidden, setHidden] = useState(false);
   const [scroll, setScroll] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
-      if (currentScroll > scroll && currentScroll > 100) {
-        setHidden(true);
-      } else {
-        setHidden(false);
-      }
+      setHidden(currentScroll > scroll && currentScroll > 100);
       setScroll(currentScroll);
     };
 
@@ -65,10 +65,32 @@ export const RouteBar: React.FC<RouteBarProps> = ({
     return () => window.removeEventListener("scroll", handleScroll);
   }, [scroll]);
 
+  const handleTopicClick = () => {
+    if (moduleId) {
+      router.push(`/home/modulo/${moduleId}`);
+    }
+  };
+
   return (
     <div className={routeBarStyles({ hidden })}>
       <div className={textContainerStyles()}>
-        <p className={routeTextStyles()}>{routeText}</p>
+        <p className={routeTextStyles()}>
+          {routeText.split("/").map((part, index) => {
+            // index 1 é o tópico
+            if (index === 1 && moduleId) {
+              return (
+                <span
+                  key={index}
+                  onClick={handleTopicClick}
+                  className="cursor-pointer underline hover:text-gray-200"
+                >
+                  {part}
+                </span>
+              );
+            }
+            return <span key={index}>{part}</span>;
+          })}
+        </p>
         <h1 className={titleTextStyles()}>{title}</h1>
       </div>
     </div>
