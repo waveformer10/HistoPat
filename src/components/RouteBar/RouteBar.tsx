@@ -82,7 +82,7 @@ export const RouteBar: React.FC<RouteBarProps & { moduleId?: number; topicId?: n
                 <span
                   key={index}
                   onClick={handleTopicClick}
-                  className="cursor-pointer underline hover:text-gray-200"
+                  className="cursor-pointer hover:text-white transition-colors duration-200"
                 >
                   {part}
                 </span>
