@@ -120,7 +120,7 @@ export default function MicroscopeInteractive() {
 
       {/* Painel */}
       <div
-        className="flex items-center justify-center w-full md:w-[450px] h-[400px] border rounded-lg p-6 shadow-sm bg-[#EAECEC]"
+        className="flex items-center justify-center w-full md:w-[450px] h-[400px] rounded-lg p-6 shadow-sm bg-[#EAECEC]"
       >
         {hoveredPart ? (
           <div className="text-center">
