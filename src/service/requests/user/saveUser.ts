@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
-import { IUserBase } from "service/@types/user";
+import { IUserBase, IUserSave } from "service/@types/user";
 import { apiHistopat } from "service/api/ApiHistopat";
 
-export async function saveUser(data: IUserBase) {
+export async function saveUser(data: IUserSave) {
     return await apiHistopat.post("/api/User", data);
 }

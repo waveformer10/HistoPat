@@ -10,9 +10,14 @@ import { Input } from "components/Input/Input";
 import { Button } from "components/Button/Button";
 import { IconSvg } from "components/IconSvg/IconSvg";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { http } from "service/requests/http";
 import { queryKeys } from "service/@types/queryKeys";
+import toast from "react-hot-toast";
+import { IRoleFind } from "service/@types/role";
+import { IUserSave } from "service/@types/user";
+import { AxiosError } from "axios";
+import { IconLib } from "components/IconLib/IconLib";
 
 export default function NovoUsuario() {
   const router = useRouter();
@@ -22,43 +27,55 @@ export default function NovoUsuario() {
   const [nome, setNome] = useState("");
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
-  const [nivelMaster, setNivelMaster] = useState(false);
-  const [nivelAdmin, setNivelAdmin] = useState(false);
+  const [roleSelected, setRoleSelected] = useState<number>();
+  const [validateErrors, setValidateErrors] = useState<{ Name: string, UserName: string, Password: string }>({} as { Name: string, UserName: string, Password: string });
 
   const saveUserMutation = useMutation({
     mutationFn: http.user.saveUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKeys.ALL_USERS] });
+      toast.success("Usuário cadastrado", {
+        position: "bottom-right",
+      });
       router.push("/Usuarios");
     },
     onError: (error) => {
-      console.error("Erro ao salvar usuário:", error);
+      if (error instanceof AxiosError) {
+        if (
+          error.status === 400 &&
+          error.response?.data.title ===
+          "One or more validation errors occurred."
+        ) {
+          setValidateErrors(error.response.data.errors);
+          return;
+        }
+      }
+      toast.error("Erro ao salvar usuário", {
+        position: "bottom-right",
+      });
     },
   });
 
-  const handleSalvar = () => {
-    const idRoles: number[] = [];
-    if (nivelMaster) idRoles.push(1);
-    if (nivelAdmin) idRoles.push(2);
+  const { data = [], isError, isPending, isLoading, refetch } = useQuery<IRoleFind[]>({
+    queryKey: queryKeys.ALL_ROLES,
+    queryFn: http.role.findRoles,
+  })
 
-    const novoUsuarioParaBackend = {
+  console.log("ROLES", data)
+
+  const handleSalvar = () => {
+
+    const novoUsuarioParaBackend: IUserSave = {
       name: nome,
+      password: senha,
+      userName: login,
+      roleId: roleSelected,
       active: true,
-      idRoles: idRoles.length > 0 ? idRoles : undefined,
     };
 
     saveUserMutation.mutate(novoUsuarioParaBackend);
-    //-------------------------------------------------------
-    const novoUsuario = {
-      id: Math.floor(Math.random() * 10000),
-      nome,
-      login,
-      senha,
-      cargo: nivelMaster ? "Master" : nivelAdmin ? "Administrador" : "Normal",
-    };
 
-    alert(`Usuário "${nome}" criado com sucesso!`);
-    router.push("/Usuarios");
+
   };
 
   return (
@@ -87,23 +104,21 @@ export default function NovoUsuario() {
       </SideBar>
 
       <main className="flex-1 flex flex-col bg-white shadow-sm overflow-y-auto">
-        <div className="p-8 pb-3 flex items-center justify-between">
+        <div className="p-8 pb-3 flex items-center flex-row gap-2.5">
+          <button
+            onClick={() => router.push("/Usuarios")}
+            style={{ cursor: 'pointer' }}
+          >
+            <IconLib iconLibName="go" icon="GoArrowLeft" color="#000" size={30} />
+          </button>
           <h1 className="text-3xl font-semibold text-gray-800">
             Criar Novo Usuário
           </h1>
 
-          <div className="w-12 h-12 rounded-full bg-dark-blue flex items-center justify-center text-white text-xl font-medium">
-            +
-          </div>
         </div>
 
         <div className="p-6 flex flex-col gap-6 relative max-w-xl">
-          <button
-            onClick={() => router.push("/Usuarios")}
-            className="absolute right-6 top-0 p-2 rounded-full hover:bg-gray-200 transition"
-          >
-            <IconSvg icon="arrow_icon" size="md" color="#444" />
-          </button>
+
           <section className="flex flex-col gap-5 w-full max-w-xl">
             <div className="flex flex-col gap-1">
               <p className="text-sm font-medium text-gray-700">Nome Completo</p>
@@ -112,6 +127,7 @@ export default function NovoUsuario() {
                   value={nome}
                   onChangeValue={setNome}
                   placeholder="Digite o nome completo"
+                  errorMessage={validateErrors.Name}
                 />
               </div>
             </div>
@@ -123,6 +139,7 @@ export default function NovoUsuario() {
                   value={login}
                   onChangeValue={setLogin}
                   placeholder="Digite o login do usuário"
+                  errorMessage={validateErrors.UserName}
                 />
               </div>
             </div>
@@ -131,9 +148,11 @@ export default function NovoUsuario() {
               <p className="text-sm font-medium text-gray-700">Senha</p>
               <div className="h-[48px]">
                 <Input
+                  isPassword
                   value={senha}
                   onChangeValue={setSenha}
                   placeholder="Digite a senha"
+                  errorMessage={validateErrors.Password}
                 />
               </div>
             </div>
@@ -143,23 +162,14 @@ export default function NovoUsuario() {
             <p className="text-sm font-medium text-gray-700">Nível de usuário</p>
 
             <div className="flex gap-6">
-              <Checkbox
-                label="Master"
-                checked={nivelMaster}
-                onChange={() => {
-                  setNivelMaster(true);
-                  setNivelAdmin(false);
-                }}
-              />
-
-              <Checkbox
-                label="Administrador"
-                checked={nivelAdmin}
-                onChange={() => {
-                  setNivelAdmin(true);
-                  setNivelMaster(false);
-                }}
-              />
+              {data.map((item, index) => (
+                <Checkbox
+                  key={item.idRole}
+                  label={item.name}
+                  checked={roleSelected === item.idRole}
+                  onSelect={() => setRoleSelected(item.idRole)}
+                />
+              ))}
             </div>
           </section>
           <Button onPress={handleSalvar} title={saveUserMutation.isPending ? "Criando..." : "Criar"} />

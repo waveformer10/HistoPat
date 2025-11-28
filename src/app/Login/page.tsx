@@ -5,15 +5,51 @@ import { useRouter } from "next/navigation";
 
 import { Input } from "components/Input/Input";
 import { Button } from "components/Button/Button";
+import { http } from "service/requests/http";
+import toast from "react-hot-toast";
+import { AxiosError } from "axios";
 
 export default function Login() {
   const router = useRouter();
 
-  const [nome, setNome] = useState("");
-  const [senha, setSenha] = useState("");
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSalvar = () => {
-    router.push("/HomeAdm");
+  const [validateErrors, setValidateErrors] = useState<{ Password: string, UserName: string }>({} as { Password: string, UserName: string });
+
+  async function handleSalvar() {
+    setIsLoading(true);
+    try {
+      const res = await http.user.login({ UserName: userName, Password: password });
+
+      console.log("RESPOSTA LOGIN", res);
+      router.push("/HomeAdm")
+
+      setIsLoading(false);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setIsLoading(false);
+        if (error.status === 412) {
+          toast.error(error.response?.data?.message, {
+            position: "bottom-right",
+          });
+
+          return;
+        }
+        if (
+          error.status === 400 &&
+          error.response?.data.title ===
+          "One or more validation errors occurred."
+        ) {
+          setValidateErrors(error.response.data.errors);
+          return;
+        }
+      }
+      toast.error("Erro ao logar", {
+        position: "bottom-right",
+      });
+    }
   };
 
   return (
@@ -40,27 +76,26 @@ export default function Login() {
           <div className="flex flex-col gap-1 text-left">
             <p className="text-base font-medium text-gray-700">Usuário</p>
             <Input
-              value={nome}
-              onChangeValue={setNome}
+              value={userName}
+              onChangeValue={setUserName}
               placeholder="Digite seu usuário"
+              errorMessage={validateErrors.UserName}
             />
           </div>
 
           <div className="flex flex-col gap-1 text-left">
             <p className="text-base font-medium text-gray-700">Senha</p>
             <Input
-              value={senha}
-              onChangeValue={setSenha}
+              isPassword
+              value={password}
+              onChangeValue={setPassword}
               placeholder="Digite sua senha"
+              errorMessage={validateErrors.Password}
             />
           </div>
         </section>
 
-        <p className="text-sm font-medium text-blue-600 cursor-pointer hover:underline">
-          Esqueceu sua senha?
-        </p>
-
-        <Button onPress={handleSalvar} title="Entrar" />
+        <Button onPress={handleSalvar} title="Entrar" isLoading={isLoading} />
       </main>
     </div>
   );

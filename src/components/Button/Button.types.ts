@@ -4,4 +4,5 @@ export type ButtonProps = {
   onPress: () => void;
   title: string;
   variant?: ButtonVariant;
+  isLoading?: boolean,
 };

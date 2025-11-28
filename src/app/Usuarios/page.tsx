@@ -16,20 +16,23 @@ import { IUserFind } from "service/@types/user";
 import { BeatLoader } from "react-spinners";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { appState } from "store/appState";
 
 export default function Usuarios() {
   const router = useRouter();
   const pathname = usePathname();
 
+  const { loggedUser } = appState();
+
   const [busca, setBusca] = useState("");
-/*
-  const usuarios = [
-    { id: 1, nome: "Marcelo Almeida", cargo: "Administrador", login: "marceloalmeida", senha: "********" },
-    { id: 2, nome: "Ana Beatriz Souza", cargo: "Normal", login: "anasouza", senha: "********" },
-    { id: 3, nome: "Lucas Pereira", cargo: "Administrador", login: "lucaspereira", senha: "********" },
-    { id: 4, nome: "João Silva", cargo: "Normal", login: "joaosilva", senha: "********" },
-  ];
-*/
+  /*
+    const usuarios = [
+      { id: 1, nome: "Marcelo Almeida", cargo: "Administrador", login: "marceloalmeida", senha: "********" },
+      { id: 2, nome: "Ana Beatriz Souza", cargo: "Normal", login: "anasouza", senha: "********" },
+      { id: 3, nome: "Lucas Pereira", cargo: "Administrador", login: "lucaspereira", senha: "********" },
+      { id: 4, nome: "João Silva", cargo: "Normal", login: "joaosilva", senha: "********" },
+    ];
+  */
   const { data: usuarios, isLoading, isError, refetch } = useQuery<IUserFind[]>({
     queryKey: [queryKeys.ALL_USERS],
     queryFn: http.user.findUsers,
@@ -89,10 +92,10 @@ export default function Usuarios() {
       </SideBar>
 
       <main className="flex-1 p-10 bg-white shadow-md">
-        <AdmHeader texto="Usuários" />
-        
+        <AdmHeader texto={loggedUser?.name ? loggedUser.name : "Administrador"} />
+
         <div className="flex items-center justify-between mb-6 gap-4">
-          <Input 
+          <Input
             value={busca}
             onChangeValue={setBusca}
             placeholder="Buscar usuário..."
@@ -113,7 +116,7 @@ export default function Usuarios() {
         ) : usuariosFiltrados && usuariosFiltrados.length > 0 ? (
           usuariosFiltrados.map((user) => (
             <ListCard
-              key={user.idUser} 
+              key={user.idUser}
               username={user.name}
               userRole={user.active ? "Ativo" : "Inativo"}
               editAction={() => router.push(`/Usuarios/Editar/${user.idUser}`)}

@@ -1,5 +1,6 @@
 import { AllEntityFindTypes } from 'components/ContentTreeItem/ContentTreeItem.types'
 import { EntityType, OperationType } from 'components/Form/Form.types'
+import { IUserFind } from 'service/@types/user';
 import { create } from 'zustand'
 
 export type SelectedEntityType = AllEntityFindTypes & { parentId?: number, parentEntityType?: EntityType };
@@ -12,6 +13,7 @@ type StateType = {
     idParentEntityToSave?: number,
     closeParentOf?: number,
     reloadModules: boolean,
+    loggedUser: IUserFind,
 }
 
 type ActionType = {
@@ -21,6 +23,7 @@ type ActionType = {
     setIdParentEntityToSave: (id: StateType["idParentEntityToSave"]) => void;
     setcloseParentOf: (id: StateType["closeParentOf"]) => void;
     setReloadModules: (reaload: StateType["reloadModules"]) => void;
+    setLoggedUser: (user: StateType["loggedUser"]) => void;
 }
 
 export const appState = create<StateType & ActionType>((set) => ({
@@ -33,5 +36,8 @@ export const appState = create<StateType & ActionType>((set) => ({
     setIdParentEntityToSave: (id) => set(() => ({ idParentEntityToSave: id })),
     setcloseParentOf: (id) => set({ closeParentOf: id }),
     reloadModules: false,
-    setReloadModules: (reaload) => set(() => ({reloadModules: reaload}))
+    setReloadModules: (reaload) => set(() => ({ reloadModules: reaload })),
+    loggedUser: {} as IUserFind,
+    setLoggedUser: (user) => set(() => ({ loggedUser: user }))
+
 }))

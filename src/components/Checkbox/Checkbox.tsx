@@ -21,20 +21,13 @@ const boxStyles = tv({
 
 export function Checkbox({
   label = "",
-  checked = false,
-  onChange,
+  checked,
+  onSelect,
 }: CheckboxProps) {
-  const [isChecked, setIsChecked] = useState(checked);
-
-  const toggle = () => {
-    setIsChecked(!isChecked);
-    if (onChange) onChange(!isChecked);
-  };
-
   return (
-    <label className={checkboxStyles()} onClick={toggle}>
-      <div className={boxStyles({ checked: isChecked })}>
-        {isChecked && <IconSvg size="sm" icon="check_icon" />}
+    <label className={checkboxStyles()} onClick={onSelect}>
+      <div className={boxStyles({ checked: checked })}>
+        {checked && <IconSvg size="sm" icon="check_icon" />}
       </div>
       <span className="font-medium text-(--neutral-800)">{label}</span>
     </label>

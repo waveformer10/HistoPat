@@ -12,6 +12,8 @@ import * as io6 from "react-icons/io5";
 import * as hi2 from "react-icons/hi2";
 import * as fi from "react-icons/fi";
 import * as io from "react-icons/io";
+import * as go from "react-icons/go";
+import * as ri from "react-icons/ri";
 
 export const libs = {
   fa,
@@ -27,6 +29,8 @@ export const libs = {
   hi2,
   fi,
   io,
+  go,
+  ri,
 };
 
 export function IconLib<T extends LibNames>({

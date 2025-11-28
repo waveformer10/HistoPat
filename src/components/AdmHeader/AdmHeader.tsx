@@ -1,7 +1,10 @@
 import React from "react";
 import { AdmHeaderProps } from "./AdmHeader.types";
+import { IconLib } from "components/IconLib/IconLib";
+import { useRouter } from "next/navigation";
 
 export function AdmHeader({ texto }: AdmHeaderProps) {
+  const router = useRouter();
   const inicial = texto?.charAt(0)?.toUpperCase() || "?";
 
   return (
@@ -10,9 +13,14 @@ export function AdmHeader({ texto }: AdmHeaderProps) {
         Olá, {texto}
       </h1>
 
-      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-dark-blue text-white text-xl font-bold">
-        {inicial}
-      </div>
+      <button style={{ cursor: 'pointer' }} onClick={() => router.push("/")}>
+        <IconLib
+          iconLibName="ri"
+          icon="RiLogoutBoxRLine"
+          color="var(--color-dark-blue)"
+          size={30}
+        />
+      </button>
     </div>
   );
 }

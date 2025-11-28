@@ -29,6 +29,7 @@ import { editRole } from "./role/editRole";
 import { saveRole } from "./role/saveRole";
 import { findRoles } from "./role/findRoles";
 import { findRoleById } from "./role/findRoleById";
+import { login } from "./login/login";
 
 export const http = {
   module: {
@@ -67,7 +68,8 @@ export const http = {
     editUser,
     deleteUser,
     findUsers,
-    findUserById
+    findUserById,
+    login
   },
   role: {
     saveRole,
