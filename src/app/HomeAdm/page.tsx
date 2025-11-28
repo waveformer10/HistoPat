@@ -107,8 +107,8 @@ export default function HomeAdm() {
       </SideBar>
 
       <main className="flex-1 p-10 bg-white shadow-md overflow-auto">
-        
-        <AdmHeader texto={`Olá, LAUANE GONZAGA E SILVA`} />
+
+        <AdmHeader texto={`LAUANE GONZAGA E SILVA`} />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 mb-12">
 

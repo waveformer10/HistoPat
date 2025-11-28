@@ -7,7 +7,7 @@ export function AdmHeader({ texto }: AdmHeaderProps) {
   return (
     <div className="flex items-center justify-between mb-6">
       <h1 className="text-3xl font-semibold text-gray-800">
-        {texto}
+        Olá, {texto}
       </h1>
 
       <div className="flex items-center justify-center w-12 h-12 rounded-full bg-dark-blue text-white text-xl font-bold">
