@@ -1,11 +1,17 @@
-import { IBaseEntity, IBaseEntityGet, IBasePartialEntity } from "./base";
+import {
+  IBaseEntity,
+  IBaseEntityGet,
+  IBasePartialEntity,
+} from './base'
 
-export interface IModuleSave extends IBaseEntity { }
+export interface IModuleSave extends IBaseEntity {}
 
 export interface IModuleEdit extends IBaseEntity {
-  id: number;
+  id: number
 }
 
-export interface IModuleFind extends IBaseEntity, IBaseEntityGet {
-
+export interface IModuleFind
+  extends IBaseEntity,
+    IBaseEntityGet {
+  topics?: IBasePartialEntity[]
 }

@@ -1,7 +1,7 @@
-import { ISlideFind } from "service/@types/slide";
-import { apiHistopat } from "service/api/ApiHistopat";
+import { slidesMock } from 'service/mocks/slides'
 
-export async  function findSlidesBySubTopicId(id: number): Promise<ISlideFind[]>{
-    const res = await apiHistopat.get(`api/Slide/subtopic/${id}`)
-    return res.data
+export async function findSlidesBySubTopicId(id: number) {
+  return slidesMock.filter(
+    (slide) => slide.idSubTopic === id,
+  )
 }

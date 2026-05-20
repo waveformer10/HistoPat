@@ -1,7 +1,10 @@
-import { ITopicFind } from "service/@types/topic";
-import { apiHistopat } from "service/api/ApiHistopat";
+import { ITopicFind } from 'service/@types/topic'
+import { topicsMock } from 'service/mocks/topics'
 
-export async function findTopicsByModuleId(id: number): Promise<ITopicFind[]> {
-    const res = await apiHistopat.get(`api/Topic/module/${id}`)
-    return res.data
+export async function findTopicsByModuleId(
+  id: number,
+): Promise<ITopicFind[]> {
+  return topicsMock.filter(
+    (topic) => topic.idModule === id,
+  )
 }

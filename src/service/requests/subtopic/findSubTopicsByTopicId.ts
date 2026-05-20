@@ -1,7 +1,10 @@
-import { ISubTopicFind } from "service/@types/subtopic";
-import { apiHistopat } from "service/api/ApiHistopat";
+import { ISubTopicFind } from 'service/@types/subtopic'
+import { subTopicsMock } from 'service/mocks/subtopics'
 
-export async function findSubTopicsByTopicId(id: number): Promise<ISubTopicFind[]> {
-    const res = await apiHistopat.get(`api/SubTopic/topic/${id}`);
-    return res.data;
+export async function findSubTopicsByTopicId(
+  id: number,
+): Promise<ISubTopicFind[]> {
+  return subTopicsMock.filter(
+    (subTopic) => subTopic.idTopic === id,
+  )
 }

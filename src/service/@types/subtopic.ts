@@ -1,10 +1,19 @@
-import { IBaseEntity, IBaseEntityGet, IBaseEntitySave, IBasePartialEntity } from "./base";
+import {
+  IBaseEntity,
+  IBaseEntityGet,
+  IBaseEntitySave,
+} from './base'
 
-export interface ISubTopicSave extends IBaseEntity, IBaseEntitySave { }
+export interface ISubTopicSave
+  extends IBaseEntity,
+    IBaseEntitySave {}
+
 export interface ISubTopicEdit extends IBaseEntity {
-  id: number;
+  id: number
 }
 
-export interface ISubTopicFind extends IBaseEntity, IBaseEntityGet {
-
+export interface ISubTopicFind
+  extends IBaseEntity,
+    IBaseEntityGet {
+  idTopic?: number
 }

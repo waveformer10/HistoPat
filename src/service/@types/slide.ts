@@ -1,8 +1,19 @@
-import { IBaseEntity, IBaseEntityGet, IBaseEntitySave } from "./base";
+import {
+  IBaseEntity,
+  IBaseEntityGet,
+  IBaseEntitySave,
+} from './base'
 
-export interface ISlideSave extends IBaseEntity, IBaseEntitySave { }
+export interface ISlideSave
+  extends IBaseEntity,
+    IBaseEntitySave {}
+
 export interface ISlideEdit extends IBaseEntity {
-  id: number;
+  id: number
 }
 
-export interface ISlideFind extends IBaseEntity, IBaseEntityGet { }
+export interface ISlideFind
+  extends IBaseEntity,
+    IBaseEntityGet {
+  idSubTopic?: number
+}

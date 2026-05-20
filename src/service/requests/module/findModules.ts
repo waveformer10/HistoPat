@@ -1,8 +1,5 @@
-import { AxiosResponse } from "axios";
-import { IModuleFind } from "service/@types/module";
-import { apiHistopat } from "service/api/ApiHistopat";
+import { modulesMock } from "service/mocks/modules";
 
-export async function findModules(): Promise<IModuleFind[]> {
-  const res =  await apiHistopat.get("/api/Module");
-  return res.data;
+export async function findModules() {
+  return modulesMock
 }

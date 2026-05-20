@@ -1,6 +1,6 @@
-import { IModuleFind } from "service/@types/module";
-import { apiHistopat } from "service/api/ApiHistopat";
+// src/service/requests/module/findModuleById.ts
+import { modulesMock } from "service/mocks/modules";
 
-export async function findModuleById(id: number): Promise<IModuleFind> {
-  return await apiHistopat.get(`api/Module/${id}`);
+export async function findModuleById(id: number) {
+  return modulesMock.find((module) => module.id === id) ?? null;
 }

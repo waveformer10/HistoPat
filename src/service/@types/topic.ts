@@ -1,12 +1,20 @@
-import { IBaseEntity, IBaseEntityGet, IBaseEntitySave, IBasePartialEntity } from "./base";
+import {
+  IBaseEntity,
+  IBaseEntityGet,
+  IBaseEntitySave,
+} from './base'
 
 export interface ITopicSave
-  extends Omit<IBaseEntity, "imageUrl" | "description">, IBaseEntitySave { }
+  extends Omit<IBaseEntity, 'imageUrl' | 'description'>,
+    IBaseEntitySave {}
+
 export interface ITopicEdit
-  extends Omit<IBaseEntity, "imageUrl" | "description"> {
-  id: number;
+  extends Omit<IBaseEntity, 'imageUrl' | 'description'> {
+  id: number
 }
 
 export interface ITopicFind
-  extends Omit<IBaseEntity, "imageUrl" | "description">,
-  IBaseEntityGet { }
+  extends Omit<IBaseEntity, 'imageUrl' | 'description'>,
+    IBaseEntityGet {
+  idModule?: number
+}

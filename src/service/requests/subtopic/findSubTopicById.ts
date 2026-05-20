@@ -1,7 +1,7 @@
+// src/service/requests/subtopic/findSubTopicById.ts
+import { subTopicsMock } from "service/mocks/subtopics";
 import { ISubTopicFind } from "service/@types/subtopic";
-import { apiHistopat } from "service/api/ApiHistopat";
 
-export async function findSubTopicById(id: number): Promise<ISubTopicFind>{
-    const res = await apiHistopat.get(`api/SubTopic/${id}`);
-    return res.data;
+export async function findSubTopicById(id: number): Promise<ISubTopicFind | null> {
+  return subTopicsMock.find((subTopic) => subTopic.id === id) ?? null;
 }
